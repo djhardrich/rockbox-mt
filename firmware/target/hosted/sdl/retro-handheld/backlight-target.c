@@ -54,6 +54,15 @@ static void set_type2_brightness(int value) {
   sysfs_set_int(get_bl_env("SYSFS_BL_BRIGHTNESS"), value);
 }
 
+static int get_type2_bl_step(void) {
+  int max = 0;
+
+  if (!sysfs_get_int(get_bl_env("SYSFS_BL_MAX"), &max)) {
+    return 0;
+  }
+
+  return max / 17;
+}
 
 static backlight_t get_type(void)
 {
@@ -123,7 +132,7 @@ void backlight_hw_brightness(int brightness)
 
     switch (get_type()) {
           case BL_TYPE1: set_type1_brightness(brightness * 15); break;        
-          case BL_TYPE2: set_type2_brightness(brightness * 15); break;
+          case BL_TYPE2: set_type2_brightness(brightness * get_type2_bl_step()); break;
     }
 
 }

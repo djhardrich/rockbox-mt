@@ -6,6 +6,7 @@ RH_ROCKBOX_DIR=$(RH_PKG_DIR)/rockbox
 
 MUOS_PKG_DIR=$(RH_PKG_DIR)/muos
 NEXTUI_PKG_DIR=$(RH_PKG_DIR)/nextui
+PM_PKG_DIR=$(RH_PKG_DIR)/portmaster
 
 rhbuild:
 	mkdir $(RH_PKG_DIR)
@@ -20,25 +21,30 @@ rhbuild:
 	mv $(RH_ROCKBOX_DIR)/rocks/games/.picross $(RH_ROCKBOX_DIR)/rocks.data/.picross
 	## Permissions
 	chmod +x $(RH_ROCKBOX_DIR)/rockbox
+	## Compile libsdl2_scaler
+	mkdir $(RH_ROCKBOX_DIR)/lib
+	gcc -shared -fPIC -o $(RH_ROCKBOX_DIR)/lib/libsdl2_scaler.so $(RH_PACK_DIR)/libsdl2_scaler.c -ldl -lSDL2 -pthread	
 	## Copy licenses over
 	cp -R $(RH_PACK_DIR)/licenses $(RH_ROCKBOX_DIR)
-	cp -R $(RH_PACK_DIR)/systems $(RH_ROCKBOX_DIR)
+	# cp -R $(RH_PACK_DIR)/systems $(RH_ROCKBOX_DIR)
 	rm -rf $(RH_PKG_DIR)/build
 
-muos: 
-	mkdir -p $(MUOS_PKG_DIR)/Rockbox
-	cp -R $(RH_ROCKBOX_DIR)/* $(MUOS_PKG_DIR)/Rockbox
-	## Copy muOS specific files
-	cp $(RH_PACK_DIR)/rockbox.gptk $(MUOS_PKG_DIR)/Rockbox
-	cp $(RH_PACK_DIR)/mux_launch.sh $(MUOS_PKG_DIR)/Rockbox
-	## Permissions
-	chmod +x $(MUOS_PKG_DIR)/Rockbox/mux_launch.sh
+## We no longer need muos specific build since portmaster build replaces it.
+#
+# muos: 
+# 	mkdir -p $(MUOS_PKG_DIR)/Rockbox
+# 	cp -R $(RH_ROCKBOX_DIR)/* $(MUOS_PKG_DIR)/Rockbox
+# 	## Copy muOS specific files
+# 	cp $(RH_PACK_DIR)/rockbox.gptk $(MUOS_PKG_DIR)/Rockbox
+# 	cp $(RH_PACK_DIR)/mux_launch.sh $(MUOS_PKG_DIR)/Rockbox
+# 	## Permissions
+# 	chmod +x $(MUOS_PKG_DIR)/Rockbox/mux_launch.sh
 
-muosclean:
-	rm -rf $(MUOS_PKG_DIR)
+# muosclean:
+# 	rm -rf $(MUOS_PKG_DIR)
 
-muos-zip: muosclean muos
-	(cd $(MUOS_PKG_DIR) && zip -q -r - .) >Rockbox.muxapp
+# muos-zip: muosclean muos
+# 	(cd $(MUOS_PKG_DIR) && zip -q -r - .) >Rockbox.muxapp
 
 nextui:
 	mkdir -p $(NEXTUI_PKG_DIR)
@@ -60,6 +66,28 @@ nextuiclean:
 nextui-zip: nextuiclean nextui
 	(cd $(NEXTUI_PKG_DIR) && zip -q -r - .) >Rockbox.pak.zip
 
-rhclean:
-	rm -rf $(RH_PKG_DIR)/rockbox
+portmaster:
+	mkdir -p $(PM_PKG_DIR)
+	cp -R $(RH_ROCKBOX_DIR) $(PM_PKG_DIR)
+	## Copy Portmaster specific files
+	cp $(RH_PACK_DIR)/gameinfo.xml $(PM_PKG_DIR)/rockbox
+	cp $(RH_PACK_DIR)/rockbox.gptk $(PM_PKG_DIR)/rockbox
+	cp $(RH_PACK_DIR)/screenshot.png $(PM_PKG_DIR)/rockbox
+	cp $(RH_PACK_DIR)/port.json $(PM_PKG_DIR)/rockbox
+	cp $(RH_PACK_DIR)/README.md $(PM_PKG_DIR)/rockbox
+	cp -R $(RH_PACK_DIR)/firmware $(PM_PKG_DIR)/rockbox
+	cp $(RH_PACK_DIR)/Rockbox.sh $(PM_PKG_DIR)
+	rm $(PM_PKG_DIR)/rockbox/licenses/gptokeyb2.txt
+	## Permissions
+	chmod +x $(PM_PKG_DIR)/Rockbox.sh
 
+portmasterclean:
+	rm -rf $(PM_PKG_DIR)
+
+portmaster-zip: portmasterclean portmaster
+	(cd $(NEXTUI_PKG_DIR) && zip -q -r - .) >rockbox.zip
+
+rhclean:
+	rm -rf $(RH_PKG_DIR)
+
+rhall-zip: rhclean rhbuild nextui-zip portmaster-zip

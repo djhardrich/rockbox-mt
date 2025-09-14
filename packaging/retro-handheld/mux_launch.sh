@@ -14,7 +14,7 @@ SETUP_SDL_ENVIRONMENT
 # Set paths
 RBDIR="$(GET_VAR "device" "storage/rom/mount")/MUOS/application/Rockbox"
 RBDIR_BIND="/tmp/rockbox"
-GPTOKEYB2="$(GET_VAR "device" "storage/rom/mount")/MUOS/emulator/gptokeyb/gptokeyb2"
+GPTOKEYB2="/opt/muos/share/emulator/gptokeyb/gptokeyb2"
 # Get what the current device is.
 DEVICE_ID="$(GET_VAR "device" "board/name")"
 
