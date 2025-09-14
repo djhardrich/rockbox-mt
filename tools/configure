@@ -776,6 +776,7 @@ arm1176jzlinuxcc () {
  GCCOPTIMIZE=''
  LDOPTS="-lasound -lpthread -lm -ldl -lrt $LDOPTS"
  GLOBAL_LDOPTS="$GLOBAL_LDOPTS -Wl,-z,defs" # warn about undefined symbols in shared libraries
+ GLOBAL_LDOPTS="$GLOBAL_LDOPTS -Wl,-z,defs -Wl,-z,noexecstack" # Stack is not executable
  SHARED_LDFLAGS="-shared"
  SHARED_CFLAGS=''
  endian="little"
@@ -1828,6 +1829,9 @@ fi
   # modelname: short model name used all over to identify this target
   # memory:    number of megabytes of RAM this target has. If the amount can
   #            be selected by the size prompt, let memory be unset here
+  #            Note for hosted/application builds, (memory-1) defines the
+  #            audiobuffer size; actual memory usage will likely be
+  #            larger and is found in rockbox-info.txt after compilation.
   # target:    -Ddefine passed to the build commands to make the correct
   #            config-*.h file get included etc
   # tool:      the tool that takes a plain binary and converts that into a
@@ -3571,7 +3575,7 @@ fi
     target_id=78
     modelname="samsungypr0"
     target="SAMSUNG_YPR0"
-    memory=32
+    memory=24
     uname=`uname`
     ypr0cc
     tool="cp "
@@ -3647,7 +3651,7 @@ fi
     target_id=93
     modelname="samsungypr1"
     target="SAMSUNG_YPR1"
-    memory=32
+    memory=24
     uname=`uname`
     # Linux environment and CPU are the same as for R0, use the same gcc options
     ypr0cc
@@ -4088,7 +4092,7 @@ fi
     app_type="android_ndk"
     lcd_orientation="landscape"
     # Actually 408260kB
-    memory=256
+    memory=192
     uname=`uname`
     androidndkcc 16 armeabi "-mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp"
     tool="cp "
@@ -4112,7 +4116,7 @@ fi
     target="DX90"
     app_type="android_ndk"
     lcd_orientation="landscape"
-    memory=256
+    memory=192
     uname=`uname`
     androidndkcc 16 armeabi "-mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp"
     tool="cp "
@@ -4732,6 +4736,10 @@ if [ "yes" = "$simulator" ] || [ "yes" = "$application" ] && [ $uname = "Darwin"
  ldnum=0
 else
  ldnum=`$LD --version | sed -n '1p' | sed -e 's/.* \([0-9]*\)\.\([0-9]*\).*/\1\2/'`
+fi
+
+if test "$ldnum" -ge "239"; then
+  GLOBAL_LDOPTS="$GLOBAL_LDOPTS -Wl,--no-warn-rwx-segments"
 fi
 
 if test "$ldnum" -ge "227"; then
