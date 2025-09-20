@@ -82,5 +82,5 @@ Controls more or less follow the RG Nano port of Rockbox, see [the manual from t
 ## Thanks
 ---
 [Rockbox Team](https://www.rockbox.org/) - For creating Rockbox.  
-[Hairo](https://github.com/Hairo) - For helping with this port (battery status, plugins and path shenanigans).
+[Hairo](https://github.com/Hairo) - For helping with this port (battery status, plugins and path shenanigans).  
 [Dia](https://github.com/Dia2809) - libsdl2_scaler shim that was the last piece of the puzzle for Portmaster.

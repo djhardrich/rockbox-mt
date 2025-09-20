@@ -26,7 +26,6 @@ rhbuild:
 	gcc -shared -fPIC -o $(RH_ROCKBOX_DIR)/lib/libsdl2_scaler.so $(RH_PACK_DIR)/libsdl2_scaler.c -ldl -lSDL2 -pthread	
 	## Copy licenses over
 	cp -R $(RH_PACK_DIR)/licenses $(RH_ROCKBOX_DIR)
-	# cp -R $(RH_PACK_DIR)/systems $(RH_ROCKBOX_DIR)
 	rm -rf $(RH_PKG_DIR)/build
 
 ## We no longer need muos specific build since portmaster build replaces it.
@@ -56,6 +55,7 @@ nextui:
 	cp $(RH_PACK_DIR)/gamecontrollerdb.txt $(NEXTUI_PKG_DIR)
 	cp $(RH_PACK_DIR)/pak.json $(NEXTUI_PKG_DIR)
 	cp $(RH_PACK_DIR)/launch.sh $(NEXTUI_PKG_DIR)
+	cp -R $(RH_PACK_DIR)/systems $(NEXTUI_PKG_DIR)/rockbox
 	## Permissions
 	chmod +x $(NEXTUI_PKG_DIR)/gptokeyb2
 	chmod +x $(NEXTUI_PKG_DIR)/launch.sh
@@ -85,7 +85,7 @@ portmasterclean:
 	rm -rf $(PM_PKG_DIR)
 
 portmaster-zip: portmasterclean portmaster
-	(cd $(NEXTUI_PKG_DIR) && zip -q -r - .) >rockbox.zip
+	(cd $(PM_PKG_DIR) && zip -q -r - .) >rockbox.zip
 
 rhclean:
 	rm -rf $(RH_PKG_DIR)

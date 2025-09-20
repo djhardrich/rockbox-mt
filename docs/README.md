@@ -25,6 +25,14 @@ Press `A` to enter highlighted directories. Once you have you your main music fo
 
 When it finishes, restart Rockbox.
 
+#### Extending/Disabling Backlight Timeout
+
+By default, Rockbox has a 15 second display timeout. If you would like to extend (or disable) this feature... go to `Settings > General Settings > Display > LCD Settings > Backlight`.
+
+#### Enable Lock-key Exemptions
+
+If you would like to use media keys to control Rockbox while locked (bluetooth/usb), go to `Settings > General Settings > System > Advanced Key Lock`. Set `Enabled` to `Yes` and then under `Settings` toggle `Exempt Play`, `Exempt Seek` and `Exempt Skip` on.
+
 #### Installing Themes:
 
 > [!NOTE]
@@ -103,14 +111,11 @@ Configure with the following options:
 #### Build and ZIP
 ```
 make
-make rhbuild
+make rhall-zip
 ```
-
-* For muOS: `make muos-zip`
-* for NextUI: `make nextui-zip`
 
 ## Thanks
 
 [Rockbox Team](https://www.rockbox.org/) - For creating Rockbox.  
-[Hairo](https://github.com/Hairo) - For helping with this port (battery status, plugins and path shenanigans).
+[Hairo](https://github.com/Hairo) - For helping with this port (battery status, plugins and path shenanigans).  
 [Dia](https://github.com/Dia2809) - libsdl2_scaler shim that was the last piece of the puzzle for Portmaster.
