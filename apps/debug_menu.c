@@ -1482,6 +1482,9 @@ static int disk_callback(int btn, struct gui_synclist *lists)
     i = identify_info[83] & (1<<9);
     simplelist_addline(
              "Noise mgmt: %s", i ? "enabled" : "unsupported");
+    i = identify_info[85] & (1<<0);
+    simplelist_addline(
+             "SMART: %s", i ? "enabled" : "unsupported");
     simplelist_addline(
              "Flush cache: %s", identify_info[83] & (1<<13) ? "extended" : identify_info[83] & (1<<12) ? "standard" : identify_info[80] >= (1<<5) ? "ATA-5" : "unsupported");
     i = identify_info[82] & (1<<6);
@@ -1750,7 +1753,7 @@ static int ata_smart_callback(int btn, struct gui_synclist *lists)
     {
         int rc;
         memset(&smart_data, 0, sizeof(struct ata_smart_values));
-        rc = ata_read_smart(&smart_data);
+        rc = ata_read_smart(&smart_data, ATA_SMART_READ_DATA);
         simplelist_reset_lines();
         if (rc == 0)
         {

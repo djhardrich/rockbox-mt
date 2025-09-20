@@ -759,7 +759,7 @@ static int ata_power_up(void)
     spinup_time = current_tick - spinup_start;
 
     ata_total_sectors = (identify_info[61] << 16) | identify_info[60];
-    if ( identify_info[83] & BIT(10) && ata_total_sectors == 0x0FFFFFFF)
+    if (ceata || (identify_info[83] & BIT(10) && ata_total_sectors == 0x0FFFFFFF))
     {
         ata_total_sectors = ((uint64_t)identify_info[103] << 48) |
                 ((uint64_t)identify_info[102] << 32) |
@@ -1099,7 +1099,7 @@ void ata_sleepnow(void)
 
     ata_flush_cache();
 
-    if (ata_disk_can_sleep()) {
+    if (ceata || ata_disk_can_sleep()) {
         logf("ata SLEEP %ld", current_tick);
 
         if (ceata) {
@@ -1123,7 +1123,7 @@ void ata_sleepnow(void)
         }
     }
 
-    if (ata_disk_can_sleep() || canflush)
+    if (ceata || ata_disk_can_sleep() || canflush)
         ata_power_down(); // XXX add a powerdown delay similar to main ATA driver?
 
     mutex_unlock(&ata_mutex);
@@ -1168,10 +1168,20 @@ int ata_init(void)
         return rc;
 
     /* Logical sector size */
-    if ((identify_info[106] & 0xd000) == 0x5000) /* B14, B12 */
+    if (ceata)
+        log_sector_size = 1 << identify_info[106];
+    else if ((identify_info[106] & 0xd000) == 0x5000) /* B14, B12 */
         log_sector_size = (identify_info[117] | (identify_info[118] << 16)) * 2;
     else
         log_sector_size = 512;
+
+#ifndef MAX_VARIABLE_LOG_SECTOR
+    if (log_sector_size != SECTOR_SIZE)
+        panicf("Bad logical sector size (%ld)", log_sector_size);
+#else
+    if (log_sector_size > MAX_VARIABLE_LOG_SECTOR)
+        panicf("Logical sector size too large (%ld)", log_sector_size);
+#endif
 
 #ifdef MAX_PHYS_SECTOR_SIZE
     rc = ata_get_phys_sector_mult();
@@ -1183,7 +1193,7 @@ int ata_init(void)
 }
 
 #ifdef HAVE_ATA_SMART
-static int ata_smart(uint16_t* buf)
+static int ata_smart(uint16_t* buf, uint8_t cmd)
 {
     if (!ata_powered) PASS_RC(ata_power_up(), 3, 0);
     if (ceata)
@@ -1200,7 +1210,7 @@ static int ata_smart(uint16_t* buf)
             PASS_RC(ceata_write_multiple_register(0, ceata_taskfile, 16), 3, 2);
             PASS_RC(ceata_check_error(), 3, 3);
         }
-        ceata_taskfile[0x9] = 0xd0; /* SMART read data */
+        ceata_taskfile[0x9] = cmd;
         PASS_RC(ceata_write_multiple_register(0, ceata_taskfile, 16), 3, 4);
         PASS_RC(ceata_rw_multiple_block(false, buf, 1, CEATA_COMMAND_TIMEOUT * HZ / 1000000), 3, 5);
     }
@@ -1208,7 +1218,7 @@ static int ata_smart(uint16_t* buf)
     {
         int i;
         PASS_RC(ata_wait_for_not_bsy(10000000), 3, 6);
-        ata_write_cbr(&ATA_PIO_FED, 0xd0);
+        ata_write_cbr(&ATA_PIO_FED, cmd);
         ata_write_cbr(&ATA_PIO_LMR, 0x4f);
         ata_write_cbr(&ATA_PIO_LHR, 0xc2);
         ata_write_cbr(&ATA_PIO_DVR, BIT(6));
@@ -1221,10 +1231,10 @@ static int ata_smart(uint16_t* buf)
     return 0;
 }
 
-int ata_read_smart(struct ata_smart_values* smart_data)
+int ata_read_smart(struct ata_smart_values* smart_data, uint8_t cmd)
 {
     mutex_lock(&ata_mutex);
-    int rc = ata_smart((uint16_t*)smart_data);
+    int rc = ata_smart((uint16_t*)smart_data, cmd);
     mutex_unlock(&ata_mutex);
     return rc;
 }
