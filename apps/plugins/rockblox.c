@@ -195,16 +195,6 @@
 #define ROCKBLOX_OFF           BUTTON_POWER
 #define ROCKBLOX_RESTART       BUTTON_MENU
 
-#elif CONFIG_KEYPAD == CREATIVEZVM_PAD
-#define ROCKBLOX_OFF           BUTTON_BACK
-#define ROCKBLOX_ROTATE_CCW    BUTTON_UP
-#define ROCKBLOX_ROTATE_CW     BUTTON_PLAY
-#define ROCKBLOX_DOWN          BUTTON_DOWN
-#define ROCKBLOX_LEFT          BUTTON_LEFT
-#define ROCKBLOX_RIGHT         BUTTON_RIGHT
-#define ROCKBLOX_DROP          BUTTON_SELECT
-#define ROCKBLOX_RESTART       BUTTON_CUSTOM
-
 #elif CONFIG_KEYPAD == CREATIVE_ZENXFI3_PAD
 #define ROCKBLOX_OFF           BUTTON_POWER
 #define ROCKBLOX_ROTATE_CCW    BUTTON_VOL_DOWN
@@ -424,15 +414,16 @@
 
 #elif CONFIG_KEYPAD == FIIO_M3K_LINUX_PAD
 
-#define ROCKBLOX_OFF           BUTTON_POWER
-#define ROCKBLOX_ROTATE_CCW    BUTTON_HOME
-#define ROCKBLOX_ROTATE_CCW2   BUTTON_VOL_DOWN
-#define ROCKBLOX_ROTATE_CW     BUTTON_VOL_UP
-#define ROCKBLOX_DOWN          BUTTON_OPTION
-#define ROCKBLOX_LEFT          BUTTON_PREV
-#define ROCKBLOX_RIGHT         BUTTON_NEXT
-#define ROCKBLOX_DROP          (BUTTON_PLAY|BUTTON_REL)
-#define ROCKBLOX_RESTART       (BUTTON_PLAY|BUTTON_REPEAT)
+#define ROCKBLOX_OFF            BUTTON_POWER
+#define ROCKBLOX_ROTATE_CCW     BUTTON_HOME
+#define ROCKBLOX_ROTATE_CCW2    BUTTON_VOL_DOWN
+#define ROCKBLOX_ROTATE_CW      BUTTON_VOL_UP
+#define ROCKBLOX_DOWN           BUTTON_OPTION
+#define ROCKBLOX_LEFT           BUTTON_PREV
+#define ROCKBLOX_RIGHT          BUTTON_NEXT
+#define ROCKBLOX_DROP           (BUTTON_PLAY|BUTTON_REL)
+#define ROCKBLOX_RESTART        (BUTTON_PLAY|BUTTON_REPEAT)
+#define ROCKBLOX_SCROLL_ENABLED 1 //Untested Probably needed
 
 #elif (CONFIG_KEYPAD == IHIFI_770_PAD) || (CONFIG_KEYPAD == IHIFI_800_PAD)
 
@@ -465,8 +456,9 @@
 #define ROCKBLOX_RIGHT          BUTTON_RIGHT
 #define ROCKBLOX_DROP           BUTTON_PLAY
 #define ROCKBLOX_RESTART        BUTTON_BACK
+#define ROCKBLOX_SCROLL_ENABLED 1
 
-#elif CONFIG_KEYPAD == SHANLING_Q1_PAD
+#elif CONFIG_KEYPAD == SHANLING_Q1_PAD || CONFIG_KEYPAD == HIBY_R3PROII_PAD
 /* use touchscreen */
 
 #elif CONFIG_KEYPAD == MA_PAD
@@ -490,6 +482,18 @@
 #define ROCKBLOX_RIGHT         BUTTON_RIGHT
 #define ROCKBLOX_DROP          BUTTON_A
 #define ROCKBLOX_RESTART       BUTTON_B
+
+#elif CONFIG_KEYPAD == CTRU_PAD
+
+#define ROCKBLOX_OFF           BUTTON_BACK
+#define ROCKBLOX_ROTATE_CCW    BUTTON_POWER
+#define ROCKBLOX_ROTATE_CW     BUTTON_MENU
+#define ROCKBLOX_ROTATE        BUTTON_UP
+#define ROCKBLOX_DOWN          BUTTON_DOWN
+#define ROCKBLOX_LEFT          BUTTON_LEFT
+#define ROCKBLOX_RIGHT         BUTTON_RIGHT
+#define ROCKBLOX_DROP          BUTTON_SELECT
+#define ROCKBLOX_RESTART       BUTTON_USER
 
 #else
 #error No keymap defined!
@@ -547,7 +551,7 @@
 #define LEVEL_Y 140
 #define LINES_Y 210
 
-#elif (LCD_WIDTH == 480) && (LCD_HEIGHT == 640)
+#elif (LCD_WIDTH == 480) && (LCD_HEIGHT >= 640)
 
 #define BLOCK_WIDTH 30
 #define BLOCK_HEIGHT 30
@@ -858,7 +862,12 @@ static void new_block(void);
 
 #ifdef HAVE_SCROLLWHEEL
 int wheel_events = 0, last_wheel_event = 0;
-bool wheel_enabled = false;
+#ifdef ROCKBLOX_SCROLL_ENABLED
+    /* Bugfix M3K has a scrollpad that is also up down buttons */
+    bool wheel_enabled = true;
+#else
+    bool wheel_enabled = false;
+#endif
 #endif
 
 static const short scoring[4] = {  /* scoring for each number of lines */
@@ -1473,7 +1482,7 @@ static int rockblox_menu(void)
 {
     int selected = 0;
 
-    MENUITEM_STRINGLIST(main_menu, "Rockblox Menu", rockblox_menu_cb,
+    MENUITEM_STRINGLIST(main_menu, "Rockblox", rockblox_menu_cb,
                         "Resume Game", "Start New Game",
                         "Help", "High Scores", "Playback Control",
                         "Quit without Saving", "Quit");

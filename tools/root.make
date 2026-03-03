@@ -105,6 +105,8 @@ endif
 ifneq (,$(findstring bootloader,$(APPSDIR)))
   ifneq (,$(findstring sonynwz,$(APP_TYPE)))
     include $(ROOTDIR)/firmware/target/hosted/sonynwz/sonynwz.make
+  else ifneq (,$(findstring hiby_x1600,$(APP_TYPE)))
+    include $(ROOTDIR)/firmware/target/hosted/hiby/hiby.make
   else ifneq (,$(findstring hibyos,$(APP_TYPE)))
     include $(ROOTDIR)/firmware/target/hosted/hibyos.make
   else ifneq (,$(findstring fiio,$(APP_TYPE)))
@@ -149,6 +151,10 @@ else # core
     include $(ROOTDIR)/firmware/target/hosted/sonynwz/sonynwz.make
   endif
 
+  ifneq (,$(findstring hiby_x1600,$(APP_TYPE)))
+    include $(ROOTDIR)/firmware/target/hosted/hiby/hiby.make
+  endif
+
   ifneq (,$(findstring hibyos,$(APP_TYPE)))
     include $(ROOTDIR)/firmware/target/hosted/hibyos.make
   endif
@@ -165,17 +171,24 @@ else # core
     endif
   endif
 
-  ifneq (,$(findstring pandora, $(MODELNAME)))
-	include $(ROOTDIR)/packaging/pandora/pandora.make
-  endif
   ifneq (,$(findstring rgnano, $(MODELNAME)))
 	include $(ROOTDIR)/packaging/rgnano/rgnano.make
   endif
+  
   ifneq (,$(findstring retro-handheld, $(MODELNAME)))
 	include $(ROOTDIR)/packaging/retro-handheld/retro-handheld.make
   endif
+  
+  ifneq (,$(findstring ctru, $(APP_TYPE)))
+  include $(ROOTDIR)/packaging/ctru/ctru.make
+  endif
 
 endif # bootloader
+
+# Include makefile for flashing/debugging with OpenOCD & GDB
+ifeq (echor1,$(MODELNAME))
+  include $(ROOTDIR)/tools/echoplayer/openocd.make
+endif
 
 # One or more subdir makefiles requested --gc-sections?
 ifdef CORE_GCSECTIONS
@@ -226,7 +239,7 @@ clean::
 		$(LINKRAM) $(LINKROM) rockbox.elf rockbox.map rockbox.bin \
 		make.dep rombox.elf rombox.map rombox.bin romstart.txt \
 		$(BINARY) $(FLASHFILE) uisimulator bootloader flash $(BOOTLINK) \
-		rockbox.apk lang_enum.h rbversion.h
+		rockbox.apk lang_enum.h rbversion.h fontbundle.h
 
 #### linking the binaries: ####
 
@@ -461,7 +474,6 @@ help:
 	@echo "font7zip       - creates rockbox-fonts.7zip"
 	@echo "mapzip         - creates rockbox-maps.zip with all .map files"
 	@echo "elfzip         - creates rockbox-elfs.zip with all .elf files"
-	@echo "pnd            - creates rockbox.pnd archive (Pandora builds only)"
 	@echo "tools          - builds the tools only"
 	@echo "voice          - creates the voice clips (voice builds only)"
 	@echo "voicetools     - builds the voice tools only"

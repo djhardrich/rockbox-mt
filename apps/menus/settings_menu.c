@@ -199,6 +199,7 @@ static int clear_start_directory(void)
     splash(HZ, ID2P(LANG_RESET_DONE_CLEAR));
     return false;
 }
+MENUITEM_SETTING(keep_directory, &global_settings.keep_directory, NULL);
 MENUITEM_FUNCTION(clear_start_directory_item, 0, ID2P(LANG_RESET_START_DIR),
                   clear_start_directory, NULL, Icon_file_view_menu);
 
@@ -209,6 +210,7 @@ MAKE_MENU(file_menu, ID2P(LANG_FILE), filemenu_callback, Icon_file_view_menu,
                 &sort_case, &sort_dir, &sort_file, &interpret_numbers,
                 &dirfilter, &show_filename_ext, &browse_current,
                 &show_path_in_browser,
+                &keep_directory,
                 &clear_start_directory_item
 #ifdef HAVE_HOTKEY
                 ,&hotkey_tree_item
@@ -271,6 +273,9 @@ MAKE_MENU(battery_menu, ID2P(LANG_BATTERY_MENU), 0, Icon_NOICON,
          );
 #if defined(DX50) || defined(DX90) || (defined(HAVE_USB_POWER) && !defined(USB_NONE) && !defined(SIMULATOR))
 MENUITEM_SETTING(usb_mode, &global_settings.usb_mode, NULL);
+#endif
+#if defined(HAVE_GENERAL_PURPOSE_LED)
+MENUITEM_SETTING(use_led_indicators, &global_settings.use_led_indicators, NULL);
 #endif
 /* Disk */
 #ifdef HAVE_DISK_STORAGE
@@ -358,6 +363,9 @@ MENUITEM_SETTING(lineout_onoff, &global_settings.lineout_active, NULL);
 MENUITEM_SETTING(usb_hid, &global_settings.usb_hid, NULL);
 MENUITEM_SETTING(usb_keypad_mode, &global_settings.usb_keypad_mode, NULL);
 #endif
+#ifdef USB_ENABLE_AUDIO
+MENUITEM_SETTING(usb_audio, &global_settings.usb_audio, NULL);
+#endif
 #if defined(USB_ENABLE_STORAGE) && defined(HAVE_MULTIDRIVE)
 MENUITEM_SETTING(usb_skip_first_drive, &global_settings.usb_skip_first_drive, NULL);
 #endif
@@ -392,8 +400,8 @@ MENUITEM_SETTING(bt_selective_actions,
                  &global_settings.bt_selective_softlock_actions,
                                                     selectivesoftlock_callback);
 MENUITEM_FUNCTION(sel_softlock_mask, 0, ID2P(LANG_SETTINGS),
-	              selectivesoftlock_set_mask, selectivesoftlock_callback,
-	              Icon_Menu_setting);
+                  selectivesoftlock_set_mask, selectivesoftlock_callback,
+                  Icon_Menu_setting);
 
 MAKE_MENU(sel_softlock, ID2P(LANG_SOFTLOCK_SELECTIVE),
           NULL, Icon_Menu_setting, &bt_selective_actions, &sel_softlock_mask);
@@ -454,6 +462,9 @@ MAKE_MENU(system_menu, ID2P(LANG_SYSTEM),
             &usb_hid,
             &usb_keypad_mode,
 #endif
+#ifdef USB_ENABLE_AUDIO
+            &usb_audio,
+#endif
 #if defined(USB_ENABLE_STORAGE) && defined(HAVE_MULTIDRIVE)
             &usb_skip_first_drive,
 #endif
@@ -463,6 +474,9 @@ MAKE_MENU(system_menu, ID2P(LANG_SYSTEM),
 #endif
 #if defined(DX50) || defined(DX90) || (defined(HAVE_USB_POWER) && !defined(USB_NONE) && !defined(SIMULATOR))
             &usb_mode,
+#endif
+#if defined(HAVE_GENERAL_PURPOSE_LED)
+            &use_led_indicators,
 #endif
          );
 

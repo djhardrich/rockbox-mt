@@ -1,3 +1,6 @@
+/* Pull in SoC-specific defines */
+#include "imx233-config.h"
+
 /*
  * This config file is for the Creative Zen
  */
@@ -10,6 +13,8 @@
 #define MODEL_NAME   "Creative Zen"
 /* Define if boot data from bootloader has been enabled for the target */
 #define HAVE_BOOTDATA
+/* define boot redirect file name allows booting from external drives */
+#define BOOT_REDIR   "rockbox_main.zen"
 
 #define HW_SAMPR_CAPS       SAMPR_CAP_ALL_192
 

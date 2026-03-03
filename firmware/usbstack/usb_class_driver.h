@@ -29,6 +29,13 @@
 
 /* Common api, implemented by all class drivers */
 
+struct usb_class_driver_ep_allocation {
+    uint8_t type;  /* by driver, required ep type. USB_ENDPOINT_XFER_* */
+    uint8_t dir;   /* by driver, required ep dir. DIR_{IN,OUT} */
+    uint8_t ep;    /* by core, allocated ep. > 0 are valid but can be 0 if optional==true */
+    bool optional; /* by driver, set true to mark this requirement to be optional */
+};
+
 struct usb_class_driver {
     /* First some runtime data */
     bool enabled;
@@ -40,8 +47,12 @@ struct usb_class_driver {
     /* Set this to true if the driver needs exclusive disk access (e.g. usb storage) */
     bool needs_exclusive_storage;
 
-    /* Let the driver request endpoints it need. Returns zero on success */
-    int (*request_endpoints)(struct usb_class_driver *);
+    /* USB config number this driver belongs to */
+    uint8_t config;
+
+    /* Endpoint allocation state table */
+    uint8_t ep_allocs_size;
+    struct usb_class_driver_ep_allocation* ep_allocs;
 
     /* Tells the driver what its first interface number will be. The driver
        returns the number of the first available interface for the next driver
@@ -74,7 +85,16 @@ struct usb_class_driver {
     /* Tells the driver that a usb transfer has been completed. Note that "dir"
        is relative to the host
        Optional function */
-    void (*transfer_complete)(int ep,int dir, int status, int length);
+    void (*transfer_complete)(int ep, int dir, int status, int length);
+
+    /* Similar to transfer_complete but called directly instead of going through
+     * the usb queue. Since it might be called in an interrupt context,
+     * processing should be kept to a minimum. This is mainly intended for
+     * isochronous transfers.
+     * The function must return true if it handled the completion, and false
+     * otherwise so that it is dispatched to the normal handler
+     * Optional function */
+    bool (*fast_transfer_complete)(int ep, int dir, int status, int length);
 
     /* Tells the driver that a control request has come in. If the driver is
        able to handle it, it should ack the request, and return true. Otherwise
@@ -88,6 +108,20 @@ struct usb_class_driver {
        Optional function */
     void (*notify_hotswap)(int volume, bool inserted);
 #endif
+
+    /* Tells the driver to select an alternate setting for a specific interface.
+     * Returns 0 on success and -1 on error.
+     * Mandatory function if alternate interface support is needed */
+    int (*set_interface)(int interface, int alt_setting);
+
+    /* Asks the driver what is the current alternate setting for a specific interface.
+     * Returns value on success and -1 on error.
+     * Mandatory function if alternate interface support is needed */
+    int (*get_interface)(int interface);
+
+    /* Invoked by USB_NOTIFY_CLASS_DRIVER
+       Optional function */
+    void (*notify_event)(intptr_t data);
 };
 
 #define PACK_DATA(dest, data) pack_data(dest, &(data), sizeof(data))

@@ -65,17 +65,18 @@
 #include <strings.h>  /* For strncasecmp() */
 #endif
 
+#ifdef USB_ENABLE_AUDIO
+#include "usbstack/usb_audio.h"
+#include "splash.h"
+#include "lang.h"
+#endif
+
 /* TODO: The audio thread really is doing multitasking of acting like a
          consumer and producer of tracks. It may be advantageous to better
          logically separate the two functions. I won't go that far just yet. */
 
 /* Internal support for voice playback */
 #define PLAYBACK_VOICE
-
-#if CONFIG_PLATFORM & PLATFORM_NATIVE
-/* Application builds don't support direct code loading */
-#define HAVE_CODEC_BUFFERING
-#endif
 
 /* Amount of guess-space to allow for codecs that must hunt and peck
  * for their correct seek target, 32k seems a good size */
@@ -324,6 +325,7 @@ static unsigned int track_event_flags = TEF_NONE; /* (A, O-) */
 static int skip_offset = 0; /* (A, O) */
 
 static bool track_skip_is_manual = false;
+static bool pause_on_track_change = false;
 
 /* Track change notification */
 static struct
@@ -487,14 +489,6 @@ static void id3_write_locked(enum audio_id3_types id3_num,
 
 
 /** --- Track info --- **/
-
-#ifdef HAVE_CODEC_BUFFERING
-static void track_info_close_handle(int *hidp)
-{
-    bufclose(*hidp);
-    *hidp = ERR_HANDLE_NOT_FOUND;
-}
-#endif /* HAVE_CODEC_BUFFERING */
 
 /* Invalidate all members to initial values - does not close handles or sync */
 static void track_info_wipe(struct track_info *infop)
@@ -1509,7 +1503,7 @@ static bool halt_decoding_track(bool stop)
 
     codec_skip_pending = false;
     codec_seeking = false;
-
+    pause_on_track_change = false;
     return retval;
 }
 
@@ -1663,7 +1657,8 @@ static bool audio_init_codec(struct track_info *track_infop,
             /* Close any buffered codec (we could have skipped directly to a
                format transistion that is the same format as the current track
                and the buffered one is no longer needed) */
-            track_info_close_handle(&track_infop->codec_hid);
+            bufclose(track_infop->codec_hid);
+            track_infop->codec_hid = ERR_HANDLE_NOT_FOUND;
             track_info_sync(track_infop);
 #endif /* HAVE_CODEC_BUFFERING */
             return true;
@@ -2740,10 +2735,14 @@ static void audio_finalise_track_change(void)
         buf_read_cuesheet(info.cuesheet_hid);
         track_id3 = bufgetid3(info.id3_hid);
 
-        if (single_mode_do_pause(info.id3_hid))
+        /* When pause_on_track_change is calculated, next track_info may be missing
+         * (due to a low buffer or an automatic directory change),
+         * so we need to recalculate it. */
+        if (pause_on_track_change || single_mode_do_pause(info.id3_hid))
         {
             play_status = PLAY_PAUSED;
             pcmbuf_pause(true);
+            pause_on_track_change = false;
         }
     }
     /* Sync the next track information */
@@ -2821,11 +2820,16 @@ static void audio_monitor_end_of_playlist(void)
 }
 
 /* Does this track have an entry allocated? */
-static bool audio_can_change_track(int *trackstat, int *id3_hid)
+static bool audio_can_change_track(int *trackstat, enum pcm_track_change_type *type)
 {
     struct track_info info;
     bool have_track = track_list_advance_current(1, &info);
-    *id3_hid = info.id3_hid;
+
+    pause_on_track_change = have_track && single_mode_do_pause(info.id3_hid);
+    *type = pause_on_track_change
+                ? TRACK_CHANGE_END_OF_DATA
+                : TRACK_CHANGE_AUTO;
+
     if (!have_track || info.audio_hid < 0)
     {
         bool end_of_playlist = false;
@@ -2834,8 +2838,8 @@ static bool audio_can_change_track(int *trackstat, int *id3_hid)
         {
             if (filling == STATE_STOPPED)
             {
-                audio_begin_track_change(TRACK_CHANGE_END_OF_DATA, *trackstat);
-                return false;
+                *type = TRACK_CHANGE_END_OF_DATA;
+                return true;
             }
 
             /* Track load is not complete - it might have stopped on a
@@ -2937,13 +2941,10 @@ static void audio_on_codec_complete(int status)
     track_event_flags = TEF_AUTO_SKIP;
     skip_pending = TRACK_SKIP_AUTO;
 
-    int id3_hid = 0;
-    if (audio_can_change_track(&trackstat, &id3_hid))
+    enum pcm_track_change_type type;
+    if (audio_can_change_track(&trackstat, &type))
     {
-        audio_begin_track_change(
-                single_mode_do_pause(id3_hid)
-                ? TRACK_CHANGE_END_OF_DATA
-                : TRACK_CHANGE_AUTO, trackstat);
+        audio_begin_track_change(type, trackstat);
     }
 }
 
@@ -2978,6 +2979,18 @@ static void audio_on_track_changed(void)
 static void audio_start_playback(const struct audio_resume_info *resume_info,
                                  unsigned int flags)
 {
+/* 
+ * Refuse to start playback if usb audio is active. See gui_wps_show() for
+ * a splash message to the user.
+ * NOTE: if USBAudio ever gets its own DSP channel, this block can go away!
+ */
+#ifdef USB_ENABLE_AUDIO
+    if (usb_audio_get_active())
+    {
+        queue_reply(&audio_queue, 0);
+        return;
+    }
+#endif
     static struct audio_resume_info resume = { 0, 0 };
     enum play_status old_status = play_status;
 
@@ -3844,7 +3857,7 @@ void audio_pcmbuf_track_change(bool pcmbuf)
 /* May pcmbuf start PCM playback when the buffer is full enough? */
 bool audio_pcmbuf_may_play(void)
 {
-    return play_status == PLAY_PLAYING && !ff_rw_mode;
+    return play_status == PLAY_PLAYING && !ff_rw_mode && !pause_on_track_change;
 }
 
 

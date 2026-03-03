@@ -633,7 +633,7 @@ static int shortcut_menu_get_action(int action, struct gui_synclist *lists)
     {
         int selection = gui_synclist_get_sel_pos(lists);
 
-        if (confirm_delete_yesno("") != YESNO_YES)
+        if (confirm_delete_yesno("", str(LANG_SHORTCUTS)) != YESNO_YES)
         {
             gui_synclist_set_title(lists, lists->title, lists->title_icon);
             if (global_settings.talk_menu)
@@ -821,7 +821,7 @@ int do_shortcut_menu(void *ignored)
                     run_debug_screen(sc->u.path);
                     break;
                 case SHORTCUT_SHUTDOWN:
-#if CONFIG_CHARGING
+#if CONFIG_CHARGING && !defined(HAVE_POWEROFF_WHILE_CHARGING)
                     if (charger_inserted())
                         charging_splash();
                     else
@@ -829,7 +829,7 @@ int do_shortcut_menu(void *ignored)
                         sys_poweroff();
                     break;
                 case SHORTCUT_REBOOT:
-#if CONFIG_CHARGING
+#if CONFIG_CHARGING && !defined(HAVE_POWEROFF_WHILE_CHARGING)
                     if (charger_inserted())
                         charging_splash();
                     else

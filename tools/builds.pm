@@ -199,26 +199,6 @@ $releasenotes="/wiki/ReleaseNotes400";
         name => 'iriver H320/340',
         status => 3,
     },
-    'lyreproto1' => {
-        name => 'Lyre Prototype 1',
-        status => 1,
-    },
-    'mini2440' => {
-        name => 'Mini 2440',
-        status => 1,
-    },
-    'meizum3' => {
-        name => 'Meizu M3',
-        status => 1,
-    },
-    'meizum6sl' => {
-        name => 'Meizu M6SL',
-        status => 1,
-    },
-    'meizum6sp' => {
-        name => 'Meizu M6SP',
-        status => 1,
-    },
     'mrobe100' => {
         name => 'Olympus M-Robe 100',
         status => 3,
@@ -248,7 +228,6 @@ $releasenotes="/wiki/ReleaseNotes400";
     },
     'rgnano' => {
         name => 'Anbernic RG Nano',
-        sim => 0,
         manualok => 1,
         status => 2,
     },
@@ -276,10 +255,6 @@ $releasenotes="/wiki/ReleaseNotes400";
         name => 'Samsung YP-R1',
 	sim => 0,
         status => 2,
-    },
-    'samsungyps3' => {
-        name => 'Samsung YP-S3',
-        status => 1,
     },
     'sansac200' => {
         name => 'SanDisk Sansa c200',
@@ -339,28 +314,9 @@ $releasenotes="/wiki/ReleaseNotes400";
         status => 1,
 	sim => 1,
     },
-    'sansaview' => {
-        name => 'SanDisk Sansa View',
-        status => 1,
-    },
     'vibe500' => {
         name => 'Packard Bell Vibe 500',
         status => 3,
-    },
-    'zenvision' => {
-        name => 'Creative Zen Vision',
-        status => 1,
-	sim => 1,
-    },
-    'zenvisionm30gb' => {
-        name => 'Creative Zen Vision:M 30GB',
-        status => 1,
-	sim => 1,
-    },
-    'zenvisionm60gb' => {
-        name => 'Creative Zen Vision:M 60GB',
-        status => 1,
-	sim => 1,
     },
     'mpiohd200' => {
         name => 'MPIO HD200',
@@ -507,6 +463,14 @@ $releasenotes="/wiki/ReleaseNotes400";
         name => 'Shanling Q1',
         status => 3,
     },
+    'hibyr1' => {
+        name => 'Hiby R1',
+        status => 2,
+    },
+    'hibyr3proii' => {
+        name => 'Hiby R3Pro II',
+        status => 2,
+    },
 );
 
 sub manualname {
@@ -606,7 +570,7 @@ sub simbuilds {
 	    'festival' => '--language english',
 	    'espeak' => '-ven-gb -k 5',
 	    'gtts' => '-l en -t co.uk',
-	    'piper' => 'en_GB-semaine-medium.onnx',
+	    'piper' => 'en_GB-alba-medium.onnx',
 	},
         'enabled' => 1,
     },
@@ -615,11 +579,11 @@ sub simbuilds {
 	'lang' => 'bulgarian',
 	'name' => 'Български (Bulgarian)',
         'short' => 'bg',
-        'defengine' => 'espeak',
+        'defengine' => 'piper',
 	'engines' => {
 	    'espeak' => '-vbg',
 	    'gtts' => '-l bg',
-            # No piper voice yet.
+	    'piper' => 'bg_BG-dimitar-medium.onnx',
 	},
         'enabled' => 1,
     },
@@ -741,7 +705,7 @@ sub simbuilds {
 	'engines' => {
 	    'espeak' => '-vel',
 	    'gtts' => '-l el',
-            'piper' => 'el_GR-rapunzelina-low.onnx',
+            'piper' => 'el_GR-rapunzelina-medium.onnx',
 	},
         'enabled' => 0,
     },
@@ -788,6 +752,18 @@ sub simbuilds {
 	    'espeak' => '-vlv',
 	    'gtts' => '-l lv',
             'piper' => 'lv_LV-aivars-medium.onnx',
+	},
+	'enabled' => 1,
+    },
+    'magyar' => {
+	'lang' => 'magyar',
+	'name' => 'Magyar (Hungarian)',
+        'short' => 'hu',
+        'defengine' => 'piper',
+	'engines' => {
+	    'espeak' => '-vhu',
+	    'gtts' => '-l hu',
+            'piper' => 'hu_HU-berta-medium.onnx',
 	},
 	'enabled' => 1,
     },
@@ -919,7 +895,7 @@ sub simbuilds {
 	'engines' => {
 	    'espeak' => '-vtr',
 	    'gtts' => '-l tr',
-            'piper' => 'tr_TR-fettah-medium.onnx',
+            'piper' => 'tr_TR-dfki-medium.onnx',
 	},
         'enabled' => 1,
     },
@@ -933,6 +909,18 @@ sub simbuilds {
 	    'gtts' => '-l uk',
             'piper' => 'uk_UA-ukrainian_tts-medium.onnx',
 	},
+        'enabled' => 1,
+    },
+    'vietnamese' => {
+        'lang' => 'vietnamese',
+        'name' => 'Tiếng Việt (Vietnamese)',
+        'short' => 'vi',
+        'defengine' => 'piper',
+        'engines' => {
+            'espeak' => '-vvi',
+	    'gtts' => '-l vi',
+            'piper' => 'vi_VN-vais1000-medium.onnx',
+        },
         'enabled' => 1,
     },
 );

@@ -126,8 +126,7 @@ const struct button_mapping pf_context_buttons[] =
     {PF_SELECT,       BUTTON_CENTER,              BUTTON_NONE},
     {PF_BACK,         BUTTON_BOTTOMRIGHT,         BUTTON_NONE},
 #endif
-#if CONFIG_KEYPAD == CREATIVEZV_PAD || CONFIG_KEYPAD == CREATIVEZVM_PAD || \
-    CONFIG_KEYPAD == PHILIPS_HDD1630_PAD || \
+#if CONFIG_KEYPAD == PHILIPS_HDD1630_PAD || \
     CONFIG_KEYPAD == GIGABEAT_PAD || CONFIG_KEYPAD == GIGABEAT_S_PAD || \
     CONFIG_KEYPAD == MROBE100_PAD || CONFIG_KEYPAD == MROBE500_PAD || \
     CONFIG_KEYPAD == PHILIPS_SA9200_PAD || CONFIG_KEYPAD == SANSA_CLIP_PAD || \
@@ -162,8 +161,6 @@ const struct button_mapping pf_context_buttons[] =
     {PF_QUIT,         BUTTON_MENU|BUTTON_REPEAT,  BUTTON_MENU},
 #elif CONFIG_KEYPAD == IAUDIO_M3_PAD
     {PF_QUIT,         BUTTON_RC_REC,              BUTTON_NONE},
-#elif CONFIG_KEYPAD == MEIZU_M6SL_PAD
-    {PF_QUIT,         BUTTON_MENU|BUTTON_REPEAT,  BUTTON_MENU},
 #elif CONFIG_KEYPAD == IRIVER_H100_PAD || CONFIG_KEYPAD == IRIVER_H300_PAD
     {PF_QUIT,         BUTTON_OFF,                 BUTTON_NONE},
 #elif CONFIG_KEYPAD == PBELL_VIBE500_PAD
@@ -1398,7 +1395,7 @@ static int create_album_index(void)
     /* Albums */
     pf_idx.album_ct = 0;
     pf_idx.album_len =0;
-    pf_idx.album_untagged_idx = 0;
+    pf_idx.album_untagged_idx = -1;
     pf_idx.album_untagged_seek = -1;
 
     /* album_index starts at end of buf it will be rearranged when finalized */
@@ -1523,16 +1520,8 @@ retry_artist_lookup:
 
     /* remove any extra untagged albums
      * extra space is orphaned till restart */
-    for (i = 0; i < pf_idx.album_ct; i++)
-    {
-        if (pf_idx.album_index[i].artist_idx > 0)
-        {
-            if (i > 0) { i--; }
-            pf_idx.album_index += i;
-            pf_idx.album_ct -= i;
-            break;
-        }
-    }
+    pf_idx.album_index += pf_idx.album_untagged_idx + 1;
+    pf_idx.album_ct -= pf_idx.album_untagged_idx + 1;
 
     pf_idx.buf = buf;
     pf_idx.buf_sz = buf_size;
@@ -3708,7 +3697,7 @@ static int main_menu(void)
     rb->lcd_set_foreground(N_BRIGHT(255));
 #endif
 
-    MENUITEM_STRINGLIST(main_menu, "PictureFlow Main Menu", NULL,
+    MENUITEM_STRINGLIST(main_menu, "PictureFlow", NULL,
                         ID2P(LANG_SORT_ALBUMS_BY),
                         ID2P(LANG_SHOW_TRACKS_WHILE_BROWSING),
                         ID2P(LANG_GOTO_LAST_ALBUM),

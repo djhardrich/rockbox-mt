@@ -89,6 +89,10 @@ struct mp3entry* audio_current_track(void)
     \description
     \see [S[firmware/export/id3.h]]
 
+void audio_pre_ff_rewind(void)
+    \group playback control
+    \description prepare playback for rewinding. Playback will be paused
+
 void audio_ff_rewind(long newtime)
     \group playback control
     \param newtime
@@ -101,11 +105,6 @@ void audio_flush_and_reload_tracks(void)
 int audio_get_file_pos(void)
     \group playback control
     \return
-    \description
-
-void audio_hard_stop(void)
-    \group playback control
-    \conditions (defined(PLUGIN_USE_IRAM))
     \description
 
 void audio_next(void)
@@ -164,7 +163,7 @@ int audio_status(void)
 
 void audio_stop(void)
     \group playback control
-    \description
+    \description Gracefully shuts down the playback (ie codec) engine.  Anything else playing back (talk/voice, other mixer channels) is unaffected.
 
 void backlight_off(void)
     \group For OLED targets like the Sansa Clip, the backlight_* functions control * the display enable, which has essentially the same effect.
@@ -664,11 +663,12 @@ int32_t dsp_get_timestretch(void)
     \return
     \description
 
-void dsp_process(struct dsp_config *dsp, struct dsp_buffer *src, struct dsp_buffer *dst)
+void dsp_process(struct dsp_config *dsp, struct dsp_buffer *src, struct dsp_buffer *dst, bool thread_yield)
     \group sound
     \param dsp
     \param src
     \param dst
+    \param thread_yield
     \description
 
 void dsp_set_crossfeed_type(int type)
@@ -1534,13 +1534,6 @@ void* lc_open(const char *filename, unsigned char *buf, size_t buf_size)
     \return
     \description
 
-void* lc_open_from_mem(void* addr, size_t blob_size)
-    \group load code api for overlay
-    \param addr
-    \param blob_size
-    \return
-    \description
-
 void led(bool on)
     \group misc
     \param on
@@ -1782,28 +1775,15 @@ void pcm_init_recording(void)
     \conditions (defined(HAVE_RECORDING))
     \description
 
-bool pcm_is_playing(void)
-    \group sound
-    \return true unless playback is paused
-    \description
-
-void pcm_play_data(pcm_play_callback_type get_more, pcm_status_callback_type status_cb, const void *start, size_t size)
-    \group sound
-    \param get_more Optional callback
-    \param status_cb Optional status callback
-    \param start is the address of raw 16-16, interleaved PCM data
-    \param size is the size of the data to play
-    \description
-
 void pcm_play_lock(void)
     \group sound
     \description
 
-void pcm_play_stop(void)
-    \group sound
-    \description Stops the playback and empties the audio buffer.
-
 void pcm_play_unlock(void)
+    \group sound
+    \description
+
+const struct pcm_sink_caps* pcm_current_sink_caps(enum pcm_sink_ids sink)
     \group sound
     \description
 
@@ -1814,11 +1794,6 @@ void pcm_record_data(pcm_rec_callback_type more_ready, pcm_status_callback_type 
     \param status_cb
     \param start
     \param size
-    \description
-
-void pcm_set_frequency(unsigned int frequency)
-    \group sound
-    \param frequency
     \description
 
 void pcm_stop_recording(void)
@@ -1876,13 +1851,14 @@ int playlist_get_track_info(struct playlist_info* playlist, int index, struct pl
     \return
     \description
 
-int playlist_insert_directory(struct playlist_info* playlist, const char *dirname, int position, bool queue, bool recurse)
+int playlist_insert_directory(struct playlist_info* playlist, const char *dirname, int position, bool queue, bool recurse, struct playlist_insert_context *context)
     \group playback control
     \param playlist
     \param dirname
     \param position
     \param queue
     \param recurse
+    \param context
     \return
     \description
 
@@ -2997,9 +2973,10 @@ void unregister_storage_idle_func(void (*function)(void), bool run)
     \param run
     \description
 
-void usb_acknowledge(long id)
+void usb_acknowledge(long id, intptr_t seqnum)
     \group usb
     \param id
+    \param seqnum
     \description
 
 void usb_hid_send(usage_page_t usage_page, int id)

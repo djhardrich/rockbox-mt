@@ -39,6 +39,12 @@ SDLFLAGS = -I$(SDL_SRCDIR)/include $(filter-out -O%,$(PLUGINFLAGS))		\
 #-ffast-math -funroll-loops -fomit-frame-pointer -fexpensive-optimizations	\
 #-D_GNU_SOURCE=1 -D_REENTRANT -DSDL -DELF
 
+# CTRU does need these to avoid compiler errors
+ifeq ($(APP_TYPE),ctru-app)
+SDLFLAGS += -Wno-int-conversion -Wno-incompatible-pointer-types        \
+-Wno-implicit-function-declaration -Wno-implicit-int
+endif
+
 ifndef APP_TYPE
     ### no target has a big enough plugin buffer
     ROCKS += $(SDL_OBJDIR)/duke3d.ovl
@@ -89,7 +95,7 @@ $(SDL_OBJDIR)/wolf3d.ovl: $(SDL_OBJ) $(WOLF3D_OBJ) $(TLSFLIB) $(WOLF3D_OUTLDS)
 		$(filter %.o, $^) \
 		$(filter %.a, $+) \
 		-lgcc  -T$(WOLF3D_OUTLDS) $(SDL_OVLFLAGS)
-	$(call PRINTS,LD $(@F))$(call objcopy,$(basename $@).elf,$@)
+	$(call PRINTS,LD $(@F))$(call objcopy_plugin,$(basename $@).elf,$@)
 
 # Quake
 ###
@@ -107,7 +113,7 @@ $(SDL_OBJDIR)/quake.ovl: $(SDL_OBJ) $(QUAKE_OBJ) $(TLSFLIB) $(QUAKE_OUTLDS)
 		$(filter %.o, $^) \
 		$(filter %.a, $+) \
 		-lgcc -T$(QUAKE_OUTLDS) $(SDL_OVLFLAGS)
-	$(call PRINTS,LD $(@F))$(call objcopy,$(basename $@).elf,$@)
+	$(call PRINTS,LD $(@F))$(call objcopy_plugin,$(basename $@).elf,$@)
 
 ###
 

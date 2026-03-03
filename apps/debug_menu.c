@@ -116,6 +116,9 @@
 
 #ifdef HAVE_USBSTACK
 #include "usb_core.h"
+#ifdef USB_ENABLE_AUDIO
+#include "../usbstack/usb_audio.h"
+#endif
 #endif
 
 #include "talk.h"
@@ -138,6 +141,10 @@
 
 #if defined(IPOD_ACCESSORY_PROTOCOL)
 #include "iap.h"
+#endif
+
+#ifdef HIBY_LINUX
+#include <sys/sysinfo.h>
 #endif
 
 #define SCREEN_MAX_CHARS (LCD_WIDTH / SYSFONT_WIDTH)
@@ -1175,6 +1182,10 @@ static bool view_battery(void)
 #else
                 lcd_putsf(0, 3, "Charger: %s",
                          charger_inserted() ? "present" : "absent");
+#if defined(HAVE_USBSTACK) && defined(HAVE_USB_CHARGING_ENABLE)
+                lcd_putsf(0, 4, "USB current limit: %d mA",
+                          usb_charging_maxcurrent());
+#endif /* HAVE_USB_CHARGING_ENABLE */
 #endif /* target type */
 #endif /* CONFIG_CHARGING */
                 break;
@@ -1272,7 +1283,7 @@ static int disk_callback(int btn, struct gui_synclist *lists)
 
     if ((btn == ACTION_STD_OK) || (btn == SYS_FS_CHANGED) || (btn == ACTION_REDRAW))
     {
-#ifdef HAVE_HOTSWAP
+#if NUM_DRIVES > 1
         if (btn == ACTION_STD_OK)
         {
             *cardnum ^= 0x1; /* change cards */
@@ -2509,18 +2520,61 @@ static bool dbg_talk(void)
 }
 
 #ifdef HAVE_USBSTACK
-#if defined(ROCKBOX_HAS_LOGF) && defined(USB_ENABLE_SERIAL)
-static bool toggle_usb_serial(void)
+#if (defined(ROCKBOX_HAS_LOGF) && defined(USB_ENABLE_SERIAL))
+static bool toggle_usb_core_driver(int driver, char *msg)
 {
-    bool enabled = !usb_core_driver_enabled(USB_DRIVER_SERIAL);
+    bool enabled = !usb_core_driver_enabled(driver);
 
-    usb_core_enable_driver(USB_DRIVER_SERIAL, enabled);
-    splashf(HZ, "USB Serial %sabled", enabled ? "en" : "dis");
+    usb_core_enable_driver(driver,enabled);
+    splashf(HZ, "%s %s", msg, enabled ? "enabled" : "disabled");
 
     return false;
 }
+
+#ifdef USB_ENABLE_SERIAL
+static bool toggle_usb_serial(void)
+{
+    return toggle_usb_core_driver(USB_DRIVER_SERIAL, "USB Serial");
+}
+#endif /* USB_ENABLE_SERIAL */
 #endif
-#endif
+
+#ifdef USB_ENABLE_AUDIO
+static int dbg_usb_audio_cb(int action, struct gui_synclist *lists)
+{
+    (void)lists;
+    simplelist_reset_lines();
+    simplelist_addline("%sabled", usb_core_driver_enabled(USB_DRIVER_AUDIO)?"En":"Dis");
+    simplelist_addline("%sPlaying", usb_audio_get_playing()?"":"Not ");
+    simplelist_addline("iface: %d alt: %d", usb_audio_get_main_intf(), usb_audio_get_alt_intf());
+    simplelist_addline("out ep: 0x%X in ep: 0x%X", usb_audio_get_out_ep(), usb_audio_get_in_ep());
+    simplelist_addline("Volume: %d", usb_audio_get_cur_volume());
+    simplelist_addline("Playback Frequency: %lu", usb_audio_get_playback_sampling_frequency());
+    simplelist_addline("Frames dropped: %d", usb_audio_get_frames_dropped());
+    simplelist_addline("Buffers filled: %f", (double)usb_audio_get_prebuffering_avg()/(1<<16)); // convert from 16.16 fixed to float
+    simplelist_addline("Min: %d / Max: %d", usb_audio_get_prebuffering_maxmin(false), usb_audio_get_prebuffering_maxmin(true));
+    simplelist_addline("Samples used per Frame: %f", (double)usb_audio_get_samplesperframe()/(1<<16)); // convert from 16.16 fixed to float
+    simplelist_addline("Samples received per frame: %f", (double)usb_audio_get_samples_rx_perframe()/(1<<16)); // convert from 16.16 fixed to float
+    simplelist_addline("Samples diff: %f", (double)(usb_audio_get_samplesperframe()-usb_audio_get_samples_rx_perframe())/(1<<16)); // convert from 16.16 fixed to float
+    simplelist_addline("%s", usb_audio_get_underflow()?"UNDERFLOW!":" ");
+    simplelist_addline("%s", usb_audio_get_overflow()?"OVERFLOW!":" ");
+    simplelist_addline("%s", usb_audio_get_alloc_failed()?"ALLOC FAILED!":" ");
+    if (action == ACTION_NONE)
+    {
+        action = ACTION_REDRAW;
+    }
+    return action;
+}
+static bool dbg_usb_audio(void)
+{
+    struct simplelist_info info;
+    simplelist_info_init(&info, "USB Audio", 0, NULL);
+    info.scroll_all = true;
+    info.action_callback = dbg_usb_audio_cb;
+    return simplelist_show_list(&info);
+}
+#endif /* USB_ENABLE_AUDIO */
+#endif /* HAVE_USBSTACK */
 
 #if CONFIG_USBOTG == USBOTG_ISP1583
 extern int dbg_usb_num_items(void);
@@ -2544,31 +2598,6 @@ static bool dbg_isp1583(void)
     isp1583.get_name = dbg_usb_item;
     isp1583.action_callback = isp1583_action_callback;
     return simplelist_show_list(&isp1583);
-}
-#endif
-
-#if defined(CREATIVE_ZVx) && !defined(SIMULATOR)
-extern int pic_dbg_num_items(void);
-extern const char* pic_dbg_item(int selected_item, void *data,
-                                char *buffer, size_t buffer_len);
-
-static int pic_action_callback(int action, struct gui_synclist *lists)
-{
-    (void)lists;
-    if (action == ACTION_NONE)
-        action = ACTION_REDRAW;
-    return action;
-}
-
-static bool dbg_pic(void)
-{
-    struct simplelist_info pic;
-    pic.scroll_all = true;
-    simplelist_info_init(&pic, "PIC", pic_dbg_num_items(), NULL);
-    pic.timeout = HZ/100;
-    pic.get_name = pic_dbg_item;
-    pic.action_callback = pic_action_callback;
-    return simplelist_show_list(&pic);
 }
 #endif
 
@@ -2750,6 +2779,55 @@ static bool dbg_bootflash_dump(void) {
 }
 #endif
 
+#ifdef HIBY_LINUX
+static bool view_ram_info(void)
+{
+    struct simplelist_info info;
+    simplelist_info_init(&info, "RAM Info", 0, NULL);
+
+    simplelist_reset_lines();
+    simplelist_addline("Rockbox: %d MB", MEMORYSIZE);
+
+    struct sysinfo sys_info;
+    if (sysinfo(&sys_info) == 0) {
+        long total_ram = sys_info.totalram * sys_info.mem_unit / 1024 / 1024;
+        long free_ram = sys_info.freeram * sys_info.mem_unit / 1024 / 1024;
+        long buffer_ram = sys_info.bufferram * sys_info.mem_unit / 1024 / 1024;
+        simplelist_addline("Total RAM: %ld MB", total_ram);
+        simplelist_addline("Free RAM: %ld MB", free_ram);
+        simplelist_addline("Buffer RAM: %ld MB", buffer_ram);
+
+        /* Try to read MemAvailable from /proc/meminfo for a better "free" estimate */
+        FILE *fp = fopen("/proc/meminfo", "r");
+        if (fp) {
+            char line[128];
+            long mem_avail = -1;
+            long cached = -1;
+            while (fgets(line, sizeof(line), fp)) {
+                if (sscanf(line, "MemAvailable: %ld kB", &mem_avail) == 1) {
+                        mem_avail /= 1024;
+                }
+                else if (sscanf(line, "Cached: %ld kB", &cached) == 1) {
+                        cached /= 1024;
+                }
+            }
+            fclose(fp);
+
+            if (mem_avail != -1) {
+                /* Estimate of how much memory is available for starting new applications */
+                simplelist_addline("Available: %ld MB", mem_avail);
+            }
+            if (cached != -1) {
+                /* Memory used by the page cache. */
+                simplelist_addline("Cached: %ld MB", cached);
+            }
+        }
+    }
+
+    return simplelist_show_list(&info);
+}
+#endif
+
 /****** The menu *********/
 static const struct {
     unsigned char *desc; /* string or ID */
@@ -2788,6 +2866,9 @@ static const struct {
         { "View OS stacks", dbg_os },
 #ifdef __linux__
         { "View CPU stats", dbg_cpuinfo },
+#endif
+#ifdef HIBY_LINUX
+        { "View RAM info", view_ram_info },
 #endif
 #ifndef RETRO_HANDHELD
 #if (CONFIG_BATTERY_MEASURE != 0) && !defined(SIMULATOR)
@@ -2838,9 +2919,6 @@ static const struct {
 #if CONFIG_USBOTG == USBOTG_ISP1583
         { "View ISP1583 info", dbg_isp1583 },
 #endif
-#if defined(CREATIVE_ZVx) && !defined(SIMULATOR)
-        { "View PIC info", dbg_pic },
-#endif
 #ifdef ROCKBOX_HAS_LOGF
         {"Show Log File", logfdisplay },
         {"Dump Log File", logfdump },
@@ -2848,6 +2926,9 @@ static const struct {
 #if defined(HAVE_USBSTACK)
 #if defined(ROCKBOX_HAS_LOGF) && defined(USB_ENABLE_SERIAL)
         {"USB Serial driver (logf)", toggle_usb_serial },
+#endif
+#if defined(USB_ENABLE_AUDIO)
+        {"USB-DAC", dbg_usb_audio},
 #endif
 #endif /* HAVE_USBSTACK */
 #ifdef CPU_BOOST_LOGGING
@@ -2890,7 +2971,7 @@ static int menu_action_callback(int btn, struct gui_synclist *lists)
     }
     else if (btn == ACTION_STD_CONTEXT)
     {
-        MENUITEM_STRINGLIST(menu_items, "Debug Menu", NULL, ID2P(LANG_ADD_TO_FAVES));
+        MENUITEM_STRINGLIST(menu_items, "Debug", NULL, ID2P(LANG_ADD_TO_FAVES));
         if (do_menu(&menu_items, NULL, NULL, false) == 0)
             shortcuts_add(SHORTCUT_DEBUGITEM, menuitems[selection].desc);
         return ACTION_STD_CANCEL;
@@ -2927,7 +3008,7 @@ int debug_menu(void)
 {
     struct simplelist_info info;
 
-    simplelist_info_init(&info, "Debug Menu", ARRAYLEN(menuitems), NULL);
+    simplelist_info_init(&info, "Debug", ARRAYLEN(menuitems), NULL);
     info.action_callback = menu_action_callback;
     info.get_name        = menu_get_name;
     info.get_talk        = menu_get_talk;

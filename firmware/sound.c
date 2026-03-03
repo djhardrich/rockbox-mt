@@ -30,10 +30,6 @@
 #include "settings.h" /* sound_current */
 #endif
 
-#ifdef HAVE_SW_VOLUME_CONTROL
-#include "pcm_sw_volume.h"
-#endif /* HAVE_SW_VOLUME_CONTROL */
-
 /* Define sound_setting_entries table */
 #define AUDIOHW_SOUND_SETTINGS_ENTRIES
 #include "audiohw_settings.h"
@@ -315,6 +311,10 @@ void sound_set_volume(int value)
 {
     if (!audio_is_initialized)
         return;
+
+#ifndef BOOTLOADER
+    global_status.volume = value;
+#endif
 
 #if defined(AUDIOHW_HAVE_CLIPPING)
     audiohw_set_volume(value);

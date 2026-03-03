@@ -48,7 +48,7 @@
 #define HAVE_VOLUME_IN_LIST
 
 /* define this if you have a real-time clock */
-#define CONFIG_RTC APPLICATION
+#define CONFIG_RTC RTC_HOSTED
 
 /* The number of bytes reserved for loadable codecs */
 #define CODEC_SIZE 0x200000
@@ -69,6 +69,10 @@
 #define BATTERY_CAPACITY_MIN 1050  /* min. capacity selectable */
 #define BATTERY_CAPACITY_MAX 1050 /* max. capacity selectable */
 #define BATTERY_CAPACITY_INC 0   /* capacity increment */
+
+/* Voltage reported in millivolts */
+#define BATTERY_VOLTAGE_SCALE_MUL 1
+#define BATTERY_VOLTAGE_SCALE_DIV 1
 
 /* Define this for LCD backlight available */
 #define BACKLIGHT_RG_NANO

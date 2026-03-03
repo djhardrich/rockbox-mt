@@ -223,20 +223,6 @@
 #define OSCILLOSCOPE_VOL_UP          BUTTON_PLUS
 #define OSCILLOSCOPE_VOL_DOWN        BUTTON_MINUS
 
-#elif CONFIG_KEYPAD == CREATIVEZVM_PAD
-#define OSCILLOSCOPE_QUIT            BUTTON_BACK
-#define OSCILLOSCOPE_DRAWMODE        BUTTON_SELECT
-#define OSCILLOSCOPE_ADVMODE         BUTTON_CUSTOM
-#define OSCILLOSCOPE_ORIENTATION_PRE BUTTON_MENU
-#define OSCILLOSCOPE_ORIENTATION     (BUTTON_MENU | BUTTON_REL)
-#define OSCILLOSCOPE_GRAPHMODE_PRE   BUTTON_MENU
-#define OSCILLOSCOPE_GRAPHMODE       (BUTTON_MENU | BUTTON_REPEAT)
-#define OSCILLOSCOPE_PAUSE           BUTTON_PLAY
-#define OSCILLOSCOPE_SPEED_UP        BUTTON_RIGHT
-#define OSCILLOSCOPE_SPEED_DOWN      BUTTON_LEFT
-#define OSCILLOSCOPE_VOL_UP          BUTTON_UP
-#define OSCILLOSCOPE_VOL_DOWN        BUTTON_DOWN
-
 #elif CONFIG_KEYPAD == CREATIVE_ZENXFI3_PAD
 #define OSCILLOSCOPE_QUIT            BUTTON_POWER
 #define OSCILLOSCOPE_DRAWMODE        (BUTTON_MENU | BUTTON_UP)
@@ -542,8 +528,11 @@
 #elif CONFIG_KEYPAD == FIIO_M3K_PAD
 #define OSCILLOSCOPE_QUIT           BUTTON_POWER
 #define OSCILLOSCOPE_DRAWMODE       BUTTON_MENU
+#define OSCILLOSCOPE_GRAPHMODE_PRE  BUTTON_BACK
+#define OSCILLOSCOPE_GRAPHMODE      (BUTTON_BACK | BUTTON_REPEAT)
 #define OSCILLOSCOPE_ADVMODE        BUTTON_PLAY
-#define OSCILLOSCOPE_ORIENTATION    BUTTON_BACK
+#define OSCILLOSCOPE_ORIENTATION_PRE BUTTON_BACK
+#define OSCILLOSCOPE_ORIENTATION    (BUTTON_BACK | BUTTON_REL)
 #define OSCILLOSCOPE_PAUSE          BUTTON_SELECT
 #define OSCILLOSCOPE_SPEED_UP       BUTTON_SCROLL_BACK
 #define OSCILLOSCOPE_SPEED_DOWN     BUTTON_SCROLL_FWD
@@ -561,7 +550,7 @@
 #define OSCILLOSCOPE_VOL_UP         BUTTON_UP
 #define OSCILLOSCOPE_VOL_DOWN       BUTTON_DOWN
 
-#elif CONFIG_KEYPAD == SHANLING_Q1_PAD
+#elif CONFIG_KEYPAD == SHANLING_Q1_PAD || CONFIG_KEYPAD == HIBY_R3PROII_PAD
 /* use touchscreen */
 
 #elif CONFIG_KEYPAD == RG_NANO_PAD || CONFIG_KEYPAD == RETRO_HANDHELD_PAD
@@ -571,6 +560,17 @@
 #define OSCILLOSCOPE_ORIENTATION     BUTTON_R
 #define OSCILLOSCOPE_GRAPHMODE       BUTTON_B
 #define OSCILLOSCOPE_PAUSE           BUTTON_A
+#define OSCILLOSCOPE_SPEED_UP        BUTTON_RIGHT
+#define OSCILLOSCOPE_SPEED_DOWN      BUTTON_LEFT
+#define OSCILLOSCOPE_VOL_UP          BUTTON_UP
+#define OSCILLOSCOPE_VOL_DOWN        BUTTON_DOWN
+
+#elif CONFIG_KEYPAD == CTRU_PAD
+#define OSCILLOSCOPE_QUIT            BUTTON_BACK
+#define OSCILLOSCOPE_DRAWMODE        BUTTON_USER
+#define OSCILLOSCOPE_ADVMODE         BUTTON_MENU
+#define OSCILLOSCOPE_ORIENTATION     BUTTON_POWER
+#define OSCILLOSCOPE_PAUSE           BUTTON_SELECT
 #define OSCILLOSCOPE_SPEED_UP        BUTTON_RIGHT
 #define OSCILLOSCOPE_SPEED_DOWN      BUTTON_LEFT
 #define OSCILLOSCOPE_VOL_UP          BUTTON_UP
@@ -763,6 +763,8 @@ static bool one_frame_paused = false; /* Allow one frame to be drawn when paused
 static long osc_delay;       /* delay in 100ths of a tick */
 static long osc_delay_error; /* delay fraction error accumulator */
 
+static enum pcm_mixer_channel channel;
+
 /* implementation */
 
 
@@ -938,7 +940,7 @@ static int  last_right;
 static void get_peaks(int *left, int *right)
 {
     static struct pcm_peaks peaks;
-    rb->mixer_channel_calculate_peaks(PCM_MIXER_CHAN_PLAYBACK,
+    rb->mixer_channel_calculate_peaks(channel,
                                       &peaks);
     *left = peaks.left;
     *right = peaks.right;
@@ -1501,7 +1503,7 @@ static long anim_waveform_horizontal(void)
 
     long cur_tick = *rb->current_tick;
 
-    if (rb->mixer_channel_status(PCM_MIXER_CHAN_PLAYBACK) != CHANNEL_PLAYING)
+    if (rb->mixer_channel_status(channel) != CHANNEL_PLAYING)
     {
         osd_lcd_update_prepare();
         rb->lcd_hline(0, LCD_WIDTH-1, 1*LCD_HEIGHT/4);
@@ -1695,7 +1697,7 @@ static long anim_waveform_vertical(void)
 
     long cur_tick = *rb->current_tick;
 
-    if (rb->mixer_channel_status(PCM_MIXER_CHAN_PLAYBACK) != CHANNEL_PLAYING)
+    if (rb->mixer_channel_status(channel) != CHANNEL_PLAYING)
     {
         osd_lcd_update_prepare();
         rb->lcd_vline(1*LCD_WIDTH/4, 0, LCD_HEIGHT-1);
@@ -1838,7 +1840,7 @@ static long anim_waveform_vertical(void)
 static void anim_waveform_exit(void)
 {
     /* Remove any buffer hook */
-    rb->mixer_channel_set_buffer_hook(PCM_MIXER_CHAN_PLAYBACK, NULL);
+    rb->mixer_channel_set_buffer_hook(channel, NULL);
 #ifdef HAVE_SCHEDULER_BOOSTCTRL
     /* Remove our boost */
     rb->cancel_cpu_boost();
@@ -1906,7 +1908,7 @@ static void graphmode_setup(void)
 #ifdef OSCILLOSCOPE_GRAPHMODE
     if (osc.graphmode == GRAPH_WAVEFORM)
     {
-        rb->mixer_channel_set_buffer_hook(PCM_MIXER_CHAN_PLAYBACK,
+        rb->mixer_channel_set_buffer_hook(channel,
                                           waveform_buffer_callback);
 #ifdef HAVE_SCHEDULER_BOOSTCTRL
         rb->trigger_cpu_boost(); /* Just looks better */
@@ -1914,7 +1916,7 @@ static void graphmode_setup(void)
     }
     else
     {
-        rb->mixer_channel_set_buffer_hook(PCM_MIXER_CHAN_PLAYBACK,
+        rb->mixer_channel_set_buffer_hook(channel,
                                           NULL);
 #ifdef HAVE_SCHEDULER_BOOSTCTRL
         rb->cancel_cpu_boost();
@@ -1995,15 +1997,26 @@ static void osc_setup(void)
     osd_lcd_update();
 #endif
 
-#ifdef OSCILLOSCOPE_GRAPHMODE
-    mixer_sampr = rb->mixer_get_frequency();
-#endif
-
     /* Turn off backlight timeout */
     backlight_ignore_timeout();
 
     graphmode_setup();
 }
+
+#ifdef USB_ENABLE_AUDIO
+void switch_channel(enum pcm_mixer_channel new_channel)
+{
+    /* Remove any buffer hook */
+    rb->mixer_channel_set_buffer_hook(channel, NULL);
+
+    channel = new_channel;
+
+#ifdef OSCILLOSCOPE_GRAPHMODE
+    if (osc.graphmode == GRAPH_WAVEFORM)
+        rb->mixer_channel_set_buffer_hook(channel, waveform_buffer_callback);
+#endif
+}
+#endif /* USB_ENABLE_AUDIO */
 
 enum plugin_status plugin_start(const void* parameter)
 {
@@ -2012,10 +2025,29 @@ enum plugin_status plugin_start(const void* parameter)
     int lastbutton = BUTTON_NONE;
 #endif
 
+    channel = PCM_MIXER_CHAN_PLAYBACK;
+
     osc_setup();
 
     while (!exit)
     {
+#ifdef OSCILLOSCOPE_GRAPHMODE
+        if (osc.graphmode == GRAPH_WAVEFORM)
+            mixer_sampr = rb->mixer_get_frequency();
+#endif
+#ifdef USB_ENABLE_AUDIO
+        if (rb->usb_audio_get_playing())
+        {
+            if (channel != PCM_MIXER_CHAN_USBAUDIO)
+                switch_channel(PCM_MIXER_CHAN_USBAUDIO);
+        }
+        else
+        {
+            if (channel != PCM_MIXER_CHAN_PLAYBACK)
+                switch_channel(PCM_MIXER_CHAN_PLAYBACK);
+        }
+#endif /* USB_ENABLE_AUDIO */
+
         long delay = oscilloscope_draw();
 
         if (delay <= 0)
@@ -2131,7 +2163,6 @@ enum plugin_status plugin_start(const void* parameter)
                 {
                     vol++;
                     rb->sound_set(SOUND_VOLUME, vol);
-                    rb->global_status->volume = vol;
                 }
 
                 osc_popupmsg(OSC_MSG_VOLUME, vol);
@@ -2147,7 +2178,6 @@ enum plugin_status plugin_start(const void* parameter)
                 {
                     vol--;
                     rb->sound_set(SOUND_VOLUME, vol);
-                    rb->global_status->volume = vol;
                 }
 
                 osc_popupmsg(OSC_MSG_VOLUME, vol);

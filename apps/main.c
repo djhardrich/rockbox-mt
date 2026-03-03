@@ -141,7 +141,7 @@
 #endif
 #endif
 
-#if (CONFIG_PLATFORM & (PLATFORM_SDL|PLATFORM_MAEMO|PLATFORM_PANDORA))
+#if (CONFIG_PLATFORM & PLATFORM_SDL)
 #ifdef SIMULATOR
 #include "sim_tasks.h"
 #endif
@@ -151,9 +151,12 @@
 #if defined(WIN32)
 #undef main
 #endif
-#endif /* SDL|MAEMO|PAMDORA */
+#endif /* SDL */
 
-/*#define AUTOROCK*/ /* define this to check for "autostart.rock" on boot */
+// #define AUTOROCK /* define this to check for "autostart.rock" on boot */
+/* Alternatively, you can define autostart plugin path and its argument: */
+// #define AUTOROCK     VIEWERS_DATA_DIR"/imageviewer.rock"
+// #define AUTOROCK_ARG "/jpegs/sample.jpg"
 
 static void init(void);
 /* main(), and various functions called by main() and init() may be
@@ -214,22 +217,31 @@ int main(void)
 
 #ifdef AUTOROCK
     {
-        char filename[MAX_PATH];
-        const char *file =
+        const char *file = ""AUTOROCK;
+        file = *file
+                ? file
+                :
 #ifdef APPLICATION
                                 ROCKBOX_DIR
 #else
                                 PLUGIN_APPS_DIR
 #endif
                                     "/autostart.rock";
-        if(file_exists(file)) /* no complaint if it doesn't exist */
+        if (file_exists(file)) /* no complaint if it doesn't exist */
         {
-            plugin_load(file, NULL); /* start if it does */
+            plugin_load(file,
+#ifdef AUTOROCK_ARG
+                AUTOROCK_ARG
+#else
+                NULL
+#endif
+                ); /* start if it does */
         }
     }
 #endif /* #ifdef AUTOROCK */
 
     global_status.last_volume_change = 0;
+    validate_start_directory_init();
     /* no calls INIT_ATTR functions after this point anymore!
      * see definition of INIT_ATTR in config.h */
     CHART(">root_menu");
@@ -618,7 +630,7 @@ static void init(void)
                 (mmc_remove_request() == SYS_HOTSWAP_EXTRACTED))
 #endif
             {
-                gui_usb_screen_run(true);
+                gui_usb_screen_run(true, button_get_data());
                 mounted = true; /* mounting done @ end of USB mode */
             }
 #ifdef HAVE_USB_POWER
@@ -647,12 +659,21 @@ static void init(void)
 #endif
             lcd_puts(0, line++, rbversion);
 
+#ifdef STORAGE_GET_INFO
+            struct storage_info sinfo;
+            storage_get_info(0, &sinfo);
+#ifdef MAX_PHYS_SECTOR_SIZE
+            lcd_putsf(0, line++, "id: '%s' s:%u*%u", sinfo.product, sinfo.sector_size, sinfo.phys_sector_mult);
+#else
+            lcd_putsf(0, line++, "id: '%s' s:%u", sinfo.product, sinfo.sector_size);
+#endif
+#endif
             struct partinfo pinfo;
             for (int i = 0 ; i < NUM_VOLUMES ; i++) {
                 disk_partinfo(i, &pinfo);
                 if (pinfo.type)
-                    lcd_putsf(0, line++, "P%d T%02x S%08lx",
-                              i, pinfo.type, pinfo.size);
+                    lcd_putsf(0, line++, "P%d T%02x S%llx",
+                              i, pinfo.type, (unsigned long long)pinfo.size);
             }
             lcd_update();
 
@@ -666,7 +687,7 @@ static void init(void)
 #ifndef USB_NONE
             usb_start_monitoring();
             while(button_get(true) != SYS_USB_CONNECTED) {};
-            gui_usb_screen_run(true);
+            gui_usb_screen_run(true, button_get_data());
 #elif !defined(DEBUG) && !(CONFIG_STORAGE & STORAGE_RAMDISK)
             sleep(HZ*5);
 #endif

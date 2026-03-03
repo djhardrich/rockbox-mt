@@ -254,15 +254,6 @@ CONFIG_KEYPAD == SANSA_M200_PAD
 #define MPEG_VOLDOWN    BUTTON_MINUS
 #define MPEG_VOLUP      BUTTON_PLUS
 
-#elif CONFIG_KEYPAD == CREATIVEZVM_PAD
-#define MPEG_MENU       BUTTON_MENU
-#define MPEG_STOP       BUTTON_BACK
-#define MPEG_PAUSE      BUTTON_PLAY
-#define MPEG_VOLDOWN    BUTTON_UP
-#define MPEG_VOLUP      BUTTON_DOWN
-#define MPEG_RW         BUTTON_LEFT
-#define MPEG_FF         BUTTON_RIGHT
-
 #elif CONFIG_KEYPAD ==  CREATIVE_ZENXFI3_PAD
 #define MPEG_MENU       BUTTON_MENU
 #define MPEG_STOP       (BUTTON_PLAY|BUTTON_REPEAT)
@@ -495,13 +486,22 @@ CONFIG_KEYPAD == SANSA_M200_PAD
 #define MPEG_RW         BUTTON_LEFT
 #define MPEG_FF         BUTTON_RIGHT
 
-#elif CONFIG_KEYPAD == SHANLING_Q1_PAD
+#elif CONFIG_KEYPAD == SHANLING_Q1_PAD || CONFIG_KEYPAD == HIBY_R3PROII_PAD
 /* use touchscreen */
 
 #elif CONFIG_KEYPAD == RG_NANO_PAD || CONFIG_KEYPAD == RETRO_HANDHELD_PAD
 #define MPEG_MENU       BUTTON_START
 #define MPEG_STOP       BUTTON_X
 #define MPEG_PAUSE      BUTTON_A
+#define MPEG_VOLDOWN    BUTTON_DOWN
+#define MPEG_VOLUP      BUTTON_UP
+#define MPEG_RW         BUTTON_LEFT
+#define MPEG_FF         BUTTON_RIGHT
+
+#elif CONFIG_KEYPAD == CTRU_PAD
+#define MPEG_MENU       BUTTON_MENU
+#define MPEG_PAUSE      BUTTON_SELECT
+#define MPEG_STOP       BUTTON_POWER
 #define MPEG_VOLDOWN    BUTTON_DOWN
 #define MPEG_VOLUP      BUTTON_UP
 #define MPEG_RW         BUTTON_LEFT
@@ -678,54 +678,6 @@ static unsigned draw_blendcolor(unsigned c1, unsigned c2, unsigned char amount)
     return LCD_RGBPACK(amount*(r2 - r1) / 255 + r1,
                        amount*(g2 - g1) / 255 + g1,
                        amount*(b2 - b1) / 255 + b1);
-}
-#endif
-
-#ifdef PLUGIN_USE_IRAM
-/* IRAM preserving mechanism to enable talking menus */
-static char *iram_saved_copy;
-extern char iramstart[], iramend[];
-
-static void iram_saving_init(void)
-{
-#ifndef SIMULATOR
-    size_t size;
-    iram_saved_copy = (char *)rb->plugin_get_buffer(&size);
-
-    if (size >= (size_t)(iramend-iramstart))
-        iram_saved_copy += size - (size_t)(iramend - iramstart);
-    else
-#endif
-        iram_saved_copy = NULL;
-
-    return;
-}
-
-void mpegplayer_iram_preserve(void)
-{
-    if (iram_saved_copy)
-    {
-        rb->memcpy(iram_saved_copy, iramstart, iramend-iramstart);
-#ifdef HAVE_CPUCACHE_INVALIDATE
-        /* make the icache (if it exists) up to date with the new code */
-        rb->cpucache_invalidate();
-#endif /* HAVE_CPUCACHE_INVALIDATE */
-    }
-    return;
-}
-
-void mpegplayer_iram_restore(void)
-{
-    if (iram_saved_copy)
-    {
-        rb->audio_hard_stop();
-        rb->memcpy(iramstart, iram_saved_copy, iramend-iramstart);
-#ifdef HAVE_CPUCACHE_INVALIDATE
-        /* make the icache (if it exists) up to date with the new code */
-        rb->cpucache_invalidate();
-#endif /* HAVE_CPUCACHE_INVALIDATE */
-    }
-    return;
 }
 #endif
 
@@ -1897,10 +1849,8 @@ static void osd_set_volume(int delta)
     }
 
     /* Sync the global settings */
-    if (vol != rb->global_status->volume) {
+    if (vol != rb->global_status->volume)
         rb->sound_set(SOUND_VOLUME, vol);
-        rb->global_status->volume = vol;
-    }
 
     /* Update the volume display */
     osd_refresh(OSD_REFRESH_VOLUME);
@@ -2465,28 +2415,11 @@ enum plugin_status plugin_start(const void* parameter)
     int status = PLUGIN_OK; /* assume success */
     bool quit = false;
 
-#if defined(PLUGIN_USE_IRAM) && !defined(SIMULATOR)
-    bool preserved_talk_state;
-#endif
-
     if (parameter == NULL) {
         /* No file = GTFO */
         rb->splash(HZ*2, "No File");
         return PLUGIN_ERROR;
     }
-
-    /* Disable all talking before initializing IRAM */
-    rb->talk_disable(true);
-
-#ifdef PLUGIN_USE_IRAM
-    iram_saving_init();
-
-#ifndef SIMULATOR
-    preserved_talk_state = rb->global_settings->talk_menu;
-    if (!iram_saved_copy)
-        rb->global_settings->talk_menu = false;
-#endif
-#endif
 
 #ifdef HAVE_LCD_COLOR
     rb->lcd_set_backdrop(NULL);
@@ -2637,13 +2570,6 @@ enum plugin_status plugin_start(const void* parameter)
 #endif
 
     stream_exit();
-
-#if defined(PLUGIN_USE_IRAM) && !defined(SIMULATOR)
-    if (!iram_saved_copy)
-        rb->global_settings->talk_menu = preserved_talk_state;
-#endif
-
-    rb->talk_disable(false);
 
     /* Actually handle delayed processing of system events of interest
      * that were captured in other button loops */

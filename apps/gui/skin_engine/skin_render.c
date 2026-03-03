@@ -225,6 +225,7 @@ static bool do_non_text_tags(struct gui_wps *gwps, struct skin_draw_info *info,
             /* fall through to the progressbar code */
         case SKIN_TOKEN_VOLUMEBAR:
         case SKIN_TOKEN_BATTERY_PERCENTBAR:
+        case SKIN_TOKEN_PLAYLIST_PERCENTBAR:
         case SKIN_TOKEN_SETTINGBAR:
         case SKIN_TOKEN_PROGRESSBAR:
         case SKIN_TOKEN_TUNER_RSSI_BAR:
@@ -624,7 +625,7 @@ static bool skin_render_line(struct skin_element* line, struct skin_draw_info *i
 static int get_subline_timeout(struct gui_wps *gwps, struct skin_element* line)
 {
     struct skin_element *element=line;
-    struct wps_token *token;
+    struct wps_token *token = NULL;
     int retval = DEFAULT_SUBLINE_TIME_MULTIPLIER*TIMEOUT_UNIT;
     if (element->type == LINE)
     {
@@ -662,9 +663,12 @@ static int get_subline_timeout(struct gui_wps *gwps, struct skin_element* line)
             struct conditional *conditional = SKINOFFSETTOPTR(skin_buffer, element->data);
             int val = evaluate_conditional(gwps, 0, conditional, element->children_count);
 
-            int tmoval = get_subline_timeout(gwps, get_child(element->children, val));
-            if (tmoval >= 0)
-                return MAX(retval, tmoval); /* Bugfix %t()%?CONDITIONAL tmo ignored */
+            if (val >= 0 || (token && token->type == SKIN_TOKEN_SUBLINE_TIMEOUT_HIDE))
+            {/* only need tmoval in false case if SKIN_TOKEN_SUBLINE_TIMEOUT_HIDE */
+                int tmoval = get_subline_timeout(gwps, get_child(element->children, val));
+                if (tmoval >= 0)
+                    return MAX(retval, tmoval); /* Bugfix %t()%?CONDITIONAL tmo ignored */
+            }
         }
         else if (type == COMMENT)
         {

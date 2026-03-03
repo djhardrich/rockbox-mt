@@ -18,6 +18,7 @@
 # - Imre Herceg
 # - Gergely Békési
 # - Matyas Kadlicsko
+# - Gyúróczki Norbert
 <phrase>
   id: LANG_SET_BOOL_YES
   desc: bool true representation
@@ -208,10 +209,10 @@
     *: "Failed"
   </source>
   <dest>
-    *: "nem sikerült"
+    *: "Nem sikerült"
   </dest>
   <voice>
-    *: "nem sikerült"
+    *: "Nem sikerült"
   </voice>
 </phrase>
 <phrase>
@@ -871,7 +872,7 @@
     *: "EQ bekapcsolása"
   </dest>
   <voice>
-    *: "Enable EQ"
+    *: "Hangszínszabályzó bekapcsolása"
   </voice>
 </phrase>
 <phrase>
@@ -882,10 +883,10 @@
     *: "Graphical EQ"
   </source>
   <dest>
-    *: "EQ beállítás"
+    *: "Grafikus EQ"
   </dest>
   <voice>
-    *: "Graphical EQ"
+    *: "Grafikus hangszínszabályzó"
   </voice>
 </phrase>
 <phrase>
@@ -896,10 +897,10 @@
     *: "Precut"
   </source>
   <dest>
-    *: "Precut"
+    *: "Elővágás"
   </dest>
   <voice>
-    *: "Pre-cut"
+    *: "Elővágás"
   </voice>
 </phrase>
 <phrase>
@@ -910,10 +911,10 @@
     *: "Simple EQ Settings"
   </source>
   <dest>
-    *: "Alap EQ beállítások"
+    *: "Egyszerű EQ beállítások"
   </dest>
   <voice>
-    *: "Simple EQ Settings"
+    *: "Egyszerű hangszínszabályzó beállítások"
   </voice>
 </phrase>
 <phrase>
@@ -927,7 +928,7 @@
     *: "Haladó EQ beállítások"
   </dest>
   <voice>
-    *: "Advanced EQ Settings"
+    *: "Haladó hangszínszabályzó beállítások"
   </voice>
 </phrase>
 <phrase>
@@ -941,7 +942,7 @@
     *: "EQ beállítások elmentése"
   </dest>
   <voice>
-    *: "EQ beállítások elmentése"
+    *: "Hangszínszabályzó beállítások elmentése"
   </voice>
 </phrase>
 <phrase>
@@ -955,7 +956,7 @@
     *: "Elmentett EQ beállítások"
   </dest>
   <voice>
-    *: "Elmentett EQ beállítások"
+    *: "Elmentett hangszínszabályzó beállítások"
   </voice>
 </phrase>
 <phrase>
@@ -969,7 +970,7 @@
     *: "%d Hz sáv nyereség"
   </dest>
   <voice>
-    *: "Hz sáv nyereség"
+    *: "Hertz sáv nyereség"
   </voice>
 </phrase>
 <phrase>
@@ -1039,7 +1040,7 @@
     *: "Középfrekvencia"
   </dest>
   <voice>
-    *: "Center frequency"
+    *: "Középfrekvencia"
   </voice>
 </phrase>
 <phrase>
@@ -1134,10 +1135,10 @@
     *: "All"
   </source>
   <dest>
-    *: "Mindent"
+    *: "Mindet"
   </dest>
   <voice>
-    *: "Mindent"
+    *: "Mindet"
   </voice>
 </phrase>
 <phrase>
@@ -1190,10 +1191,10 @@
     *: "Fast-Forward/Rewind"
   </source>
   <dest>
-    *: "Előre/Hátra"
+    *: "Előre/Hátra tekerés"
   </dest>
   <voice>
-    *: "Előre/Hátra"
+    *: "Előre és hátra tekerés"
   </voice>
 </phrase>
 <phrase>
@@ -1263,10 +1264,10 @@
     *: "Party Mode"
   </source>
   <dest>
-    *: "Parti Mód"
+    *: "Parti mód"
   </dest>
   <voice>
-    *: "Parti Mód"
+    *: "Parti mód"
   </voice>
 </phrase>
 <phrase>
@@ -1300,7 +1301,7 @@
   </dest>
   <voice>
     *: none
-    crossfade: "Enable crossfade"
+    crossfade: "Átúsztatás be"
   </voice>
 </phrase>
 <phrase>
@@ -1313,11 +1314,11 @@
   </source>
   <dest>
     *: none
-    crossfade: "Csak szám manuális átugrásnál"
+    crossfade: "Csak manuális szám átugrásnál"
   </dest>
   <voice>
     *: none
-    crossfade: "Csak szám manuális átugrásnál"
+    crossfade: "Csak manuális szám átugrásnál"
   </voice>
 </phrase>
 <phrase>
@@ -1351,7 +1352,7 @@
   </dest>
   <voice>
     *: none
-    crossfade: "Fade in delay"
+    crossfade: "Beúsztatás késleltetés"
   </voice>
 </phrase>
 <phrase>
@@ -1368,7 +1369,7 @@
   </dest>
   <voice>
     *: none
-    crossfade: "Fade in duration"
+    crossfade: "Beúsztatás hossza"
   </voice>
 </phrase>
 <phrase>
@@ -1385,7 +1386,7 @@
   </dest>
   <voice>
     *: none
-    crossfade: "Fade out delay"
+    crossfade: "Lekeverés késleltetés"
   </voice>
 </phrase>
 <phrase>
@@ -1464,7 +1465,7 @@
     *: "Túlvezérlés megelőzése"
   </dest>
   <voice>
-    *: "Prevent clipping"
+    *: "Túlvezérlés megelőzése"
   </voice>
 </phrase>
 <phrase>
@@ -1478,7 +1479,7 @@
     *: "Hangerő-kiegyenlítés fajtája"
   </dest>
   <voice>
-    *: "Replaygain type"
+    *: "Hangerő kiegyenlítés fajtája"
   </voice>
 </phrase>
 <phrase>
@@ -1489,10 +1490,10 @@
     *: "Album Gain"
   </source>
   <dest>
-    *: "Albumonkénti"
+    *: "Albumonkénti erősítés"
   </dest>
   <voice>
-    *: "Album gain"
+    *: "Albumonkénti erősítés"
   </voice>
 </phrase>
 <phrase>
@@ -1503,10 +1504,10 @@
     *: "Track Gain"
   </source>
   <dest>
-    *: "Számonkénti"
+    *: "Számonkénti erősítés"
   </dest>
   <voice>
-    *: "Track gain"
+    *: "Számonkénti erősítés"
   </voice>
 </phrase>
 <phrase>
@@ -1520,7 +1521,7 @@
     *: "Számonkénti erősítés kevert lejátszáskor"
   </dest>
   <voice>
-    *: "Track Gain if shuffling"
+    *: "Számonkénti erősítés kevert lejátszáskor"
   </voice>
 </phrase>
 <phrase>
@@ -1545,10 +1546,10 @@
     *: "Track Skip Beep"
   </source>
   <dest>
-    *: "Pittyegés erőssége"
+    *: "Pittyegés erőssége szám ugrásnál"
   </dest>
   <voice>
-    *: "Beep volume"
+    *: "Pittyegés erőssége szám ugrásnál"
   </voice>
 </phrase>
 <phrase>
@@ -1618,10 +1619,10 @@
     *: "Auto-Change Directory"
   </source>
   <dest>
-    *: "Lejátszás könyvtárhatáron túl"
+    *: "Automatikus lejátszás könyvtárhatáron túl"
   </dest>
   <voice>
-    *: "Auto-Change directory"
+    *: "Automatikus lejátszás könyvtárhatáron túl"
   </voice>
 </phrase>
 <phrase>
@@ -1710,11 +1711,11 @@
   </source>
   <dest>
     *: none
-    headphone_detection: "Ha a fejhallgató nincs csatlakoztatva, nincs folytatás bekapcsoláskor"
+    headphone_detection: "Ha nincs fejhallgató csatlakoztatva, nincs folytatás az eszköz bekapcsoláskor"
   </dest>
   <voice>
     *: none
-    headphone_detection: "Ha a fejhallgató nincs csatlakoztatva, nincs folytatás bekapcsoláskor"
+    headphone_detection: "Ha nincs fejhallgató csatlakoztatva, nincs folytatás az eszköz bekapcsoláskor"
   </voice>
 </phrase>
 <phrase>
@@ -1739,10 +1740,10 @@
     *: "Sort Case Sensitive"
   </source>
   <dest>
-    *: "Nagy- és kisbetű különbözik"
+    *: "Nagy- és kisbetű szerinti rendezés"
   </dest>
   <voice>
-    *: "Nagy és kisbetű különbözik"
+    *: "Nagy- és kisbetű szerinti rendezés"
   </voice>
 </phrase>
 <phrase>
@@ -1879,10 +1880,10 @@
     *: "Follow Playlist"
   </source>
   <dest>
-    *: "Lejátszólista követése"
+    *: "Lejátszási lista követése"
   </dest>
   <voice>
-    *: "Lejátszólista követése"
+    *: "Lejátszási lista követése"
   </voice>
 </phrase>
 <phrase>
@@ -1893,10 +1894,10 @@
     *: "Show Path"
   </source>
   <dest>
-    *: "Elérési út megmutatása"
+    *: "Elérési út megjelenítése"
   </dest>
   <voice>
-    *: "Elérési út megmutatása"
+    *: "Elérési út megjelenítése"
   </voice>
 </phrase>
 <phrase>
@@ -1939,11 +1940,11 @@
     iriverh100,iriverh120,iriverh300: "Building database... %d found (STOP to return)"
   </source>
   <dest>
-    *: "Készítem az adatbázist... %d-t találtam (OFF - vissza)"
-    gigabeat*,iaudiom5,iaudiox5,mrobe100,samsungyh*: "Készítem az adatbázist... %d-t találtam (BAL - vissza)"
-    gogearsa9200: "Készítem az adatbázist... %d-t találtam (REW - vissza)"
-    ipod*,iriverh10,iriverh10_5gb,sansac200*,sansae200*,sansafuze*,vibe500: "Készítem az adatbázist... %d-t találtam (PREV - vissza)"
-    iriverh100,iriverh120,iriverh300: "Készítem az adatbázist... %d-t találtam (STOP - vissza)"
+    *: "Adatbázis építése... %d találat (OFF - vissza)"
+    gigabeat*,iaudiom5,iaudiox5,mrobe100,samsungyh*: "Adatbázis építése... %d találat (BAL - vissza)"
+    gogearsa9200: "Adatbázis építése... %d találat (REW - vissza)"
+    ipod*,iriverh10,iriverh10_5gb,sansac200*,sansae200*,sansafuze*,vibe500: "Adatbázis építése... %d találat (PREV - vissza)"
+    iriverh100,iriverh120,iriverh300: "Adatbázis építése... %d találat (STOP - vissza)"
   </dest>
   <voice>
     *: "találatok az adatbázishoz"
@@ -2005,7 +2006,7 @@
     *: "Frissítés most"
   </dest>
   <voice>
-    *: "Update now"
+    *: "Frissítés most"
   </voice>
 </phrase>
 <phrase>
@@ -2128,10 +2129,10 @@
     *: "Font"
   </source>
   <dest>
-    *: "Betűtípus választás"
+    *: "Betűtípus"
   </dest>
   <voice>
-    *: "Browse Fonts"
+    *: "Betűtípus"
   </voice>
 </phrase>
 <phrase>
@@ -2187,10 +2188,10 @@
     *: "Backlight"
   </source>
   <dest>
-    *: "Világítás"
+    *: "Háttérvilágítás"
   </dest>
   <voice>
-    *: "Világítás"
+    *: "Háttérvilágítás"
   </voice>
 </phrase>
 <phrase>
@@ -2203,11 +2204,11 @@
   </source>
   <dest>
     *: none
-    charging: "Világítás töltés alatt"
+    charging: "Háttérvilágítás (töltés alatt)"
   </dest>
   <voice>
     *: none
-    charging: "Backlight (While Pluggen In)"
+    charging: "Háttérvilágítás töltés alatt"
   </voice>
 </phrase>
 <phrase>
@@ -2219,12 +2220,12 @@
     hold_button: "Backlight on Hold"
   </source>
   <dest>
-    *: "Világítás lezáráskor"
-    hold_button: "Világítás (Hold gomb lenyomásakor)"
+    *: "Háttérvilágítás lezáráskor"
+    hold_button: "Háttérvilágítás (Hold gomb lenyomásakor)"
   </dest>
   <voice>
-    *: "Világítás lezáráskor"
-    hold_button: "Világítás Hold gomb lenyomásakor"
+    *: "Háttérvilágítás lezáráskor"
+    hold_button: "Háttérvilágítás Hold gomb lenyomásakor"
   </voice>
 </phrase>
 <phrase>
@@ -2235,10 +2236,10 @@
     *: "Caption Backlight"
   </source>
   <dest>
-    *: "Világítás új számnál"
+    *: "Háttérvilágítás új számnál"
   </dest>
   <voice>
-    *: "Caption backlight"
+    *: "Háttérvilágítás új számnál"
   </voice>
 </phrase>
 <phrase>
@@ -2251,11 +2252,11 @@
   </source>
   <dest>
     *: none
-    backlight_fade*: "Világítás beúsztatása"
+    backlight_fade*: "Háttérvilágítás beúsztatása"
   </dest>
   <voice>
     *: none
-    backlight_fade*: "Backlight fade in"
+    backlight_fade*: "Háttérvilágítás beúsztatása"
   </voice>
 </phrase>
 <phrase>
@@ -2268,11 +2269,11 @@
   </source>
   <dest>
     *: none
-    backlight_fade*: "Világítás kiúsztatása"
+    backlight_fade*: "Háttérvilágítás kiúsztatása"
   </dest>
   <voice>
     *: none
-    backlight_fade*: "Backlight fade out"
+    backlight_fade*: "Háttérvilágítás kiúsztatása"
   </voice>
 </phrase>
 <phrase>
@@ -2283,10 +2284,10 @@
     *: "First Buttonpress Enables Backlight Only"
   </source>
   <dest>
-    *: "Első lenyomás csak a háttérvilágítást kapcsolja be"
+    *: "Első gomblenyomás csak a háttérvilágítást kapcsolja be"
   </dest>
   <voice>
-    *: "First Keypress Enables Backlight Only"
+    *: "Első gomblenyomás csak a háttérvilágítást kapcsolja be"
   </voice>
 </phrase>
 <phrase>
@@ -2602,10 +2603,10 @@
     *: "Scrolling"
   </source>
   <dest>
-    *: "Gördítés beállítása"
+    *: "Gördítés beállításai"
   </dest>
   <voice>
-    *: "Gördítés beállítása"
+    *: "Gördítés beállításai"
   </voice>
 </phrase>
 <phrase>
@@ -2616,7 +2617,7 @@
     *: "Scroll Speed Setting Example"
   </source>
   <dest>
-    *: "Görgetés sebességének beállítása"
+    *: "Gördítés sebességének beállítása"
   </dest>
   <voice>
     *: ""
@@ -2702,11 +2703,11 @@
   </source>
   <dest>
     *: none
-    remote: "Távirányító görgetési beállítások"
+    remote: "Távirányító gördítési beállítások"
   </dest>
   <voice>
     *: none
-    remote: "Távirányító görgetési beállítások"
+    remote: "Távirányító gördítési beállítások"
   </voice>
 </phrase>
 <phrase>
@@ -2849,10 +2850,10 @@
     *: "Battery Display"
   </source>
   <dest>
-    *: "Akku kijelzés"
+    *: "Akku töltöttség kijelzés"
   </dest>
   <voice>
-    *: "Akku kijelzés"
+    *: "Akku töltöttség kijelzés"
   </voice>
 </phrase>
 <phrase>
@@ -2905,10 +2906,10 @@
     *: "Clip Hold Time"
   </source>
   <dest>
-    *: "Túlvezérlés Tartási Idő"
+    *: "Túlvezérlés tartási idő"
   </dest>
   <voice>
-    *: "Túlvezérlés Tartási Idő"
+    *: "Túlvezérlés tartási idő"
   </voice>
 </phrase>
 <phrase>
@@ -2919,10 +2920,10 @@
     *: "Peak Hold Time"
   </source>
   <dest>
-    *: "Csúcs Tartási Idő"
+    *: "Csúcs tartási idő"
   </dest>
   <voice>
-    *: "Csúcs Tartási Idő"
+    *: "Csúcs tartási idő"
   </voice>
 </phrase>
 <phrase>
@@ -2947,10 +2948,10 @@
     *: "Peak Release"
   </source>
   <dest>
-    *: "Csúcs Csökkenés"
+    *: "Csúcs csökkenés"
   </dest>
   <voice>
-    *: "Csúcs Csökkenés"
+    *: "Csúcs csökkenés"
   </voice>
 </phrase>
 <phrase>
@@ -3031,10 +3032,10 @@
     *: "Default Codepage"
   </source>
   <dest>
-    *: "Kódolás"
+    *: "Alapértelmezett kódolás"
   </dest>
   <voice>
-    *: "Default Codepage"
+    *: "Alapértelmezett kódolás"
   </voice>
 </phrase>
 <phrase>
@@ -3160,7 +3161,7 @@
     *: "Japán (SJIS)"
   </dest>
   <voice>
-    *: "Japanese (SJIS)"
+    *: "Japán"
   </voice>
 </phrase>
 <phrase>
@@ -3405,7 +3406,7 @@
   </dest>
   <voice>
     *: none
-    rtc: "Dátum/Idő beállítása"
+    rtc: "Dátum és idő beállítása"
   </voice>
 </phrase>
 <phrase>
@@ -3456,22 +3457,22 @@
   user: core
   <source>
     *: none
-    aigoerosq,erosqnative,gogearsa9200,samsungyh*: "PLAY = Set"
+    rtc: "ON = Set"
+    aigoerosq,erosqnative,gogearsa9200,samsungyh*,xduoox3*: "PLAY = Set"
     gigabeat*,iaudiom5,iaudiox5,ipod*,iriverh10,iriverh10_5gb,mrobe100,sansac200*,sansaclip*,sansaconnect,sansae200*,sansafuze*: "SELECT = Set"
     iriverh100,iriverh120,iriverh300: "NAVI = Set"
     mpiohd300: "ENTER = Set"
     mrobe500: "HEART = Set"
-    rtc: "ON = Set"
     vibe500: "OK = Set"
   </source>
   <dest>
     *: none
-    aigoerosq,erosqnative,gogearsa9200,samsungyh*: "PLAY = Beállít"
+    rtc: "ON = Beállít"
+    aigoerosq,erosqnative,gogearsa9200,samsungyh*,xduoox3*: "PLAY = Beállít"
     gigabeat*,iaudiom5,iaudiox5,ipod*,iriverh10,iriverh10_5gb,mrobe100,sansac200*,sansaclip*,sansaconnect,sansae200*,sansafuze*: "SELECT = Beállít"
     iriverh100,iriverh120,iriverh300: "NAVI = Beállít"
     mpiohd300: "ENTER = Beállít"
     mrobe500: "SZÍV = Beállít"
-    rtc: "ON = Beállít"
     vibe500: "OK = Beállít"
   </dest>
   <voice>
@@ -3484,7 +3485,8 @@
   user: core
   <source>
     *: none
-    aigoerosq,erosqnative,gigabeats,sansafuzeplus: "BACK = Revert"
+    rtc: "OFF = Revert"
+    aigoerosq,erosqnative,gigabeats,sansafuzeplus,xduoox3*: "BACK = Revert"
     gigabeatfx,mrobe500: "POWER = Revert"
     gogearsa9200: "LEFT = Revert"
     iaudiom5,iaudiox5: "RECORD = Revert"
@@ -3492,13 +3494,13 @@
     iriverh10,iriverh10_5gb,sansae200*,sansafuze*: "PREV = Revert"
     iriverh100,iriverh120,iriverh300: "STOP = Revert"
     mrobe100: "DISPLAY = Revert"
-    rtc: "OFF = Revert"
     samsungyh*: "REW = Revert"
     vibe500: "CANCEL = Revert"
   </source>
   <dest>
     *: none
-    aigoerosq,erosqnative,gigabeats,sansafuzeplus: "VISSZA = Mégsem"
+    rtc: "KI = Mégsem"
+    aigoerosq,erosqnative,gigabeats,sansafuzeplus,xduoox3*: "VISSZA = Mégsem"
     gigabeatfx,mrobe500: "POWER = Mégsem"
     gogearsa9200: "BAL = Mégsem"
     iaudiom5,iaudiox5: "RECORD = Mégsem"
@@ -3506,7 +3508,6 @@
     iriverh10,iriverh10_5gb,sansae200*,sansafuze*: "PREV = Mégsem"
     iriverh100,iriverh120,iriverh300: "STOP = Mégsem"
     mrobe100: "DISPLAY = Mégsem"
-    rtc: "KI = Mégsem"
     samsungyh*: "REW = Mégsem"
     vibe500: "CANCEL = Mégsem"
   </dest>
@@ -3784,7 +3785,7 @@
     *: "~Nov"
   </dest>
   <voice>
-    *: "November"
+    *: "~November"
   </voice>
 </phrase>
 <phrase>
@@ -3798,7 +3799,7 @@
     *: "~Dec"
   </dest>
   <voice>
-    *: "December"
+    *: "~December"
   </voice>
 </phrase>
 <phrase>
@@ -3809,10 +3810,10 @@
     *: "Idle Poweroff"
   </source>
   <dest>
-    *: "Automatikus kikapcsolás"
+    *: "Tétlenségi automatikus eszköz kikapcsolás"
   </dest>
   <voice>
-    *: "Automatikus kikapcsolás"
+    *: "Tétlenségi automatikus eszköz kikapcsolás"
   </voice>
 </phrase>
 <phrase>
@@ -3854,7 +3855,7 @@
     *: "Könyvtárban mutatott fájlok max. száma"
   </dest>
   <voice>
-    *: "Maximum files in directory browser"
+    *: "Könyvtárban mutatott fájlok max száma"
   </voice>
 </phrase>
 <phrase>
@@ -3865,10 +3866,10 @@
     *: "Max Playlist Size"
   </source>
   <dest>
-    *: "Lejátszólisták max. hossza"
+    *: "Lejátszási listák max. hossza"
   </dest>
   <voice>
-    *: "Lejátszólisták max hossza"
+    *: "Lejátszási listák max hossza"
   </voice>
 </phrase>
 <phrase>
@@ -4068,10 +4069,10 @@
     *: "Maintain a List of Recent Bookmarks?"
   </source>
   <dest>
-    *: "Vezessek listák az új könyvjelzőkről?"
+    *: "Vezessek listát az új könyvjelzőkről?"
   </dest>
   <voice>
-    *: "Vezessek listák az új könyvjelzőkről?"
+    *: "Vezessek listát az új könyvjelzőkről?"
   </voice>
 </phrase>
 <phrase>
@@ -4124,10 +4125,10 @@
     *: "Voice Menus"
   </source>
   <dest>
-    *: "Hang Menük"
+    *: "Hangmenük"
   </dest>
   <voice>
-    *: "Hang Menük"
+    *: "Hangmenük"
   </voice>
 </phrase>
 <phrase>
@@ -4138,10 +4139,10 @@
     *: "Voice Directories"
   </source>
   <dest>
-    *: "Hang Könyvtárak"
+    *: "Hang könyvtárak"
   </dest>
   <voice>
-    *: "Hang Könyvtárak"
+    *: "Hang könyvtárak"
   </voice>
 </phrase>
 <phrase>
@@ -4166,10 +4167,10 @@
     *: "Voice Filenames"
   </source>
   <dest>
-    *: "Hang Fájlnevek"
+    *: "Hang fájlnevek"
   </dest>
   <voice>
-    *: "Hang Fájlnevek"
+    *: "Hang fájlnevek"
   </voice>
 </phrase>
 <phrase>
@@ -4295,7 +4296,7 @@
     *: "Törölve"
   </dest>
   <voice>
-    *: "Törölve"
+    *: "Beállítások törölve"
   </voice>
 </phrase>
 <phrase>
@@ -4306,10 +4307,10 @@
     *: "Save .cfg File"
   </source>
   <dest>
-    *: "Konfigurációs fájl írása"
+    *: "Konfigurációs fájl mentése"
   </dest>
   <voice>
-    *: "Write configuration file"
+    *: "Konfigurációs fájl mentése"
   </voice>
 </phrase>
 <phrase>
@@ -4348,10 +4349,10 @@
     *: "Browse Theme Files"
   </source>
   <dest>
-    *: "Témák"
+    *: "Témák böngészése"
   </dest>
   <voice>
-    *: "Browse Themes"
+    *: "Témák böngészése"
   </voice>
 </phrase>
 <phrase>
@@ -4364,11 +4365,11 @@
   </source>
   <dest>
     *: none
-    recording: "Felvétel beállítása"
+    recording: "Felvétel beállítások"
   </dest>
   <voice>
     *: none
-    recording: "Felvétel beállítása"
+    recording: "Felvétel beállítások"
   </voice>
 </phrase>
 <phrase>
@@ -4385,7 +4386,7 @@
   </dest>
   <voice>
     *: none
-    radio: "FM Radio Menu"
+    radio: "Rádió menü"
   </voice>
 </phrase>
 <phrase>
@@ -4415,11 +4416,11 @@
   </source>
   <dest>
     *: none
-    radio: "Beállítás hozzáadása"
+    radio: "Rádióállomás hozzáadása"
   </dest>
   <voice>
     *: none
-    radio: "Add preset"
+    radio: "Rádióállomás hozzáadása"
   </voice>
 </phrase>
 <phrase>
@@ -4432,11 +4433,11 @@
   </source>
   <dest>
     *: none
-    radio: "Adó módosítása"
+    radio: "Rádióállomás módosítása"
   </dest>
   <voice>
     *: none
-    radio: "Adó módosítása"
+    radio: "Rádióállomás módosítása"
   </voice>
 </phrase>
 <phrase>
@@ -4449,11 +4450,11 @@
   </source>
   <dest>
     *: none
-    radio: "Adó eltávolítása"
+    radio: "Rádióállomás eltávolítása"
   </dest>
   <voice>
     *: none
-    radio: "Adó eltávolítása"
+    radio: "Rádióállomás eltávolítása"
   </voice>
 </phrase>
 <phrase>
@@ -4466,11 +4467,11 @@
   </source>
   <dest>
     *: none
-    radio: "Adó mentése nem sikerült"
+    radio: "Rádióállomás mentése nem sikerült"
   </dest>
   <voice>
     *: none
-    radio: "Adó mentése nem sikerült"
+    radio: "Rádióállomás mentése nem sikerült"
   </voice>
 </phrase>
 <phrase>
@@ -4483,11 +4484,11 @@
   </source>
   <dest>
     *: none
-    radio: "Az adók listája tele van"
+    radio: "A rádióállomások listája tele van"
   </dest>
   <voice>
     *: none
-    radio: "Az adók listája tele van"
+    radio: "A rádióállomások listája tele van"
   </voice>
 </phrase>
 <phrase>
@@ -4551,11 +4552,11 @@
   </source>
   <dest>
     *: none
-    radio: "Állomások átnézése"
+    radio: "Rádióállomások automatikus átnézése"
   </dest>
   <voice>
     *: none
-    radio: "Állomások átnézése"
+    radio: "Rádióállomások automatikus átnézése"
   </voice>
 </phrase>
 <phrase>
@@ -4585,7 +4586,7 @@
   </source>
   <dest>
     *: none
-    radio: "Keresek %d.%02d MHz"
+    radio: "Keresés %d.%02d MHz"
   </dest>
   <voice>
     *: none
@@ -4636,11 +4637,11 @@
   </source>
   <dest>
     *: none
-    radio: "Beállított állomások listájának betöltése"
+    radio: "Beállított rádióállomások listájának betöltése"
   </dest>
   <voice>
     *: none
-    radio: "Beállított állomások listájának betöltése"
+    radio: "Beállított rádióállomások listájának betöltése"
   </voice>
 </phrase>
 <phrase>
@@ -4653,11 +4654,11 @@
   </source>
   <dest>
     *: none
-    radio: "Beállított adók listájának mentése"
+    radio: "Beállított rádióállomások listájának mentése"
   </dest>
   <voice>
     *: none
-    radio: "Beállított adók listájának mentése"
+    radio: "Beállított rádióállomások listájának mentése"
   </voice>
 </phrase>
 <phrase>
@@ -4670,11 +4671,11 @@
   </source>
   <dest>
     *: none
-    radio: "Beállított adók listájának törlése"
+    radio: "Beállított rádióállomások listájának törlése"
   </dest>
   <voice>
     *: none
-    radio: "Beállított adók listájának törlése"
+    radio: "Beállított rádióállomások listájának törlése"
   </voice>
 </phrase>
 <phrase>
@@ -4687,11 +4688,11 @@
   </source>
   <dest>
     *: none
-    radio: "Beállított adók listája"
+    radio: "Beállított rádióállomások listája"
   </dest>
   <voice>
     *: none
-    radio: "Beállított adók listája"
+    radio: "Beállított rádióállomások listája"
   </voice>
 </phrase>
 <phrase>
@@ -4759,7 +4760,7 @@
   </dest>
   <voice>
     *: none
-    radio: "USA / Kama"
+    radio: "Észak Amerika"
   </voice>
 </phrase>
 <phrase>
@@ -4854,11 +4855,11 @@
   </source>
   <dest>
     *: none
-    recording: "WavPack"
+    recording: "~WavPack"
   </dest>
   <voice>
     *: none
-    recording: "WavPack"
+    recording: "~WavPack"
   </voice>
 </phrase>
 <phrase>
@@ -4871,11 +4872,11 @@
   </source>
   <dest>
     *: none
-    recording: "AIFF"
+    recording: "~AIFF"
   </dest>
   <voice>
     *: none
-    recording: "AIFF"
+    recording: "~AIFF"
   </voice>
 </phrase>
 <phrase>
@@ -5044,11 +5045,11 @@
   </source>
   <dest>
     *: none
-    recording: "Több darabba"
+    recording: "Fájl felosztás menü"
   </dest>
   <voice>
     *: none
-    recording: "Több darabba"
+    recording: "Fájl felosztás menü"
   </voice>
 </phrase>
 <phrase>
@@ -5078,11 +5079,11 @@
   </source>
   <dest>
     *: none
-    recording: "Mi a teendő fájl darabolásakor"
+    recording: "Mi a teendő fájl felosztásakor"
   </dest>
   <voice>
     *: none
-    recording: "Mi a teendő fájl darabolásakor"
+    recording: "Mi a teendő fájl felosztásakor"
   </voice>
 </phrase>
 <phrase>
@@ -5197,11 +5198,11 @@
   </source>
   <dest>
     *: none
-    recording: "Nem tudok írni a felvételek könyvtárába"
+    recording: "Nem lehet írni a felvételek könyvtárába"
   </dest>
   <voice>
     *: none
-    recording: "Nem tudok írni a felvételek könyvtárába"
+    recording: "Nem lehet írni a felvételek könyvtárába"
   </voice>
 </phrase>
 <phrase>
@@ -5367,11 +5368,11 @@
   </source>
   <dest>
     *: none
-    recording: "E fölött indít:"
+    recording: "Efelett indít:"
   </dest>
   <voice>
     *: none
-    recording: "E fölött indít"
+    recording: "Efelett indít"
   </voice>
 </phrase>
 <phrase>
@@ -5569,10 +5570,10 @@
     *: "Create Playlist"
   </source>
   <dest>
-    *: "Lejátszólista készítés"
+    *: "Lejátszási lista készítése"
   </dest>
   <voice>
-    *: "Lejátszólista készítés"
+    *: "Lejátszási lista készítése"
   </voice>
 </phrase>
 <phrase>
@@ -5583,10 +5584,10 @@
     *: "Playlist Viewer Settings"
   </source>
   <dest>
-    *: "Lejátszólista megtekintő beállítása"
+    *: "Lejátszási lista megtekintő beállításai"
   </dest>
   <voice>
-    *: "Lejátszólista megtekintő beállítása"
+    *: "Lejátszási lista megtekintő beállításai"
   </voice>
 </phrase>
 <phrase>
@@ -5597,10 +5598,10 @@
     *: "View Current Playlist"
   </source>
   <dest>
-    *: "Aktuális lejátszólista megtekintése"
+    *: "Aktuális lejátszási lista megtekintése"
   </dest>
   <voice>
-    *: "Aktuális lejátszólista megtekintése"
+    *: "Aktuális lejátszási lista megtekintése"
   </voice>
 </phrase>
 <phrase>
@@ -5653,10 +5654,10 @@
     *: "Track Name Only"
   </source>
   <dest>
-    *: "Csak a szám címe"
+    *: "Csak szám cím"
   </dest>
   <voice>
-    *: "Track name only"
+    *: "Csak szám cím"
   </voice>
 </phrase>
 <phrase>
@@ -5681,10 +5682,10 @@
     *: "Save Current Playlist"
   </source>
   <dest>
-    *: "Aktuális lejátszólista mentése"
+    *: "Aktuális lejátszási lista mentése"
   </dest>
   <voice>
-    *: "Aktuális lejátszólista mentése"
+    *: "Aktuális lejátszási lista mentése"
   </voice>
 </phrase>
 <phrase>
@@ -5695,7 +5696,7 @@
     *: "Saved %d tracks (%s)"
   </source>
   <dest>
-    *: "%d szám mentve (%s)"
+    *: "Mentett %d számok (%s)"
   </dest>
   <voice>
     *: "számok mentve"
@@ -5737,10 +5738,10 @@
     *: "Warn When Erasing Dynamic Playlist"
   </source>
   <dest>
-    *: "Figyelmeztet dinamikus lejátszólista törlésekor"
+    *: "Figyelmeztetés a dinamikus lejátszási lista törlésekor"
   </dest>
   <voice>
-    *: "Figyelmeztet dinamikus lejátszólista törlésekor"
+    *: "Figyelmeztetés a dinamikus lejátszási lista törlésekor"
   </voice>
 </phrase>
 <phrase>
@@ -5751,10 +5752,10 @@
     *: "Erase dynamic playlist?"
   </source>
   <dest>
-    *: "Töröljem a dinamikus lejátszólistát?"
+    *: "Törli a dinamikus lejátszási listát?"
   </dest>
   <voice>
-    *: "Töröljem a dinamikus lejátszólistát?"
+    *: "Törli a dinamikus lejátszási listát?"
   </voice>
 </phrase>
 <phrase>
@@ -5765,10 +5766,10 @@
     *: "Rockbox Info"
   </source>
   <dest>
-    *: "Rockbox névjegy"
+    *: "Rockbox névjegye"
   </dest>
   <voice>
-    *: "Rockbox névjegy"
+    *: "Rockbox névjegye"
   </voice>
 </phrase>
 <phrase>
@@ -5794,11 +5795,11 @@
     ipodmini1g,ipodmini2g,iriverh10: "Batt: %d%% %dh %dm"
   </source>
   <dest>
-    *: "Akku: %d%% %d óra %d perc"
+    *: "Akkumulátor: %d%% %dh %dm"
     ipodmini1g,ipodmini2g,iriverh10: "Akku: %d%% %dh %dm"
   </dest>
   <voice>
-    *: "Akku szint"
+    *: "Akkumulátor szint"
   </voice>
 </phrase>
 <phrase>
@@ -5840,13 +5841,13 @@
   </source>
   <dest>
     *: "Belső:"
-    hibylinux: "mSD:"
-    xduoox3: "mSD1:"
+    hibylinux: "~mSD:"
+    xduoox3: "~mSD1:"
   </dest>
   <voice>
     *: "Belső"
-    hibylinux: "mikro S D"
-    xduoox3: "mikro S D 1"
+    hibylinux: "mikro S D kártya"
+    xduoox3: "mikro S D kártya 1"
   </voice>
 </phrase>
 <phrase>
@@ -5869,10 +5870,10 @@
   </dest>
   <voice>
     *: none
-    hibylinux: "U S B"
-    multivolume: "H D 1"
-    sansac200*,sansaclipplus,sansae200*,sansafuze*: "mikro SD kártya"
-    xduoox3: "mikro SD kártya 2"
+    hibylinux: "~U S B"
+    multivolume: "~H D 1"
+    sansac200*,sansaclipplus,sansae200*,sansafuze*: "mikro S D"
+    xduoox3: "mikro S D 2"
   </voice>
 </phrase>
 <phrase>
@@ -5942,7 +5943,7 @@
     *: "Hibakeresés (Ne lépj be!)"
   </dest>
   <voice>
-    *: "Hibakeresés, Ne lépj be!"
+    *: "Hibakeresés, ne lépj be!"
   </voice>
 </phrase>
 <phrase>
@@ -5953,10 +5954,10 @@
     *: "Playlist"
   </source>
   <dest>
-    *: "Lejátszólista"
+    *: "Lejátszási lista"
   </dest>
   <voice>
-    *: "Lejátszólista"
+    *: "Lejátszási lista"
   </voice>
 </phrase>
 <phrase>
@@ -5967,10 +5968,10 @@
     *: "Queue"
   </source>
   <dest>
-    *: "Felvétel listára"
+    *: "Sorol listára"
   </dest>
   <voice>
-    *: "Felvétel listára"
+    *: "Sorol listára"
   </voice>
 </phrase>
 <phrase>
@@ -6009,10 +6010,10 @@
     *: "Queue Shuffled"
   </source>
   <dest>
-    *: "Felveszem véletlen helyre"
+    *: "Sorol véletlen helyre"
   </dest>
   <voice>
-    *: "Felveszem véletlen helyre"
+    *: "Sorol véletlen helyre"
   </voice>
 </phrase>
 <phrase>
@@ -6023,7 +6024,7 @@
     *: "Inserted %d tracks (%s)"
   </source>
   <dest>
-    *: "%d szám beillesztve (%s)"
+    *: "%d Szám beillesztve (%s)"
   </dest>
   <voice>
     *: "számok beillesztve"
@@ -6037,10 +6038,10 @@
     *: "Queued %d tracks (%s)"
   </source>
   <dest>
-    *: "%d szám felvéve (%s)"
+    *: "%d Szám sorolva (%s)"
   </dest>
   <voice>
-    *: "számok felvéve"
+    *: "Számok sorolva"
   </voice>
 </phrase>
 <phrase>
@@ -6065,10 +6066,10 @@
     *: "Search in Playlist"
   </source>
   <dest>
-    *: "Keresés lejátszólistában"
+    *: "Keresés lejátszási listában"
   </dest>
   <voice>
-    *: "Keresés lejátszólistában"
+    *: "Keresés lejátszási listában"
   </voice>
 </phrase>
 <phrase>
@@ -6079,7 +6080,7 @@
     *: "Searching... %d found (%s)"
   </source>
   <dest>
-    *: "Keresek... %d találtam (%s)"
+    *: "Keresés... %d találat (%s)"
   </dest>
   <voice>
     *: "találat"
@@ -6107,10 +6108,10 @@
     *: "Add to New Playlist"
   </source>
   <dest>
-    *: "Hozzáadás új lejátszólistához"
+    *: "Hozzáadás új lejátszási listához"
   </dest>
   <voice>
-    *: "Add to New playlist"
+    *: "Hozzáadás új lejátszási listához"
   </voice>
 </phrase>
 <phrase>
@@ -6124,7 +6125,7 @@
     *: "%s nem létezik"
   </dest>
   <voice>
-    *: "A lejátszólista könyvtára nem létezik"
+    *: "A lejátszási lista könyvtár nem létezik"
   </voice>
 </phrase>
 <phrase>
@@ -6135,10 +6136,10 @@
     *: "No Playlists"
   </source>
   <dest>
-    *: "Nincs lejátszólista"
+    *: "Nincs lejátszási lista"
   </dest>
   <voice>
-    *: "Nincs lejátszólista"
+    *: "Nincs lejátszási lista"
   </voice>
 </phrase>
 <phrase>
@@ -6191,10 +6192,10 @@
     *: "Context Menu"
   </source>
   <dest>
-    *: "Context Menu"
+    *: "Helyi menü"
   </dest>
   <voice>
-    *: "Context Menu"
+    *: "Helyi menü"
   </voice>
 </phrase>
 <phrase>
@@ -6205,10 +6206,10 @@
     *: "Set Song Rating"
   </source>
   <dest>
-    *: "Számok értékelése"
+    *: "Szám értékelés megadása"
   </dest>
   <voice>
-    *: "Set song rating"
+    *: "Szám értékelés megadása"
   </voice>
 </phrase>
 <phrase>
@@ -6275,10 +6276,10 @@
     *: "Album"
   </source>
   <dest>
-    *: "Album"
+    *: "~Album"
   </dest>
   <voice>
-    *: "Album"
+    *: "~Album"
   </voice>
 </phrase>
 <phrase>
@@ -6345,10 +6346,10 @@
     *: "Playlist"
   </source>
   <dest>
-    *: "Lejátszólista"
+    *: "Lejátszási lista"
   </dest>
   <voice>
-    *: "Lejátszólista"
+    *: "Lejátszási lista"
   </voice>
 </phrase>
 <phrase>
@@ -6373,10 +6374,10 @@
     *: "Album Artist"
   </source>
   <dest>
-    *: "Lemez előadója"
+    *: "Album előadója"
   </dest>
   <voice>
-    *: "Lemez előadója"
+    *: "Album előadója"
   </voice>
 </phrase>
 <phrase>
@@ -6541,10 +6542,10 @@
     *: "File/directory exists. Overwrite?"
   </source>
   <dest>
-    *: "Fájl/könyvtár létezik. Felülírjam?"
+    *: "A fájl/könyvtár létezik. Felülírjam?"
   </dest>
   <voice>
-    *: "Fájl vagy könyvtár létezik. Felülírjam?"
+    *: "A fájl vagy könyvtár létezik. Felülírjam?"
   </voice>
 </phrase>
 <phrase>
@@ -6583,10 +6584,10 @@
     *: "Delete?"
   </source>
   <dest>
-    *: "Töröljem?"
+    *: "Töröl?"
   </dest>
   <voice>
-    *: "Töröljem?"
+    *: "Biztos töröl?"
   </voice>
 </phrase>
 <phrase>
@@ -6597,7 +6598,7 @@
     *: "Copying..."
   </source>
   <dest>
-    *: "Másolok..."
+    *: "Másolás..."
   </dest>
   <voice>
     *: "Másolás"
@@ -6611,7 +6612,7 @@
     *: "Deleting..."
   </source>
   <dest>
-    *: "Törlöm..."
+    *: "Törlés..."
   </dest>
   <voice>
     *: "Törlés"
@@ -6625,7 +6626,7 @@
     *: "Moving..."
   </source>
   <dest>
-    *: "Áthelyezem..."
+    *: "Áthelyezés..."
   </dest>
   <voice>
     *: "Áthelyezés"
@@ -6712,10 +6713,10 @@
     *: "Add to Shortcuts"
   </source>
   <dest>
-    *: "Add to Shortcuts"
+    *: "Hozzáadás a Gyorsbillentyűkhöz"
   </dest>
   <voice>
-    *: "Add to Shortcuts"
+    *: "Hozzáadás a Gyorsbillentyűkhöz"
   </voice>
 </phrase>
 <phrase>
@@ -6811,10 +6812,10 @@
     *: "Playlist Buffer Full"
   </source>
   <dest>
-    *: "Lejátszólista puffer tele van"
+    *: "Lejátszási lista puffer tele van"
   </dest>
   <voice>
-    *: "Lejátszólista puffer tele van"
+    *: "Lejátszási lista puffer tele van"
   </voice>
 </phrase>
 <phrase>
@@ -6839,7 +6840,7 @@
     *: "Creating"
   </source>
   <dest>
-    *: "Készítem ..."
+    *: "Készítés"
   </dest>
   <voice>
     *: ""
@@ -6867,10 +6868,10 @@
     *: "Error accessing playlist file"
   </source>
   <dest>
-    *: "Hiba a lejátszólista megnyitása során"
+    *: "Hiba a lejátszási lista fálj megnyitása során"
   </dest>
   <voice>
-    *: "Hiba a lejátszólista megnyitása során"
+    *: "Hiba a lejátszási lista fálj megnyitása során"
   </voice>
 </phrase>
 <phrase>
@@ -6881,10 +6882,10 @@
     *: "Error accessing playlist control file"
   </source>
   <dest>
-    *: "Hiba a lejátszólista megnyitása során"
+    *: "Hiba a lejátszási lista fálj megnyitása során"
   </dest>
   <voice>
-    *: "Hiba a lejátszólista megnyitása során"
+    *: "Hiba a lejátszási lista fálj megnyitása során"
   </voice>
 </phrase>
 <phrase>
@@ -6909,10 +6910,10 @@
     *: "Playlist control file is invalid"
   </source>
   <dest>
-    *: "Lejátszólista érvénytelen"
+    *: "Lejátszási lista fájl érvénytelen"
   </dest>
   <voice>
-    *: "Lejátszólista érvénytelen"
+    *: "Lejátszási lista fájl érvénytelen"
   </voice>
 </phrase>
 <phrase>
@@ -7066,10 +7067,10 @@
     *: "Reboot now?"
   </source>
   <dest>
-    *: "Újrainduljak?"
+    *: "Újraindít?"
   </dest>
   <voice>
-    *: "Újrainduljak?"
+    *: "Újraindít?"
   </voice>
 </phrase>
 <phrase>
@@ -7089,11 +7090,11 @@
     *: "OFF - megszakít"
     gigabeatfx: "POWER - megszakít"
     gigabeats: "VISSZA - megszakít"
+    sansafuzeplus: "BACK - megszakít"
     iaudiom5,iaudiox5: "PLAY hosszan - megszakít"
     ipod*: "PLAY/PAUSE - megszakít"
     iriverh10,iriverh10_5gb,sansac200*,sansae200*,vibe500: "PREV - megszakít"
     iriverh100,iriverh120,iriverh300: "STOP - megszakít"
-    sansafuzeplus: "BACK - megszakít"
   </dest>
   <voice>
     *: ""
@@ -7278,10 +7279,10 @@
     *: "WARNING! Low Battery!"
   </source>
   <dest>
-    *: "VIGYÁZAT! Akku töltöttsége alacsony!"
+    *: "FIGYELEM! Az akku töltöttsége alacsony!"
   </dest>
   <voice>
-    *: "FIGYELEM! Akku töltöttsége alacsony!"
+    *: "FIGYELEM! Az akku töltöttsége alacsony!"
   </voice>
 </phrase>
 <phrase>
@@ -7320,10 +7321,10 @@
     *: "."
   </source>
   <dest>
-    *: ","
+    *: "~."
   </dest>
   <voice>
-    *: ","
+    *: "pont"
   </voice>
 </phrase>
 <phrase>
@@ -8572,7 +8573,7 @@
     *: ""
   </dest>
   <voice>
-    *: "cuesheet"
+    *: "~cuesheet"
   </voice>
 </phrase>
 <phrase>
@@ -8757,7 +8758,7 @@
     *: ""
   </dest>
   <voice>
-    *: "units per tick"
+    *: "egység lépésenként"
   </voice>
 </phrase>
 <phrase>
@@ -8813,7 +8814,7 @@
     *: ""
   </dest>
   <voice>
-    *: "oh"
+    *: "~oh"
   </voice>
 </phrase>
 <phrase>
@@ -8826,11 +8827,11 @@
   </source>
   <dest>
     *: none
-    recording: "Clip Counter"
+    recording: "Clip Számláló"
   </dest>
   <voice>
     *: none
-    recording: "Clip Counter"
+    recording: "Clip Számláló"
   </voice>
 </phrase>
 <phrase>
@@ -8843,7 +8844,7 @@
   </source>
   <dest>
     *: none
-    recording: "CLIP:"
+    recording: "~CLIP:"
   </dest>
   <voice>
     *: none
@@ -8921,15 +8922,15 @@
   user: core
   <source>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Bass Cutoff"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Bass Cutoff"
   </source>
   <dest>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Alsó határfrekvencia"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Alsó határfrekvencia"
   </dest>
   <voice>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Alsó határfrekvencia"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Alsó határfrekvencia"
   </voice>
 </phrase>
 <phrase>
@@ -9115,10 +9116,10 @@
     *: "Skip Length"
   </source>
   <dest>
-    *: "Ugrás Hossza"
+    *: "Ugrás hossza"
   </dest>
   <voice>
-    *: "Ugrás Hossza"
+    *: "Ugrás hossza"
   </voice>
 </phrase>
 <phrase>
@@ -9146,10 +9147,10 @@
     *: "Reset Setting"
   </source>
   <dest>
-    *: "Beállítások törlése"
+    *: "Beállítás visszaállítása"
   </dest>
   <voice>
-    *: "Beállítások törlése"
+    *: "Beállítás visszaállítása"
   </voice>
 </phrase>
 <phrase>
@@ -9238,11 +9239,11 @@
   </source>
   <dest>
     *: none
-    accessory_supply: "Accessory Power Supply"
+    accessory_supply: "Kiegészítő tápegység"
   </dest>
   <voice>
     *: none
-    accessory_supply: "Accessory Power Supply"
+    accessory_supply: "Kiegészítő tápegység"
   </voice>
 </phrase>
 <phrase>
@@ -9568,11 +9569,11 @@
   </source>
   <dest>
     *: none
-    agc: "AGC"
+    agc: "~AGC"
   </dest>
   <voice>
     *: none
-    agc: "Automatic gain control"
+    agc: "Automatikus erősítésszabályozás"
   </voice>
 </phrase>
 <phrase>
@@ -9598,15 +9599,15 @@
   user: core
   <source>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Treble Cutoff"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Treble Cutoff"
   </source>
   <dest>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Magas határfrekvencia"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Magas határfrekvencia"
   </dest>
   <voice>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Magas határfrekvencia"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Magas határfrekvencia"
   </voice>
 </phrase>
 <phrase>
@@ -9696,7 +9697,7 @@
     *: ""
   </dest>
   <voice>
-    *: "oké"
+    *: "Oké"
   </voice>
 </phrase>
 <phrase>
@@ -10026,10 +10027,10 @@
     *: "Bottom"
   </source>
   <dest>
-    *: "Vége"
+    *: "Alja"
   </dest>
   <voice>
-    *: "Vége"
+    *: "Alja"
   </voice>
 </phrase>
 <phrase>
@@ -10099,10 +10100,10 @@
     *: "Top"
   </source>
   <dest>
-    *: "Eleje"
+    *: "Teteje"
   </dest>
   <voice>
-    *: "Eleje"
+    *: "Teteje"
   </voice>
 </phrase>
 <phrase>
@@ -10248,10 +10249,10 @@
     *: "Auditory Fatigue Reduction"
   </source>
   <dest>
-    *: "Hallgatásteher Csökkentése"
+    *: "Hallgatásteher csökkentése"
   </dest>
   <voice>
-    *: "Hallgatásteher Csökkentése"
+    *: "Hallgatásteher csökkentése"
   </voice>
 </phrase>
 <phrase>
@@ -10262,10 +10263,10 @@
     *: "Update on Stop"
   </source>
   <dest>
-    *: "Megállításkor Frissítés"
+    *: "Frissítés megállításkor"
   </dest>
   <voice>
-    *: "Megállításkor Frissítés"
+    *: "Frissítés megállításkor"
   </voice>
 </phrase>
 <phrase>
@@ -10354,11 +10355,11 @@
   </source>
   <dest>
     *: none
-    touchscreen: "OK"
+    touchscreen: "~OK"
   </dest>
   <voice>
     *: none
-    touchscreen: "OK"
+    touchscreen: "Oké"
   </voice>
 </phrase>
 <phrase>
@@ -10385,11 +10386,11 @@
   </source>
   <dest>
     *: none
-    multidrive_usb: "USB Belső Meghajtó Elrejtése"
+    multidrive_usb: "USB belső meghajtó elrejtése"
   </dest>
   <voice>
     *: none
-    multidrive_usb: "USB Belső Meghajtó Elrejtése"
+    multidrive_usb: "USB belső meghajtó elrejtése"
   </voice>
 </phrase>
 <phrase>
@@ -10442,10 +10443,10 @@
     *: "USB Mode"
   </source>
   <dest>
-    *: "USB Mód"
+    *: "USB mód"
   </dest>
   <voice>
-    *: "USB Mód"
+    *: "USB mód"
   </voice>
 </phrase>
 <phrase>
@@ -10456,10 +10457,10 @@
     *: "In custom directories only"
   </source>
   <dest>
-    *: "Csak Az Egyéni Könyvtárakban "
+    *: "Csak az egyéni könyvtárakban"
   </dest>
   <voice>
-    *: "Csak Az Egyéni Könyvtárakban "
+    *: "Csak az egyéni könyvtárakban"
   </voice>
 </phrase>
 <phrase>
@@ -10503,11 +10504,11 @@
   </source>
   <dest>
     *: none
-    hardware_click: "Hangszóró Billenytűhang"
+    hardware_click: "Hangszóró billenytűhang"
   </dest>
   <voice>
     *: none
-    hardware_click: "Hangszóró Billenytűhang"
+    hardware_click: "Hangszóró billenytűhang"
   </voice>
 </phrase>
 <phrase>
@@ -10518,10 +10519,10 @@
     *: "Rewind Before Resume"
   </source>
   <dest>
-    *: "Előretekerés Folytatás Előtt"
+    *: "Előretekerés folytatás előtt"
   </dest>
   <voice>
-    *: "Előretekerés Folytatás Előtt"
+    *: "Előretekerés folytatás előtt"
   </voice>
 </phrase>
 <phrase>
@@ -10546,10 +10547,10 @@
     *: "Maximum Volume Limit"
   </source>
   <dest>
-    *: "Maximum Hangerő Korlát"
+    *: "Maximum hangerő korlát"
   </dest>
   <voice>
-    *: "Maximum Hangerő Korlát"
+    *: "Maximum hangerő korlát"
   </voice>
 </phrase>
 <phrase>
@@ -10596,11 +10597,11 @@
   </source>
   <dest>
     *: none
-    hotkey: "File böngésző gyorsgomb"
+    hotkey: "Fájl böngésző gyorsgomb"
   </dest>
   <voice>
     *: none
-    hotkey: "File böngésző gyorsgomb"
+    hotkey: "Fájl böngésző gyorsgomb"
   </voice>
 </phrase>
 <phrase>
@@ -10695,11 +10696,11 @@
   </source>
   <dest>
     *: none
-    touchscreen: "Del"
+    touchscreen: "~Del"
   </dest>
   <voice>
     *: none
-    touchscreen: "Del"
+    touchscreen: "~Del"
   </voice>
 </phrase>
 <phrase>
@@ -10724,10 +10725,10 @@
     *: "Cancel Sleep Timer"
   </source>
   <dest>
-    *: "Elalváskapcsoló ki"
+    *: "Elalvásidőzító ki"
   </dest>
   <voice>
-    *: "Elalváskapcsoló ki"
+    *: "Elalvásidőzító ki"
   </voice>
 </phrase>
 <phrase>
@@ -10738,10 +10739,10 @@
     *: "Base Skin"
   </source>
   <dest>
-    *: "Alap skin"
+    *: "Alap kinézet"
   </dest>
   <voice>
-    *: "Alap skin"
+    *: "Alap kinézet"
   </voice>
 </phrase>
 <phrase>
@@ -10752,10 +10753,10 @@
     *: "Start File Browser at /"
   </source>
   <dest>
-    *: "Fájlkezelő Kezdőpontja/"
+    *: "Fájlkezelő kezdőpontja /"
   </dest>
   <voice>
-    *: "Fájlkezelő Kezdése a Gyökérkönyvtárban"
+    *: "Fájlkezelő kezdése a gyökérkönyvtárban"
   </voice>
 </phrase>
 <phrase>
@@ -10855,11 +10856,11 @@
   </source>
   <dest>
     *: none
-    hardware_click: "Fejhallgató Billentyűhang"
+    hardware_click: "Fejhallgató billentyűhang"
   </dest>
   <voice>
     *: none
-    hardware_click: "Fejhallgató Billentyűhang"
+    hardware_click: "Fejhallgató billentyűhang"
   </voice>
 </phrase>
 <phrase>
@@ -10887,7 +10888,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Állapotsáv Skin"
+    *: "Állapotsáv kinézet"
   </voice>
 </phrase>
 <phrase>
@@ -10951,11 +10952,11 @@
   </source>
   <dest>
     *: none
-    usb_hid: "Multimédiás Távirányító"
+    usb_hid: "Multimédiás távirányító"
   </dest>
   <voice>
     *: none
-    usb_hid: "Multimédiás Távirányító"
+    usb_hid: "Multimédiás távirányító"
   </voice>
 </phrase>
 <phrase>
@@ -10968,11 +10969,11 @@
   </source>
   <dest>
     *: none
-    sansafuzeplus: "Touchpad Érzékelési Sáv"
+    sansafuzeplus: "Touchpad érzékelési sáv"
   </dest>
   <voice>
     *: none
-    sansafuzeplus: "Touchpad Érzékelési Sáv"
+    sansafuzeplus: "Touchpad érzékelési sáv"
   </voice>
 </phrase>
 <phrase>
@@ -10985,11 +10986,11 @@
   </source>
   <dest>
     *: none
-    crossfade: "Csak Automatikus Számváltáskor"
+    crossfade: "Csak automatikus számváltáskor"
   </dest>
   <voice>
     *: none
-    crossfade: "Csak Automatikus Számváltáskor"
+    crossfade: "Csak automatikus számváltáskor"
   </voice>
 </phrase>
 <phrase>
@@ -11016,11 +11017,11 @@
   </source>
   <dest>
     *: none
-    quickscreen: "Menü Használata A Gyorsképernyő Helyett"
+    quickscreen: "Menü használata a gyorsképernyő helyett"
   </dest>
   <voice>
     *: none
-    quickscreen: "Menü Használata A Gyorsképernyő Helyett"
+    quickscreen: "Menü használata a gyorsképernyő helyett"
   </voice>
 </phrase>
 <phrase>
@@ -11045,10 +11046,10 @@
     *: "Charge Only"
   </source>
   <dest>
-    *: "Csak Töltés"
+    *: "Csak töltés"
   </dest>
   <voice>
-    *: "Csak Töltés"
+    *: "Csak töltés"
   </voice>
 </phrase>
 <phrase>
@@ -11093,7 +11094,7 @@
   </dest>
   <voice>
     *: none
-    remote: "remote statusbar skin"
+    remote: "Távoli állapotsáv felület"
   </voice>
 </phrase>
 <phrase>
@@ -11127,7 +11128,7 @@
   </dest>
   <voice>
     *: none
-    radio_remote: "remote radio screen skin"
+    radio_remote: "távirányító rádió képernyő felület"
   </voice>
 </phrase>
 <phrase>
@@ -11138,10 +11139,10 @@
     *: "Constrain Auto-Change"
   </source>
   <dest>
-    *: "Constrain Auto-Change"
+    *: "Automatikus csere korlátozása"
   </dest>
   <voice>
-    *: "Constrain Auto-Change"
+    *: "Automatikus csere korlátozása"
   </voice>
 </phrase>
 <phrase>
@@ -11185,11 +11186,11 @@
   </source>
   <dest>
     *: none
-    radio_remote: "Remote Radio Screen"
+    radio_remote: "Távirányító rádió képernyő"
   </dest>
   <voice>
     *: none
-    radio_remote: "Remote Radio Screen"
+    radio_remote: "Távirányító rádió képernyő"
   </voice>
 </phrase>
 <phrase>
@@ -11245,10 +11246,10 @@
     *: "Select one or more directories"
   </source>
   <dest>
-    *: "Válassz egy vagy több könyvtárat"
+    *: "Válasszon egy vagy több könyvtárat"
   </dest>
   <voice>
-    *: "Válassz egy vagy több könyvtárat"
+    *: "Válasszon egy vagy több könyvtárat"
   </voice>
 </phrase>
 <phrase>
@@ -11259,10 +11260,10 @@
     *: "Line Separator Colour"
   </source>
   <dest>
-    *: "Sor Elválasztó Színe"
+    *: "Sor elválasztó színe"
   </dest>
   <voice>
-    *: "Sor Elválasztó Színe"
+    *: "Sor elválasztó színe"
   </voice>
 </phrase>
 <phrase>
@@ -11290,10 +11291,10 @@
     *: "Restart Sleep Timer on Keypress"
   </source>
   <dest>
-    *: "Elalváskapcsoló Újraindítása Gombnyomásra"
+    *: "Elalvásidőzító újraindítása gombnyomásra"
   </dest>
   <voice>
-    *: "Elalváskapcsoló Újraindítása Gombnyomásra"
+    *: "Elalvásidőzító újraindítása gombnyomásra"
   </voice>
 </phrase>
 <phrase>
@@ -11306,11 +11307,11 @@
   </source>
   <dest>
     *: none
-    usb_hid: "USB HID"
+    usb_hid: "~USB HID"
   </dest>
   <voice>
     *: none
-    usb_hid: "USB Human Interface Device"
+    usb_hid: "~USB Human Interface Device"
   </voice>
 </phrase>
 <phrase>
@@ -11321,10 +11322,10 @@
     *: "Skip to Outro"
   </source>
   <dest>
-    *: "Ugrás A Szám Végéhez"
+    *: "Ugrás a szám végéhez"
   </dest>
   <voice>
-    *: "Ugrás A Szám Végéhez"
+    *: "Ugrás a szám végéhez"
   </voice>
 </phrase>
 <phrase>
@@ -11351,7 +11352,7 @@
   </source>
   <dest>
     *: none
-    gigabeats,samsungypr1: "Sáv %d Frekvencia"
+    gigabeats,samsungypr1: "Sáv %d frekvencia"
   </dest>
   <voice>
     *: none
@@ -11428,10 +11429,10 @@
     *: "Queue Last Shuffled"
   </source>
   <dest>
-    *: "Utolsó Beszúrása Véletlenszerűen"
+    *: "Utolsó sorolása véletlenszerűen"
   </dest>
   <voice>
-    *: "Utolsó Beszúrása Véletlenszerűen"
+    *: "Utolsó sorolása véletlenszerűen"
   </voice>
 </phrase>
 <phrase>
@@ -11444,11 +11445,11 @@
   </source>
   <dest>
     *: none
-    gigabeats,samsungypr1: "Haladó Hangbeállítások "
+    gigabeats,samsungypr1: "Haladó hangbeállítások"
   </dest>
   <voice>
     *: none
-    gigabeats,samsungypr1: "Haladó Hangbeállítások "
+    gigabeats,samsungypr1: "Haladó hangbeállítások"
   </voice>
 </phrase>
 <phrase>
@@ -11476,10 +11477,10 @@
     *: "Remote Base Skin"
   </source>
   <dest>
-    *: "Remote Base Skin"
+    *: "Távirányító alap kinézete"
   </dest>
   <voice>
-    *: "Remote Base Skin"
+    *: "Távirányító alap kinézete"
   </voice>
 </phrase>
 <phrase>
@@ -11521,10 +11522,10 @@
     *: "Line Separator"
   </source>
   <dest>
-    *: "Elválasztó Vonal"
+    *: "Elválasztó vonal"
   </dest>
   <voice>
-    *: "Elválasztó Vonal"
+    *: "Elválasztó vonal"
   </voice>
 </phrase>
 <phrase>
@@ -11537,11 +11538,11 @@
   </source>
   <dest>
     *: none
-    morse_input: "Morse-kód Bevitel Használata"
+    morse_input: "Morse-kód bevitel használata"
   </dest>
   <voice>
     *: none
-    morse_input: "Morse-kód Bevitel Használata"
+    morse_input: "Morse-kód bevitel használata"
   </voice>
 </phrase>
 <phrase>
@@ -11614,10 +11615,10 @@
     *: "Default Sleep Timer Duration"
   </source>
   <dest>
-    *: "Elalváskapcsoló alapértelmezett ideje"
+    *: "Elalvásidőzítő alapértelmezett ideje"
   </dest>
   <voice>
-    *: "Elalváskapcsoló alapértelmezett ideje"
+    *: "Elalvásidőzítő alapértelmezett ideje"
   </voice>
 </phrase>
 <phrase>
@@ -11656,10 +11657,10 @@
     *: "Android Debug Bridge"
   </source>
   <dest>
-    *: "Android Debug Bridge"
+    *: "~Android Debug Bridge"
   </dest>
   <voice>
-    *: "Android Debug Bridge"
+    *: "~Android Debug Bridge"
   </voice>
 </phrase>
 <phrase>
@@ -11712,10 +11713,10 @@
     *: "Start Sleep Timer on Boot"
   </source>
   <dest>
-    *: "Elalváskapcsoló Be Induláskor"
+    *: "Elalvásidőzítő bekapcsolása eszköz indításakor"
   </dest>
   <voice>
-    *: "Elalváskapcsoló Be Induláskor"
+    *: "Elalvásidőzítő bekapcsolása eszköz indításakor"
   </voice>
 </phrase>
 <phrase>
@@ -11726,10 +11727,10 @@
     *: "Reset Playlist Catalogue Directory"
   </source>
   <dest>
-    *: "Lej.lista-katalógus Könyvtár Visszaállítása"
+    *: "Lej.lista-katalógus könyvtár visszaállítása"
   </dest>
   <voice>
-    *: "Lej.lista-katalógus Könyvtár Visszaállítása"
+    *: "Lej.lista-katalógus könyvtár visszaállítása"
   </voice>
 </phrase>
 <phrase>
@@ -11785,10 +11786,10 @@
     *: "Reset EQ"
   </source>
   <dest>
-    *: "Reset EQ"
+    *: "EQ visszaállítása"
   </dest>
   <voice>
-    *: "Reset EQ"
+    *: "EQ visszaállítása"
   </voice>
 </phrase>
 <phrase>
@@ -11799,10 +11800,10 @@
     *: "Single Mode"
   </source>
   <dest>
-    *: "Single Mode"
+    *: "Egyszeri mód"
   </dest>
   <voice>
-    *: "Single Mode"
+    *: "Egyszeri mód"
   </voice>
 </phrase>
 <phrase>
@@ -11813,10 +11814,10 @@
     *: "Title & Album from ID3 tags"
   </source>
   <dest>
-    *: "Title & Album from ID3 tags"
+    *: "Cím és Album ID3 tagekből"
   </dest>
   <voice>
-    *: "Title and Album from tags"
+    *: "Cím és Album ID3 tagekből"
   </voice>
 </phrase>
 <phrase>
@@ -11827,10 +11828,10 @@
     *: "Title from ID3 tags"
   </source>
   <dest>
-    *: "Title from ID3 tags"
+    *: "Cím ID3 tagekből"
   </dest>
   <voice>
-    *: "Title from tags"
+    *: "Cím ID3 tagekből"
   </voice>
 </phrase>
 <phrase>
@@ -11841,10 +11842,10 @@
     *: "Selection too big, %d random tracks will be selected"
   </source>
   <dest>
-    *: "Selection too big, %d random tracks will be selected"
+    *: "Kijelőlés túl nagy, %d véletlen szám lesz kiválasztva"
   </dest>
   <voice>
-    *: "Selection too big, fewer random tracks will be selected"
+    *: "Kijelőlés túl nagy, kevesebb véletlen szám lesz kiválasztva"
   </voice>
 </phrase>
 <phrase>
@@ -11855,10 +11856,10 @@
     *: "Special character"
   </source>
   <dest>
-    *: "Special character"
+    *: "Különleges karakter"
   </dest>
   <voice>
-    *: "Special character"
+    *: "Különleges karakter"
   </voice>
 </phrase>
 <phrase>
@@ -11869,10 +11870,10 @@
     *: "Album Artists"
   </source>
   <dest>
-    *: "Album Artists"
+    *: "Album Előadók"
   </dest>
   <voice>
-    *: "Album Artists"
+    *: "Album Előadók"
   </voice>
 </phrase>
 <phrase>
@@ -11883,10 +11884,10 @@
     *: "Add Current to Shortcuts"
   </source>
   <dest>
-    *: "Add Current to Shortcuts"
+    *: "Jelenlegi hozzáadása a gyorsbillentyűkhöz"
   </dest>
   <voice>
-    *: "Add Current to Shortcuts"
+    *: "Jelenlegi hozzáadása a gyorsbillentyűkhöz"
   </voice>
 </phrase>
 <phrase>
@@ -11897,10 +11898,10 @@
     *: "Voice Prompt Volume"
   </source>
   <dest>
-    *: "Voice Prompt Volume"
+    *: "Hangutasítások hangereje"
   </dest>
   <voice>
-    *: "Voice Prompt Volume"
+    *: "Hangutasítások hangereje"
   </voice>
 </phrase>
 <phrase>
@@ -11911,10 +11912,10 @@
     *: "Disc"
   </source>
   <dest>
-    *: "Disc"
+    *: "Lemez"
   </dest>
   <voice>
-    *: "Disc"
+    *: "Lemez"
   </voice>
 </phrase>
 <phrase>
@@ -11927,11 +11928,11 @@
   </source>
   <dest>
     *: none
-    filter_roll_off: "Short Sharp"
+    filter_roll_off: "Rövid éles"
   </dest>
   <voice>
     *: none
-    filter_roll_off: "Short Sharp"
+    filter_roll_off: "Rövid éles"
   </voice>
 </phrase>
 <phrase>
@@ -11944,11 +11945,11 @@
   </source>
   <dest>
     *: none
-    filter_roll_off: "Short Slow"
+    filter_roll_off: "Rövid lassú"
   </dest>
   <voice>
     *: none
-    filter_roll_off: "Short Slow"
+    filter_roll_off: "Rövid lassú"
   </voice>
 </phrase>
 <phrase>
@@ -11961,11 +11962,11 @@
   </source>
   <dest>
     *: none
-    filter_roll_off: "Super Slow"
+    filter_roll_off: "Szuper lassú"
   </dest>
   <voice>
     *: none
-    filter_roll_off: "Super Slow"
+    filter_roll_off: "Szuper lassú"
   </voice>
 </phrase>
 <phrase>
@@ -11978,11 +11979,11 @@
   </source>
   <dest>
     *: none
-    es9018: "Short"
+    es9018: "Rövid"
   </dest>
   <voice>
     *: none
-    es9018: "Short"
+    es9018: "Rövid"
   </voice>
 </phrase>
 <phrase>
@@ -11995,11 +11996,11 @@
   </source>
   <dest>
     *: none
-    es9018: "Bypass"
+    es9018: "Kikerül"
   </dest>
   <voice>
     *: none
-    es9018: "Bypass"
+    es9018: "Kikerül"
   </voice>
 </phrase>
 <phrase>
@@ -12012,11 +12013,11 @@
   </source>
   <dest>
     *: none
-    es9218: "Linear Fast"
+    es9218: "Lineáris gyors"
   </dest>
   <voice>
     *: none
-    es9218: "Linear Fast"
+    es9218: "Lineáris gyors"
   </voice>
 </phrase>
 <phrase>
@@ -12029,11 +12030,11 @@
   </source>
   <dest>
     *: none
-    es9218: "Linear Slow"
+    es9218: "Lineáris lassú"
   </dest>
   <voice>
     *: none
-    es9218: "Linear Slow"
+    es9218: "Lineáris lassú"
   </voice>
 </phrase>
 <phrase>
@@ -12046,11 +12047,11 @@
   </source>
   <dest>
     *: none
-    es9218: "Minimum Fast"
+    es9218: "Minimum gyors"
   </dest>
   <voice>
     *: none
-    es9218: "Minimum Fast"
+    es9218: "Minimum gyors"
   </voice>
 </phrase>
 <phrase>
@@ -12063,11 +12064,11 @@
   </source>
   <dest>
     *: none
-    es9218: "Minimum Slow"
+    es9218: "Minimum lassú"
   </dest>
   <voice>
     *: none
-    es9218: "Minimum Slow"
+    es9218: "Minimum lassú"
   </voice>
 </phrase>
 <phrase>
@@ -12080,11 +12081,11 @@
   </source>
   <dest>
     *: none
-    es9218: "Apodizing type 1"
+    es9218: "Apodizációs 1-es típus"
   </dest>
   <voice>
     *: none
-    es9218: "Apodizing type 1"
+    es9218: "Apodizációs 1-es típus"
   </voice>
 </phrase>
 <phrase>
@@ -12097,11 +12098,11 @@
   </source>
   <dest>
     *: none
-    es9218: "Apodizing type 2"
+    es9218: "Apodizációs 2-es típus"
   </dest>
   <voice>
     *: none
-    es9218: "Apodizing type 2"
+    es9218: "Apodizációs 2-es típus"
   </voice>
 </phrase>
 <phrase>
@@ -12114,11 +12115,11 @@
   </source>
   <dest>
     *: none
-    es9218: "Hybrid Fast"
+    es9218: "Hibrid gyors"
   </dest>
   <voice>
     *: none
-    es9218: "Hybrid Fast"
+    es9218: "Hibrid gyors"
   </voice>
 </phrase>
 <phrase>
@@ -12131,11 +12132,11 @@
   </source>
   <dest>
     *: none
-    es9218: "Brick Wall"
+    es9218: "Hangdinamika tömörítés (Brick Wall)"
   </dest>
   <voice>
     *: none
-    es9218: "Brick Wall"
+    es9218: "Hangdinamika tömörítés"
   </voice>
 </phrase>
 <phrase>
@@ -12149,13 +12150,13 @@
   </source>
   <dest>
     *: none
-    dac_power_mode: "DAC power mode"
-    es9218: "DAC output level"
+    dac_power_mode: "DAC teljesítmény üzemmód"
+    es9218: "DAC kimenet szint"
   </dest>
   <voice>
     *: none
-    dac_power_mode: "DAC power mode"
-    es9218: "DAC output level"
+    dac_power_mode: "DAC teljesítmény üzemmód"
+    es9218: "DAC kimenet szint"
   </voice>
 </phrase>
 <phrase>
@@ -12169,13 +12170,13 @@
   </source>
   <dest>
     *: none
-    dac_power_mode: "High performance"
-    es9218: "High Gain (2 Vrms)"
+    dac_power_mode: "Nagy teljesítmény"
+    es9218: "Magas Gain (2 Vrms)"
   </dest>
   <voice>
     *: none
-    dac_power_mode: "High performance"
-    es9218: "High Gain (2 Vrms)"
+    dac_power_mode: "Nagy teljesítmény"
+    es9218: "Magas Gain (2 Vrms)"
   </voice>
 </phrase>
 <phrase>
@@ -12189,13 +12190,13 @@
   </source>
   <dest>
     *: none
-    dac_power_mode: "Save battery"
-    es9218: "Low Gain (1 Vrms)"
+    dac_power_mode: "Akkumulátor kímélő"
+    es9218: "Alacsony Gain (1 Vrms)"
   </dest>
   <voice>
     *: none
-    dac_power_mode: "Save battery"
-    es9218: "Low Gain (1 Vrms)"
+    dac_power_mode: "Akkumulátor kímélő"
+    es9218: "Alacsony Gain (1 Vrms)"
   </voice>
 </phrase>
 <phrase>
@@ -12206,10 +12207,10 @@
     *: "Enabled"
   </source>
   <dest>
-    *: "Enabled"
+    *: "Aktiválva"
   </dest>
   <voice>
-    *: "Enabled"
+    *: "Aktiválva"
   </voice>
 </phrase>
 <phrase>
@@ -12220,10 +12221,10 @@
     *: "Exempt Play"
   </source>
   <dest>
-    *: "Exempt Play"
+    *: "Kivéve lejátszás"
   </dest>
   <voice>
-    *: "Exempt Play"
+    *: "Kivéve lejátszás"
   </voice>
 </phrase>
 <phrase>
@@ -12234,10 +12235,10 @@
     *: "Exempt Seek"
   </source>
   <dest>
-    *: "Exempt Seek"
+    *: "Kivéve keresés"
   </dest>
   <voice>
-    *: "Exempt Seek"
+    *: "Kivéve keresés"
   </voice>
 </phrase>
 <phrase>
@@ -12248,10 +12249,10 @@
     *: "Exempt Skip"
   </source>
   <dest>
-    *: "Exempt Skip"
+    *: "Kivéve ugrás"
   </dest>
   <voice>
-    *: "Exempt Skip"
+    *: "Kivéve ugrás"
   </voice>
 </phrase>
 <phrase>
@@ -12262,10 +12263,10 @@
     *: "Backlight Exemptions"
   </source>
   <dest>
-    *: "Backlight Exemptions"
+    *: "Háttérvilágítás kivételek"
   </dest>
   <voice>
-    *: "Backlight Exemptions"
+    *: "Háttérvilágítás kivételek"
   </voice>
 </phrase>
 <phrase>
@@ -12276,10 +12277,10 @@
     *: "Disable on External Power"
   </source>
   <dest>
-    *: "Disable on External Power"
+    *: "Kikapcsolás külső tápellátáson"
   </dest>
   <voice>
-    *: "Disable on External Power"
+    *: "Kikapcsolás külső tápellátáson"
   </voice>
 </phrase>
 <phrase>
@@ -12290,10 +12291,10 @@
     *: "Disable Unmapped Keys"
   </source>
   <dest>
-    *: "Disable Unmapped Keys"
+    *: "Nem lefoglalt gombok letiltása"
   </dest>
   <voice>
-    *: "Disable Unmapped Keys"
+    *: "Nem lefoglalt gombok letiltása"
   </voice>
 </phrase>
 <phrase>
@@ -12304,10 +12305,10 @@
     *: "Advanced Key Lock"
   </source>
   <dest>
-    *: "Advanced Key Lock"
+    *: "Fejlett gombzár"
   </dest>
   <voice>
-    *: "Advanced Key Lock"
+    *: "Fejlett gombzár"
   </voice>
 </phrase>
 <phrase>
@@ -12318,10 +12319,10 @@
     *: "Autolock On"
   </source>
   <dest>
-    *: "Autolock On"
+    *: "Autozár be"
   </dest>
   <voice>
-    *: "Autolock On"
+    *: "Autozár be"
   </voice>
 </phrase>
 <phrase>
@@ -12332,10 +12333,10 @@
     *: "Autolock Off"
   </source>
   <dest>
-    *: "Autolock Off"
+    *: "Autozár ki"
   </dest>
   <voice>
-    *: "Autolock Off"
+    *: "Autozár ki"
   </voice>
 </phrase>
 <phrase>
@@ -12346,10 +12347,10 @@
     *: "Disable Locked Reminders"
   </source>
   <dest>
-    *: "Disable Locked Reminders"
+    *: "Zár emlékeztető kikapcsolása"
   </dest>
   <voice>
-    *: "Disable Locked Reminders"
+    *: "Zár emlékeztető kikapcsolása"
   </voice>
 </phrase>
 <phrase>
@@ -12360,10 +12361,10 @@
     *: "Disable Touch"
   </source>
   <dest>
-    *: "Disable Touch"
+    *: "Érintés kikapcsolása"
   </dest>
   <voice>
-    *: "Disable Touch"
+    *: "Érintés kikapcsolása"
   </voice>
 </phrase>
 <phrase>
@@ -12377,7 +12378,7 @@
     *: "KiB"
   </dest>
   <voice>
-    *: "kibibyte"
+    *: "kibibájt"
   </voice>
 </phrase>
 <phrase>
@@ -12391,7 +12392,7 @@
     *: "MiB"
   </dest>
   <voice>
-    *: "mebibyte"
+    *: "mebibájt"
   </voice>
 </phrase>
 <phrase>
@@ -12405,7 +12406,7 @@
     *: "GiB"
   </dest>
   <voice>
-    *: "gibibyte"
+    *: "gibibájt"
   </voice>
 </phrase>
 <phrase>
@@ -12416,10 +12417,10 @@
     *: "One per playlist"
   </source>
   <dest>
-    *: "One per playlist"
+    *: "Lejátszási listánként egy"
   </dest>
   <voice>
-    *: "One per playlist"
+    *: "Lejátszási listánként egy"
   </voice>
 </phrase>
 <phrase>
@@ -12430,10 +12431,10 @@
     *: "One per track"
   </source>
   <dest>
-    *: "One per track"
+    *: "Számonként egy"
   </dest>
   <voice>
-    *: "One per track"
+    *: "Számonként egy"
   </voice>
 </phrase>
 <phrase>
@@ -12447,7 +12448,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Track to move"
+    *: "Mozgatandó szám"
   </voice>
 </phrase>
 <phrase>
@@ -12461,7 +12462,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Queued"
+    *: "Sorolva"
   </voice>
 </phrase>
 <phrase>
@@ -12475,7 +12476,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Bad track"
+    *: "Rossz szám"
   </voice>
 </phrase>
 <phrase>
@@ -12489,7 +12490,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Moving track"
+    *: "Szám mozgatása"
   </voice>
 </phrase>
 <phrase>
@@ -12500,10 +12501,10 @@
     *: "Never"
   </source>
   <dest>
-    *: "Never"
+    *: "Soha"
   </dest>
   <voice>
-    *: "Never"
+    *: "Soha"
   </voice>
 </phrase>
 <phrase>
@@ -12514,10 +12515,10 @@
     *: "Playlist elapsed:"
   </source>
   <dest>
-    *: "Playlist elapsed:"
+    *: "Lejátszási listából eltelt:"
   </dest>
   <voice>
-    *: "Playlist elapsed"
+    *: "Lejátszási listából eltelt"
   </voice>
 </phrase>
 <phrase>
@@ -12528,10 +12529,10 @@
     *: "Track elapsed:"
   </source>
   <dest>
-    *: "Track elapsed:"
+    *: "Szám eltelt:"
   </dest>
   <voice>
-    *: "Track elapsed"
+    *: "Szám eltelt"
   </voice>
 </phrase>
 <phrase>
@@ -12542,10 +12543,10 @@
     *: "Track remaining:"
   </source>
   <dest>
-    *: "Track remaining:"
+    *: "Szám hátralévő:"
   </dest>
   <voice>
-    *: "Track remaining"
+    *: "Szám hátralévő"
   </voice>
 </phrase>
 <phrase>
@@ -12556,10 +12557,10 @@
     *: "Track:"
   </source>
   <dest>
-    *: "Track:"
+    *: "Szám:"
   </dest>
   <voice>
-    *: "Track"
+    *: "Szám"
   </voice>
 </phrase>
 <phrase>
@@ -12570,10 +12571,10 @@
     *: "Storage (Done / Remaining):"
   </source>
   <dest>
-    *: "Storage (Done / Remaining):"
+    *: "Tárolás (Kész / Hátralévő):"
   </dest>
   <voice>
-    *: "Storage"
+    *: "Tárolás"
   </voice>
 </phrase>
 <phrase>
@@ -12587,7 +12588,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Done"
+    *: "Kész"
   </voice>
 </phrase>
 <phrase>
@@ -12598,10 +12599,10 @@
     *: "Average track size:"
   </source>
   <dest>
-    *: "Average track size:"
+    *: "Átlagos szám méret:"
   </dest>
   <voice>
-    *: "Average track size"
+    *: "Átlagos szám méret"
   </voice>
 </phrase>
 <phrase>
@@ -12612,24 +12613,10 @@
     *: "Average bitrate:"
   </source>
   <dest>
-    *: "Average bitrate:"
+    *: "Átlagos bitráta:"
   </dest>
   <voice>
-    *: "Average bit rate"
-  </voice>
-</phrase>
-<phrase>
-  id: LANG_PLAYTIME_ERROR
-  desc: playing time screen
-  user: core
-  <source>
-    *: "Error while gathering info"
-  </source>
-  <dest>
-    *: "Error while gathering info"
-  </dest>
-  <voice>
-    *: "Error while gathering info"
+    *: "Átlagos bitráta"
   </voice>
 </phrase>
 <phrase>
@@ -12640,10 +12627,10 @@
     *: "Playing time"
   </source>
   <dest>
-    *: "Playing time"
+    *: "Lejátszási idő"
   </dest>
   <voice>
-    *: "Playing time"
+    *: "Lejátszási idő"
   </voice>
 </phrase>
 <phrase>
@@ -12656,11 +12643,11 @@
   </source>
   <dest>
     *: none
-    charging: "Delay Before Resume"
+    charging: "Késleltetés folytatás előtt"
   </dest>
   <voice>
     *: none
-    charging: "Delay Before Resume"
+    charging: "Késleltetés folytatás előtt"
   </voice>
 </phrase>
 <phrase>
@@ -12677,7 +12664,7 @@
   </dest>
   <voice>
     *: none
-    pitchscreen: "Absolute mode"
+    pitchscreen: "Abszolút mód"
   </voice>
 </phrase>
 <phrase>
@@ -12694,7 +12681,7 @@
   </dest>
   <voice>
     *: none
-    pitchscreen: "Semitone mode"
+    pitchscreen: "Félhang mód"
   </voice>
 </phrase>
 <phrase>
@@ -12711,7 +12698,7 @@
   </dest>
   <voice>
     *: none
-    pitchscreen: "Time stretch"
+    pitchscreen: "Időnyújtás"
   </voice>
 </phrase>
 <phrase>
@@ -12722,10 +12709,10 @@
     *: "Remote Control"
   </source>
   <dest>
-    *: "Remote Control"
+    *: "Távirányítás"
   </dest>
   <voice>
-    *: "Remote Control"
+    *: "Távirányítás"
   </voice>
 </phrase>
 <phrase>
@@ -12736,10 +12723,10 @@
     *: "No Rem. Control"
   </source>
   <dest>
-    *: "No Rem. Control"
+    *: "Nincs távirányítás"
   </dest>
   <voice>
-    *: "No Remote Control"
+    *: "Nincs távirányítás"
   </voice>
 </phrase>
 <phrase>
@@ -12750,10 +12737,10 @@
     *: "Out of Control"
   </source>
   <dest>
-    *: "Out of Control"
+    *: "Irányíthatatlan"
   </dest>
   <voice>
-    *: "Out of Control"
+    *: "Irányíthatatlan"
   </voice>
 </phrase>
 <phrase>
@@ -12764,10 +12751,10 @@
     *: "2 Key Control"
   </source>
   <dest>
-    *: "2 Key Control"
+    *: "2 gombos irányítás"
   </dest>
   <voice>
-    *: "2 Key Control"
+    *: "2 gombos irányítás"
   </voice>
 </phrase>
 <phrase>
@@ -12778,10 +12765,10 @@
     *: "4 Key Control"
   </source>
   <dest>
-    *: "4 Key Control"
+    *: "4 gombos irányítás"
   </dest>
   <voice>
-    *: "4 Key Control"
+    *: "4 gombos irányítás"
   </voice>
 </phrase>
 <phrase>
@@ -12792,10 +12779,10 @@
     *: "Play Wormlet!"
   </source>
   <dest>
-    *: "Play Wormlet!"
+    *: "Wormlet Indítása!"
   </dest>
   <voice>
-    *: "Play Wormlet!"
+    *: "Wormlet Indítása!"
   </voice>
 </phrase>
 <phrase>
@@ -12806,10 +12793,10 @@
     *: "Number of Worms"
   </source>
   <dest>
-    *: "Number of Worms"
+    *: "Kukacok száma"
   </dest>
   <voice>
-    *: "Number of Worms"
+    *: "Kukacok száma"
   </voice>
 </phrase>
 <phrase>
@@ -12820,10 +12807,10 @@
     *: "Worm Growth Per Food"
   </source>
   <dest>
-    *: "Worm Growth Per Food"
+    *: "Kukac növekedése kajánként"
   </dest>
   <voice>
-    *: "Worm Growth Per Food"
+    *: "Kukac növekedése kajánként"
   </voice>
 </phrase>
 <phrase>
@@ -12834,10 +12821,10 @@
     *: "Worm Speed"
   </source>
   <dest>
-    *: "Worm Speed"
+    *: "Kukac sebesség"
   </dest>
   <voice>
-    *: "Worm Speed"
+    *: "Kukac sebesség"
   </voice>
 </phrase>
 <phrase>
@@ -12848,10 +12835,10 @@
     *: "Arghs Per Food"
   </source>
   <dest>
-    *: "Arghs Per Food"
+    *: "Arghok kajánként"
   </dest>
   <voice>
-    *: "Arghs Per Food"
+    *: "Arghok kajánként"
   </voice>
 </phrase>
 <phrase>
@@ -12862,10 +12849,10 @@
     *: "Argh Size"
   </source>
   <dest>
-    *: "Argh Size"
+    *: "Argh méret"
   </dest>
   <voice>
-    *: "Argh Size"
+    *: "Argh méret"
   </voice>
 </phrase>
 <phrase>
@@ -12876,10 +12863,10 @@
     *: "Food Size"
   </source>
   <dest>
-    *: "Food Size"
+    *: "Kaja méret"
   </dest>
   <voice>
-    *: "Food Size"
+    *: "Kaja méret"
   </voice>
 </phrase>
 <phrase>
@@ -12890,10 +12877,10 @@
     *: "Number of Players"
   </source>
   <dest>
-    *: "Number of Players"
+    *: "Játékosok száma"
   </dest>
   <voice>
-    *: "Number of Players"
+    *: "Játékosok száma"
   </voice>
 </phrase>
 <phrase>
@@ -12904,10 +12891,10 @@
     *: "Control Style"
   </source>
   <dest>
-    *: "Control Style"
+    *: "Irányítás típusa"
   </dest>
   <voice>
-    *: "Control Style"
+    *: "Irányítás típusa"
   </voice>
 </phrase>
 <phrase>
@@ -12918,10 +12905,10 @@
     *: "Revert to Default Settings"
   </source>
   <dest>
-    *: "Revert to Default Settings"
+    *: "Alapbeállítások visszaállítása"
   </dest>
   <voice>
-    *: "Revert to Default Settings"
+    *: "Alapbeállítások visszaállítása"
   </voice>
 </phrase>
 <phrase>
@@ -12932,10 +12919,10 @@
     *: "Quit"
   </source>
   <dest>
-    *: "Quit"
+    *: "Kilépés"
   </dest>
   <voice>
-    *: "Quit"
+    *: "Kilépés"
   </voice>
 </phrase>
 <phrase>
@@ -12946,10 +12933,10 @@
     *: "Display Options"
   </source>
   <dest>
-    *: "Display Options"
+    *: "Kijelző beállítások"
   </dest>
   <voice>
-    *: "Display Options"
+    *: "Kijelző beállítások"
   </voice>
 </phrase>
 <phrase>
@@ -12960,10 +12947,10 @@
     *: "Previous Track"
   </source>
   <dest>
-    *: "Previous Track"
+    *: "Előző szám"
   </dest>
   <voice>
-    *: "Previous Track"
+    *: "Előző szám"
   </voice>
 </phrase>
 <phrase>
@@ -12974,10 +12961,10 @@
     *: "Pause / Play"
   </source>
   <dest>
-    *: "Pause / Play"
+    *: "Szünet / Lejátszás"
   </dest>
   <voice>
-    *: "Pause / Play"
+    *: "Szünet / Lejátszás"
   </voice>
 </phrase>
 <phrase>
@@ -12988,10 +12975,10 @@
     *: "Stop Playback"
   </source>
   <dest>
-    *: "Stop Playback"
+    *: "Lejátszás megállítása"
   </dest>
   <voice>
-    *: "Stop Playback"
+    *: "Lejátszás megállítása"
   </voice>
 </phrase>
 <phrase>
@@ -13002,10 +12989,10 @@
     *: "Next Track"
   </source>
   <dest>
-    *: "Next Track"
+    *: "Következő szám"
   </dest>
   <voice>
-    *: "Next Track"
+    *: "Következő szám"
   </voice>
 </phrase>
 <phrase>
@@ -13016,10 +13003,10 @@
     *: "Change Volume"
   </source>
   <dest>
-    *: "Change Volume"
+    *: "Hangerő vezérlés"
   </dest>
   <voice>
-    *: "Change Volume"
+    *: "Hangerő vezérlés"
   </voice>
 </phrase>
 <phrase>
@@ -13030,10 +13017,10 @@
     *: "Shuffle Mode"
   </source>
   <dest>
-    *: "Shuffle Mode"
+    *: "Véletlenszerű mód lejátszás"
   </dest>
   <voice>
-    *: "Shuffle Mode"
+    *: "Véletlenszerű mód lejátszás"
   </voice>
 </phrase>
 <phrase>
@@ -13044,10 +13031,10 @@
     *: "Change Repeat Mode"
   </source>
   <dest>
-    *: "Change Repeat Mode"
+    *: "Ismétlés mód váltás"
   </dest>
   <voice>
-    *: "Change Repeat Mode"
+    *: "Ismétlés mód váltás"
   </voice>
 </phrase>
 <phrase>
@@ -13058,10 +13045,10 @@
     *: "Playback Control"
   </source>
   <dest>
-    *: "Playback Control"
+    *: "Lejátszás vezérlés"
   </dest>
   <voice>
-    *: "Playback Control"
+    *: "Lejátszás vezérlés"
   </voice>
 </phrase>
 <phrase>
@@ -13072,10 +13059,10 @@
     *: "Checkmate!"
   </source>
   <dest>
-    *: "Checkmate!"
+    *: "Sakk-matt!"
   </dest>
   <voice>
-    *: "Checkmate!"
+    *: "Sakk-matt!"
   </voice>
 </phrase>
 <phrase>
@@ -13086,10 +13073,10 @@
     *: "Illegal move!"
   </source>
   <dest>
-    *: "Illegal move!"
+    *: "Szabálytalan lépés!"
   </dest>
   <voice>
-    *: "Illegal move!"
+    *: "Szabálytalan lépés!"
   </voice>
 </phrase>
 <phrase>
@@ -13100,10 +13087,10 @@
     *: "New Game"
   </source>
   <dest>
-    *: "New Game"
+    *: "Új játék"
   </dest>
   <voice>
-    *: "New Game"
+    *: "Új játék"
   </voice>
 </phrase>
 <phrase>
@@ -13114,10 +13101,10 @@
     *: "Resume Game"
   </source>
   <dest>
-    *: "Resume Game"
+    *: "Játék folytatása"
   </dest>
   <voice>
-    *: "Resume Game"
+    *: "Játék folytatása"
   </voice>
 </phrase>
 <phrase>
@@ -13128,10 +13115,10 @@
     *: "Save Game"
   </source>
   <dest>
-    *: "Save Game"
+    *: "Játék mentése"
   </dest>
   <voice>
-    *: "Save Game"
+    *: "Játék mentése"
   </voice>
 </phrase>
 <phrase>
@@ -13142,10 +13129,10 @@
     *: "Restore Game"
   </source>
   <dest>
-    *: "Restore Game"
+    *: "Játék visszaállítása"
   </dest>
   <voice>
-    *: "Restore Game"
+    *: "Játék visszaállítása"
   </voice>
 </phrase>
 <phrase>
@@ -13156,10 +13143,10 @@
     *: "Restart Game"
   </source>
   <dest>
-    *: "Restart Game"
+    *: "Játék újraindítása"
   </dest>
   <voice>
-    *: "Restart Game"
+    *: "Játék újraindítása"
   </voice>
 </phrase>
 <phrase>
@@ -13170,10 +13157,10 @@
     *: "Select Other Game"
   </source>
   <dest>
-    *: "Select Other Game"
+    *: "Másik játék kiválasztása"
   </dest>
   <voice>
-    *: "Select Other Game"
+    *: "Másik játék kiválasztása"
   </voice>
 </phrase>
 <phrase>
@@ -13184,10 +13171,10 @@
     *: "Level 1: 60 moves / 5 min"
   </source>
   <dest>
-    *: "Level 1: 60 moves / 5 min"
+    *: "1-es szint: 60 lépés / 5 perc"
   </dest>
   <voice>
-    *: "Level 1, 60 moves per 5 minutes"
+    *: "1-es szint, 60 lépés 5 perc alatt"
   </voice>
 </phrase>
 <phrase>
@@ -13198,10 +13185,10 @@
     *: "Level 2: 60 moves / 15 min"
   </source>
   <dest>
-    *: "Level 2: 60 moves / 15 min"
+    *: "2-es szint: 60 lépés / 15 perc"
   </dest>
   <voice>
-    *: "Level 2, 60 moves per 15 minutes"
+    *: "2-es szint, 60 lépés 15 perc alatt"
   </voice>
 </phrase>
 <phrase>
@@ -13212,10 +13199,10 @@
     *: "Level 3: 60 moves / 30 min"
   </source>
   <dest>
-    *: "Level 3: 60 moves / 30 min"
+    *: "3-as szint: 60 lépés / 30 perc"
   </dest>
   <voice>
-    *: "Level 3, 60 moves per 30 minutes"
+    *: "3-as szint, 60 lépés 30 perc alatt"
   </voice>
 </phrase>
 <phrase>
@@ -13226,10 +13213,10 @@
     *: "Level 4: 40 moves / 30 min"
   </source>
   <dest>
-    *: "Level 4: 40 moves / 30 min"
+    *: "4-es szint: 40 lépés / 30 perc"
   </dest>
   <voice>
-    *: "Level 4, 40 moves per 30 minutes"
+    *: "4-es szint, 40 lépés 30 perc alatt"
   </voice>
 </phrase>
 <phrase>
@@ -13240,10 +13227,10 @@
     *: "Level 5: 40 moves / 60 min"
   </source>
   <dest>
-    *: "Level 5: 40 moves / 60 min"
+    *: "5-ös szint: 40 lépés / 60 perc"
   </dest>
   <voice>
-    *: "Level 5, 40 moves per 60 minutes"
+    *: "5-ös szint, 40 lépés 60 perc alatt"
   </voice>
 </phrase>
 <phrase>
@@ -13254,10 +13241,10 @@
     *: "Level 6: 40 moves / 120 min"
   </source>
   <dest>
-    *: "Level 6: 40 moves / 120 min"
+    *: "6-os szint: 40 lépés / 120 perc"
   </dest>
   <voice>
-    *: "Level 6, 40 moves per 120 minutes"
+    *: "6-os szint, 40 lépés 120 perc alatt"
   </voice>
 </phrase>
 <phrase>
@@ -13268,10 +13255,10 @@
     *: "Level 7: 40 moves / 240 min"
   </source>
   <dest>
-    *: "Level 7: 40 moves / 240 min"
+    *: "7-es szint: 40 lépés / 240 perc"
   </dest>
   <voice>
-    *: "Level 7, 40 moves per 240 minutes"
+    *: "7-es szint, 40 lépés 240 perc alatt"
   </voice>
 </phrase>
 <phrase>
@@ -13282,10 +13269,10 @@
     *: "Error parsing game !"
   </source>
   <dest>
-    *: "Error parsing game !"
+    *: "Hiba a játék elemzésekor!"
   </dest>
   <voice>
-    *: "Error parsing game !"
+    *: "Hiba a játék elemzésekor!"
   </voice>
 </phrase>
 <phrase>
@@ -13296,10 +13283,10 @@
     *: "No games found !"
   </source>
   <dest>
-    *: "No games found !"
+    *: "Nem található játék !"
   </dest>
   <voice>
-    *: "No games found!"
+    *: "Nem található játék!"
   </voice>
 </phrase>
 <phrase>
@@ -13310,10 +13297,10 @@
     *: "At the beginning of the game"
   </source>
   <dest>
-    *: "At the beginning of the game"
+    *: "A játék elején"
   </dest>
   <voice>
-    *: "At the beginning of the game"
+    *: "A játék elején"
   </voice>
 </phrase>
 <phrase>
@@ -13324,10 +13311,10 @@
     *: "At the end of the game"
   </source>
   <dest>
-    *: "At the end of the game"
+    *: "A játék végén"
   </dest>
   <voice>
-    *: "At the end of the game"
+    *: "A játék végén"
   </voice>
 </phrase>
 <phrase>
@@ -13341,7 +13328,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Player"
+    *: "Játékos"
   </voice>
 </phrase>
 <phrase>
@@ -13355,7 +13342,7 @@
     *: ""
   </dest>
   <voice>
-    *: "GNU Chess"
+    *: "GNU Sakk"
   </voice>
 </phrase>
 <phrase>
@@ -13369,7 +13356,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Marked"
+    *: "Jelölve"
   </voice>
 </phrase>
 <phrase>
@@ -13383,7 +13370,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Unmarked"
+    *: "Jelöletlen"
   </voice>
 </phrase>
 <phrase>
@@ -13397,7 +13384,7 @@
     *: ""
   </dest>
   <voice>
-    *: "White"
+    *: "Fehér"
   </voice>
 </phrase>
 <phrase>
@@ -13411,7 +13398,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Black"
+    *: "Fekete"
   </voice>
 </phrase>
 <phrase>
@@ -13425,7 +13412,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Check!"
+    *: "Sakk!"
   </voice>
 </phrase>
 <phrase>
@@ -13439,7 +13426,7 @@
     *: ""
   </dest>
   <voice>
-    *: "captures"
+    *: "leüti"
   </voice>
 </phrase>
 <phrase>
@@ -13453,7 +13440,7 @@
     *: ""
   </dest>
   <voice>
-    *: "castle"
+    *: "sáncolás"
   </voice>
 </phrase>
 <phrase>
@@ -13467,7 +13454,7 @@
     *: ""
   </dest>
   <voice>
-    *: "king side"
+    *: "király oldali"
   </voice>
 </phrase>
 <phrase>
@@ -13481,7 +13468,7 @@
     *: ""
   </dest>
   <voice>
-    *: "queen side"
+    *: "vezér oldali"
   </voice>
 </phrase>
 <phrase>
@@ -13495,7 +13482,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Pawn"
+    *: "Gyalog"
   </voice>
 </phrase>
 <phrase>
@@ -13509,7 +13496,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Knight"
+    *: "Lovag"
   </voice>
 </phrase>
 <phrase>
@@ -13523,7 +13510,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Bishop"
+    *: "Futó"
   </voice>
 </phrase>
 <phrase>
@@ -13537,7 +13524,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Rook"
+    *: "Bástya"
   </voice>
 </phrase>
 <phrase>
@@ -13551,7 +13538,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Queen"
+    *: "Vezér"
   </voice>
 </phrase>
 <phrase>
@@ -13565,7 +13552,7 @@
     *: ""
   </dest>
   <voice>
-    *: "King"
+    *: "Király"
   </voice>
 </phrase>
 <phrase>
@@ -13576,7 +13563,7 @@
     *: "Games"
   </source>
   <dest>
-    *: "Games"
+    *: "Játékok"
   </dest>
   <voice>
     *: ""
@@ -13590,10 +13577,10 @@
     *: "Saving position"
   </source>
   <dest>
-    *: "Saving position"
+    *: "Pozició mentése"
   </dest>
   <voice>
-    *: "Saving position"
+    *: "Pozició mentése"
   </voice>
 </phrase>
 <phrase>
@@ -13604,10 +13591,10 @@
     *: "Loading position"
   </source>
   <dest>
-    *: "Loading position"
+    *: "Pozició betöltése"
   </dest>
   <voice>
-    *: "Loading position"
+    *: "Pozició betöltése"
   </voice>
 </phrase>
 <phrase>
@@ -13618,10 +13605,10 @@
     *: "Thinking..."
   </source>
   <dest>
-    *: "Thinking..."
+    *: "Gondolkodom..."
   </dest>
   <voice>
-    *: "Thinking"
+    *: "Gondolkodom"
   </voice>
 </phrase>
 <phrase>
@@ -13635,7 +13622,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Battery bench is already running"
+    *: "Akkumulátor teszt már fut"
   </voice>
 </phrase>
 <phrase>
@@ -13649,7 +13636,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Press play to run battery bench or stop to cancel"
+    *: "Nyomd meg a play gombot az akkumulátor teszt indításhoz vagy stoppot a megszakításhoz"
   </voice>
 </phrase>
 <phrase>
@@ -13660,10 +13647,10 @@
     *: "Cannot restart playback"
   </source>
   <dest>
-    *: "Cannot restart playback"
+    *: "A lejátszás nem indítható újra"
   </dest>
   <voice>
-    *: "Cannot restart playback"
+    *: "A lejátszás nem indítható újra"
   </voice>
 </phrase>
 <phrase>
@@ -13674,10 +13661,10 @@
     *: "Ordered"
   </source>
   <dest>
-    *: "Ordered"
+    *: "Rendezett"
   </dest>
   <voice>
-    *: "Ordered"
+    *: "Rendezett"
   </voice>
 </phrase>
 <phrase>
@@ -13688,10 +13675,10 @@
     *: "Diffusion"
   </source>
   <dest>
-    *: "Diffusion"
+    *: "Diffúzió"
   </dest>
   <voice>
-    *: "Diffusion"
+    *: "Diffúzió"
   </voice>
 </phrase>
 <phrase>
@@ -13702,10 +13689,10 @@
     *: "Grayscale"
   </source>
   <dest>
-    *: "Grayscale"
+    *: "Szürkeárnyalat"
   </dest>
   <voice>
-    *: "Grayscale"
+    *: "Szürkeárnyalat"
   </voice>
 </phrase>
 <phrase>
@@ -13716,10 +13703,10 @@
     *: "Toggle Slideshow Mode"
   </source>
   <dest>
-    *: "Toggle Slideshow Mode"
+    *: "Diavetítés mód"
   </dest>
   <voice>
-    *: "Toggle Slide show Mode"
+    *: "Diavetítés mód"
   </voice>
 </phrase>
 <phrase>
@@ -13730,10 +13717,10 @@
     *: "Slideshow Time"
   </source>
   <dest>
-    *: "Slideshow Time"
+    *: "Diavetítés ideje"
   </dest>
   <voice>
-    *: "Slide show Time"
+    *: "Diavetítés ideje"
   </voice>
 </phrase>
 <phrase>
@@ -13744,10 +13731,10 @@
     *: "Return"
   </source>
   <dest>
-    *: "Return"
+    *: "Vissza"
   </dest>
   <voice>
-    *: "Return"
+    *: "Vissza"
   </voice>
 </phrase>
 <phrase>
@@ -13760,11 +13747,11 @@
   </source>
   <dest>
     *: none
-    recording: "Recording Directory"
+    recording: "Felvételek könyvtára"
   </dest>
   <voice>
     *: none
-    recording: "Recording Directory"
+    recording: "Felvételek könyvtára"
   </voice>
 </phrase>
 <phrase>
@@ -13775,10 +13762,10 @@
     *: "View Played Games"
   </source>
   <dest>
-    *: "View Played Games"
+    *: "Játszott játékok megtekintése"
   </dest>
   <voice>
-    *: "View Played Games"
+    *: "Játszott játékok megtekintése"
   </voice>
 </phrase>
 <phrase>
@@ -13790,11 +13777,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Audio Options"
+    *: "Hang beállítások"
     lowmem: none
   </dest>
   <voice>
-    *: "Audio Options"
+    *: "Hang beállítások"
     lowmem: none
   </voice>
 </phrase>
@@ -13807,11 +13794,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Resume Options"
+    *: "Folytatási opciók"
     lowmem: none
   </dest>
   <voice>
-    *: "Resume Options"
+    *: "Folytatási opciók"
     lowmem: none
   </voice>
 </phrase>
@@ -13824,11 +13811,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Play Mode"
+    *: "Lejátszás mód"
     lowmem: none
   </dest>
   <voice>
-    *: "Play Mode"
+    *: "Lejátszás mód"
     lowmem: none
   </voice>
 </phrase>
@@ -13841,11 +13828,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Single"
+    *: "Egyszeri"
     lowmem: none
   </dest>
   <voice>
-    *: "Single"
+    *: "Egyszeri"
     lowmem: none
   </voice>
 </phrase>
@@ -13858,11 +13845,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Use sound setting"
+    *: "Hangbeállítás használata"
     lowmem: none
   </dest>
   <voice>
-    *: "Use sound setting"
+    *: "Hangbeállítás használata"
     lowmem: none
   </voice>
 </phrase>
@@ -13875,11 +13862,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Play from beginning"
+    *: "Lejátszás elejétől"
     lowmem: none
   </dest>
   <voice>
-    *: "Play from beginning"
+    *: "Lejátszás elejétől"
     lowmem: none
   </voice>
 </phrase>
@@ -13892,11 +13879,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Set resume time (min)"
+    *: "Folytatás idejének beállítása (percben)"
     lowmem: none
   </dest>
   <voice>
-    *: "Set resume time"
+    *: "Folytatás idejének beállítása percben"
     lowmem: none
   </voice>
 </phrase>
@@ -13908,10 +13895,10 @@
     *: "Display FPS"
   </source>
   <dest>
-    *: "Display FPS"
+    *: "FPS számláló mutatása"
   </dest>
   <voice>
-    *: "Display FPS"
+    *: "FPS számláló mutatása"
   </voice>
 </phrase>
 <phrase>
@@ -13923,11 +13910,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Limit FPS"
+    *: "FPS számláló korlátozása"
     lowmem: none
   </dest>
   <voice>
-    *: "Limit FPS"
+    *: "FPS számláló korlátozása"
     lowmem: none
   </voice>
 </phrase>
@@ -13940,11 +13927,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Skip frames"
+    *: "Képkocka kihagyás"
     lowmem: none
   </dest>
   <voice>
-    *: "Skip frames"
+    *: "Képkocka kihagyás"
     lowmem: none
   </voice>
 </phrase>
@@ -13957,11 +13944,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Backlight brightness"
+    *: "Háttérvilágítás fényereje"
     lowmem: none
   </dest>
   <voice>
-    *: "Backlight brightness"
+    *: "Háttérvilágítás fényereje"
     lowmem: none
   </voice>
 </phrase>
@@ -13974,11 +13961,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Use common setting"
+    *: "Általános beállítások használata"
     lowmem: none
   </dest>
   <voice>
-    *: "Use common setting"
+    *: "Általános beállítások használata"
     lowmem: none
   </voice>
 </phrase>
@@ -13991,11 +13978,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Tone controls"
+    *: "Hangszínszabályzók"
     lowmem: none
   </dest>
   <voice>
-    *: "Tone controls"
+    *: "Hangszínszabályzók"
     lowmem: none
   </voice>
 </phrase>
@@ -14008,11 +13995,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Start menu"
+    *: "Start menü"
     lowmem: none
   </dest>
   <voice>
-    *: "Start menu"
+    *: "Start menü"
     lowmem: none
   </voice>
 </phrase>
@@ -14025,11 +14012,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Start menu if not completed"
+    *: "Start menü ha nincs kész"
     lowmem: none
   </dest>
   <voice>
-    *: "Start menu if not completed"
+    *: "Start menü ha nincs kész"
     lowmem: none
   </voice>
 </phrase>
@@ -14042,11 +14029,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Resume automatically"
+    *: "Automatikusan folytatás"
     lowmem: none
   </dest>
   <voice>
-    *: "Resume automatically"
+    *: "Automatikusan folytatás"
     lowmem: none
   </voice>
 </phrase>
@@ -14059,11 +14046,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Clear all resumes"
+    *: "Összes folytatás törlése"
     lowmem: none
   </dest>
   <voice>
-    *: "Clear all resumes"
+    *: "Összes folytatás törlése"
     lowmem: none
   </voice>
 </phrase>
@@ -14076,11 +14063,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Unavailable"
+    *: "Nem elérhető"
     lowmem: none
   </dest>
   <voice>
-    *: "Unavailable"
+    *: "Nem elérhető"
     lowmem: none
   </voice>
 </phrase>
@@ -14106,10 +14093,10 @@
     *: "Move Item Up"
   </source>
   <dest>
-    *: "Move Item Up"
+    *: "Elem fel mozgatása"
   </dest>
   <voice>
-    *: "Move Item Up"
+    *: "Elem fel mozgatása"
   </voice>
 </phrase>
 <phrase>
@@ -14120,10 +14107,10 @@
     *: "Move Item Down"
   </source>
   <dest>
-    *: "Move Item Down"
+    *: "Elem le mozgatása"
   </dest>
   <voice>
-    *: "Move Item Down"
+    *: "Elem le mozgatása"
   </voice>
 </phrase>
 <phrase>
@@ -14134,10 +14121,10 @@
     *: "Load Default Configuration"
   </source>
   <dest>
-    *: "Load Default Configuration"
+    *: "Alap konfiguráció betöltése"
   </dest>
   <voice>
-    *: "Load Default Configuration"
+    *: "Alap konfiguráció betöltése"
   </voice>
 </phrase>
 <phrase>
@@ -14148,10 +14135,10 @@
     *: "Save and Exit"
   </source>
   <dest>
-    *: "Save and Exit"
+    *: "Mentés és kilépés"
   </dest>
   <voice>
-    *: "Save and Exit"
+    *: "Mentés és kilépés"
   </voice>
 </phrase>
 <phrase>
@@ -14176,10 +14163,10 @@
     *: "[Path]"
   </source>
   <dest>
-    *: "[Path]"
+    *: "[Útvonal]"
   </dest>
   <voice>
-    *: "Path"
+    *: "Útvonal"
   </voice>
 </phrase>
 <phrase>
@@ -14190,10 +14177,10 @@
     *: "[Filename]"
   </source>
   <dest>
-    *: "[Filename]"
+    *: "[Fájlnév]"
   </dest>
   <voice>
-    *: "Filename"
+    *: "Fájlnév"
   </voice>
 </phrase>
 <phrase>
@@ -14204,10 +14191,10 @@
     *: "[Size]"
   </source>
   <dest>
-    *: "[Size]"
+    *: "[Méret]"
   </dest>
   <voice>
-    *: "Size"
+    *: "Méret"
   </voice>
 </phrase>
 <phrase>
@@ -14218,10 +14205,10 @@
     *: "[Date]"
   </source>
   <dest>
-    *: "[Date]"
+    *: "[Dátum]"
   </dest>
   <voice>
-    *: "Date"
+    *: "Dátum"
   </voice>
 </phrase>
 <phrase>
@@ -14232,10 +14219,10 @@
     *: "[Time]"
   </source>
   <dest>
-    *: "[Time]"
+    *: "[Idő]"
   </dest>
   <voice>
-    *: "Time"
+    *: "Idő"
   </voice>
 </phrase>
 <phrase>
@@ -14246,10 +14233,10 @@
     *: "[Subdirs]"
   </source>
   <dest>
-    *: "[Subdirs]"
+    *: "[Alkönyvtárak]"
   </dest>
   <voice>
-    *: "Subdirs"
+    *: "Alkönyvtárak"
   </voice>
 </phrase>
 <phrase>
@@ -14260,10 +14247,10 @@
     *: "[Files]"
   </source>
   <dest>
-    *: "[Files]"
+    *: "[Fájlok]"
   </dest>
   <voice>
-    *: "Files"
+    *: "Fájlok"
   </voice>
 </phrase>
 <phrase>
@@ -14274,7 +14261,7 @@
     *: "Directory properties"
   </source>
   <dest>
-    *: "Directory properties"
+    *: "Könyvtár tulajdonságok"
   </dest>
   <voice>
     *: ""
@@ -14288,7 +14275,7 @@
     *: "File properties"
   </source>
   <dest>
-    *: "File properties"
+    *: "Fájl tulajdonságok"
   </dest>
   <voice>
     *: ""
@@ -14302,10 +14289,10 @@
     *: "Failed to gather information"
   </source>
   <dest>
-    *: "Failed to gather information"
+    *: "Az információ gyűjtése sikertelen"
   </dest>
   <voice>
-    *: "Failed to gather information"
+    *: "Az információ gyűjtése sikertelen"
   </voice>
 </phrase>
 <phrase>
@@ -14316,10 +14303,10 @@
     *: "Swap Channels"
   </source>
   <dest>
-    *: "Swap Channels"
+    *: "Csatornák felcserélése"
   </dest>
   <voice>
-    *: "Swap Channels"
+    *: "Csatornák felcserélése"
   </voice>
 </phrase>
 <phrase>
@@ -14331,11 +14318,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Panning Separation"
+    *: "Hang panoráma szeparáció"
     lowmem: none
   </dest>
   <voice>
-    *: "Panning Separation"
+    *: "Hang panoráma szeparáció"
     lowmem: none
   </voice>
 </phrase>
@@ -14348,11 +14335,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Reverberation"
+    *: "Visszhangzás"
     lowmem: none
   </dest>
   <voice>
-    *: "Reverberation"
+    *: "Visszhangzás"
     lowmem: none
   </voice>
 </phrase>
@@ -14365,11 +14352,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Interpolation"
+    *: "Interpoláció"
     lowmem: none
   </dest>
   <voice>
-    *: "Interpolation"
+    *: "Interpoláció"
     lowmem: none
   </voice>
 </phrase>
@@ -14382,11 +14369,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Surround"
+    *: "Térhatás"
     lowmem: none
   </dest>
   <voice>
-    *: "Surround"
+    *: "Térhatás"
     lowmem: none
   </voice>
 </phrase>
@@ -14399,11 +14386,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "HQ Mixer"
+    *: "Magas minőségű keverő"
     lowmem: none
   </dest>
   <voice>
-    *: "High Quality Mixer"
+    *: "Magas minőségű keverő"
     lowmem: none
   </voice>
 </phrase>
@@ -14416,11 +14403,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "Sample Rate"
+    *: "Mintavételi Frekvencia"
     lowmem: none
   </dest>
   <voice>
-    *: "Sample Rate"
+    *: "Mintavételi Frekvencia"
     lowmem: none
   </voice>
 </phrase>
@@ -14433,11 +14420,11 @@
     lowmem: none
   </source>
   <dest>
-    *: "CPU Boost"
+    *: "Processzor (CPU) gyorsítás"
     lowmem: none
   </dest>
   <voice>
-    *: "CPU Boost"
+    *: "Processzor avagy CPU gyorsítás"
     lowmem: none
   </voice>
 </phrase>
@@ -14449,10 +14436,10 @@
     *: "Spacing"
   </source>
   <dest>
-    *: "Spacing"
+    *: "Térköz"
   </dest>
   <voice>
-    *: "Spacing"
+    *: "Térköz"
   </voice>
 </phrase>
 <phrase>
@@ -14463,10 +14450,10 @@
     *: "Centre margin"
   </source>
   <dest>
-    *: "Centre margin"
+    *: "Középső margó"
   </dest>
   <voice>
-    *: "Centre margin"
+    *: "Középső margó"
   </voice>
 </phrase>
 <phrase>
@@ -14477,10 +14464,10 @@
     *: "Number of slides"
   </source>
   <dest>
-    *: "Number of slides"
+    *: "Diaképek mennyisége"
   </dest>
   <voice>
-    *: "Number of slides"
+    *: "Diaképek mennyisége"
   </voice>
 </phrase>
 <phrase>
@@ -14491,10 +14478,10 @@
     *: "Zoom"
   </source>
   <dest>
-    *: "Zoom"
+    *: "Nagyítás"
   </dest>
   <voice>
-    *: "Zoom"
+    *: "Nagyítás"
   </voice>
 </phrase>
 <phrase>
@@ -14505,10 +14492,10 @@
     *: "Show album title"
   </source>
   <dest>
-    *: "Show album title"
+    *: "Album cím kijelzése"
   </dest>
   <voice>
-    *: "Show album title"
+    *: "Album cím kijelzése"
   </voice>
 </phrase>
 <phrase>
@@ -14519,10 +14506,10 @@
     *: "Resize Covers"
   </source>
   <dest>
-    *: "Resize Covers"
+    *: "Albumborító átméretezése"
   </dest>
   <voice>
-    *: "Resize Covers"
+    *: "Albumborító átméretezése"
   </voice>
 </phrase>
 <phrase>
@@ -14533,10 +14520,10 @@
     *: "Rebuild cache"
   </source>
   <dest>
-    *: "Rebuild cache"
+    *: "Gyorsítótár újraépítése"
   </dest>
   <voice>
-    *: "Rebuild cache"
+    *: "Gyorsítótár újraépítése"
   </voice>
 </phrase>
 <phrase>
@@ -14547,10 +14534,10 @@
     *: "WPS Integration"
   </source>
   <dest>
-    *: "WPS Integration"
+    *: "WPS Integráció"
   </dest>
   <voice>
-    *: "WPS Integration"
+    *: "WPS Integráció"
   </voice>
 </phrase>
 <phrase>
@@ -14561,10 +14548,10 @@
     *: "Go to WPS"
   </source>
   <dest>
-    *: "Go to WPS"
+    *: "WPS-hez ugrás"
   </dest>
   <voice>
-    *: "Go to WPS"
+    *: "WPS-hez ugrás"
   </voice>
 </phrase>
 <phrase>
@@ -14575,10 +14562,10 @@
     *: "Hide album title"
   </source>
   <dest>
-    *: "Hide album title"
+    *: "Albumcím elrejtése"
   </dest>
   <voice>
-    *: "Hide album title"
+    *: "Albumcím elrejtése"
   </voice>
 </phrase>
 <phrase>
@@ -14589,10 +14576,10 @@
     *: "Show at the bottom"
   </source>
   <dest>
-    *: "Show at the bottom"
+    *: "Megjelenítés alul"
   </dest>
   <voice>
-    *: "Show at the bottom"
+    *: "Megjelenítés alul"
   </voice>
 </phrase>
 <phrase>
@@ -14603,10 +14590,10 @@
     *: "Show at the top"
   </source>
   <dest>
-    *: "Show at the top"
+    *: "Megjelenítés felül"
   </dest>
   <voice>
-    *: "Show at the top"
+    *: "Megjelenítés felül"
   </voice>
 </phrase>
 <phrase>
@@ -14617,10 +14604,10 @@
     *: "Direct"
   </source>
   <dest>
-    *: "Direct"
+    *: "Direkt"
   </dest>
   <voice>
-    *: "Direct"
+    *: "Direkt"
   </voice>
 </phrase>
 <phrase>
@@ -14631,10 +14618,10 @@
     *: "Via Track list"
   </source>
   <dest>
-    *: "Via Track list"
+    *: "Számlista alapján"
   </dest>
   <voice>
-    *: "Via Track list"
+    *: "Számlista alapján"
   </voice>
 </phrase>
 <phrase>
@@ -14645,10 +14632,10 @@
     *: "Always On"
   </source>
   <dest>
-    *: "Always On"
+    *: "Mindig be"
   </dest>
   <voice>
-    *: "Always On"
+    *: "Mindig be"
   </voice>
 </phrase>
 <phrase>
@@ -14659,10 +14646,10 @@
     *: "No album art found"
   </source>
   <dest>
-    *: "No album art found"
+    *: "Nem található albumborító"
   </dest>
   <voice>
-    *: "No album art found"
+    *: "Nem található albumborító"
   </voice>
 </phrase>
 <phrase>
@@ -14673,10 +14660,10 @@
     *: "Error writing config"
   </source>
   <dest>
-    *: "Error writing config"
+    *: "Hiba a konfig fájl irásakor"
   </dest>
   <voice>
-    *: "Error writing config"
+    *: "Hiba a konfig fájl irásakor"
   </voice>
 </phrase>
 <phrase>
@@ -14687,10 +14674,10 @@
     *: "Not a VBR file"
   </source>
   <dest>
-    *: "Not a VBR file"
+    *: "Nem VBR fájl"
   </dest>
   <voice>
-    *: "Not a VBR file"
+    *: "Nem VBR fájl"
   </voice>
 </phrase>
 <phrase>
@@ -14701,10 +14688,10 @@
     *: "File error: %d"
   </source>
   <dest>
-    *: "File error: %d"
+    *: "Fájl hiba: %d"
   </dest>
   <voice>
-    *: "File error"
+    *: "Fájl hiba"
   </voice>
 </phrase>
 <phrase>
@@ -14715,10 +14702,10 @@
     *: "Update cache"
   </source>
   <dest>
-    *: "Update cache"
+    *: "Gyorsítótár frissítése"
   </dest>
   <voice>
-    *: "Update cache"
+    *: "Gyorsítótár frissítése"
   </voice>
 </phrase>
 <phrase>
@@ -14729,10 +14716,10 @@
     *: "Hide information"
   </source>
   <dest>
-    *: "Hide information"
+    *: "Információ elrejtése"
   </dest>
   <voice>
-    *: "Hide information"
+    *: "Információ elrejtése"
   </voice>
 </phrase>
 <phrase>
@@ -14743,10 +14730,10 @@
     *: "Show album at the bottom"
   </source>
   <dest>
-    *: "Show album at the bottom"
+    *: "Album megjelenítése alul"
   </dest>
   <voice>
-    *: "Show album at the bottom"
+    *: "Album megjelenítése alul"
   </voice>
 </phrase>
 <phrase>
@@ -14757,10 +14744,10 @@
     *: "Show album at the top"
   </source>
   <dest>
-    *: "Show album at the top"
+    *: "Album megjelenítése felül"
   </dest>
   <voice>
-    *: "Show album at the top"
+    *: "Album megjelenítése felül"
   </voice>
 </phrase>
 <phrase>
@@ -14771,10 +14758,10 @@
     *: "Show album and artist at the top"
   </source>
   <dest>
-    *: "Show album and artist at the top"
+    *: "Album és előadó megjelenítése felül"
   </dest>
   <voice>
-    *: "Show album and artist at the top"
+    *: "Album és előadó megjelenítése felül"
   </voice>
 </phrase>
 <phrase>
@@ -14785,10 +14772,10 @@
     *: "Show album and artist at the bottom"
   </source>
   <dest>
-    *: "Show album and artist at the bottom"
+    *: "Album és előadó megjelenítése alul"
   </dest>
   <voice>
-    *: "Show album and artist at the bottom"
+    *: "Album és előadó megjelenítése alul"
   </voice>
 </phrase>
 <phrase>
@@ -14797,7 +14784,7 @@
   user: core
   <source>
     *: "Press LEFT to cancel."
-    android,hifietma*,zenvision: "Press BACK to cancel."
+    android,hifietma*: "Press BACK to cancel."
     cowond2,creativezenxfi2,ibassodx50,ibassodx90,mrobe500,ondavx747: "Press POWER to cancel."
     ihifi760,ihifi960: "Double tap RETURN to cancel."
     ihifi770,ihifi770c,ihifi800: "Press HOME to cancel."
@@ -14811,33 +14798,33 @@
     xduoox20,xduoox3,xduoox3ii: "Double tap HOME to cancel."
   </source>
   <dest>
-    *: "Press LEFT to cancel."
-    android,hifietma*,zenvision: "Press BACK to cancel."
-    cowond2,creativezenxfi2,ibassodx50,ibassodx90,mrobe500,ondavx747: "Press POWER to cancel."
-    ihifi760,ihifi960: "Double tap RETURN to cancel."
-    ihifi770,ihifi770c,ihifi800: "Press HOME to cancel."
-    iriverh10,samsungyh*: "Double tap LEFT to cancel."
-    mpiohd200: "Double tap REC to cancel."
-    mpiohd300: "Double tap MENU to cancel."
-    rx27generic: "Press VOLUME to cancel."
-    sonynwza860: "Keymaps incomplete."
-    touchscreen: "Press Middle Left to cancel."
-    vibe500: "Press PREV to cancel."
-    xduoox20,xduoox3,xduoox3ii: "Double tap HOME to cancel."
+    *: "Nyomja meg a LEFT gombot a megszakításhoz."
+    android,hifietma*: "Nyomja meg a BACK gombot a megszakításhoz."
+    cowond2,creativezenxfi2,ibassodx50,ibassodx90,mrobe500,ondavx747: "Nyomja meg a POWER gombot a megszakításhoz."
+    ihifi760,ihifi960: "Duplán koppintson a RETURN-re megszakításhoz."
+    ihifi770,ihifi770c,ihifi800: "Nyomja meg a HOME gombot a megszakításhoz."
+    iriverh10,samsungyh*: "Duplán koppintson a LEFT-re a megszakításhoz."
+    mpiohd200: "Duplán koppintson a REC-ra a megszakításhoz."
+    mpiohd300: "Duplán koppintson a MENU-re a megszakításhoz."
+    rx27generic: "Nyomja meg a VOLUME gombot a megszakításhoz."
+    sonynwza860: "A billentyűzetkiosztás hiányos."
+    touchscreen: "Nyomjon a Middle Left gombra a megszakításhoz."
+    vibe500: "Nyomja meg a PREV gombot a megszakításhoz."
+    xduoox20,xduoox3,xduoox3ii: "Duplán koppintson az HOME-ra megszakításhoz."
   </dest>
   <voice>
-    *: "Press LEFT to cancel."
-    android,hifietma*,zenvision: "Press BACK to cancel."
-    cowond2,creativezenxfi2,ibassodx50,ibassodx90,mrobe500,ondavx747: "Press POWER to cancel."
-    ihifi760,ihifi960: "Double tap RETURN to cancel."
-    ihifi770,ihifi770c,ihifi800: "Press HOME to cancel."
-    iriverh10,samsungyh*: "Double tap LEFT to cancel."
-    mpiohd200: "Double tap REC to cancel."
-    mpiohd300: "Double tap MENU to cancel."
-    rx27generic: "Press VOLUME to cancel."
-    touchscreen: "Press Middle Left to cancel."
-    vibe500: "Press PREV to cancel."
-    xduoox20,xduoox3,xduoox3ii: "Double tap HOME to cancel."
+    *: "Nyomja meg a LEFT gombot a megszakításhoz."
+    android,hifietma*: "Nyomja meg a BACK gombot a megszakításhoz."
+    cowond2,creativezenxfi2,ibassodx50,ibassodx90,mrobe500,ondavx747: "Nyomja meg a POWER gombot a megszakításhoz."
+    ihifi760,ihifi960: "Duplán koppintson a RETURN-re megszakításhoz."
+    ihifi770,ihifi770c,ihifi800: "Nyomja meg a HOME gombot a megszakításhoz."
+    iriverh10,samsungyh*: "Duplán koppintson a LEFT-re a megszakításhoz."
+    mpiohd200: "Duplán koppintson a REC-ra a megszakításhoz."
+    mpiohd300: "Duplán koppintson a MENU-re a megszakításhoz."
+    rx27generic: "Nyomja meg a VOLUME gombot a megszakításhoz."
+    touchscreen: "Nyomjon a Middle Left gombra a megszakításhoz."
+    vibe500: "Nyomja meg a PREV gombot a megszakításhoz."
+    xduoox20,xduoox3,xduoox3ii: "Duplán koppintson az HOME-ra megszakításhoz."
   </voice>
 </phrase>
 <phrase>
@@ -14848,10 +14835,10 @@
     *: "Date"
   </source>
   <dest>
-    *: "Date"
+    *: "Dátum"
   </dest>
   <voice>
-    *: "Date"
+    *: "Dátum"
   </voice>
 </phrase>
 <phrase>
@@ -14862,10 +14849,10 @@
     *: "Clear all"
   </source>
   <dest>
-    *: "Clear all"
+    *: "Összes törlése"
   </dest>
   <voice>
-    *: "Clear all"
+    *: "Összes törlése"
   </voice>
 </phrase>
 <phrase>
@@ -14876,10 +14863,10 @@
     *: "Cancel"
   </source>
   <dest>
-    *: "Cancel"
+    *: "Mégsem"
   </dest>
   <voice>
-    *: "Cancel"
+    *: "Mégsem"
   </voice>
 </phrase>
 <phrase>
@@ -14890,10 +14877,10 @@
     *: "Save"
   </source>
   <dest>
-    *: "Save"
+    *: "Mentés"
   </dest>
   <voice>
-    *: "Save"
+    *: "Mentés"
   </voice>
 </phrase>
 <phrase>
@@ -14904,10 +14891,10 @@
     *: "Timeout"
   </source>
   <dest>
-    *: "Timeout"
+    *: "Időtúllépés"
   </dest>
   <voice>
-    *: "Timeout"
+    *: "Időtúllépés"
   </voice>
 </phrase>
 <phrase>
@@ -14918,10 +14905,10 @@
     *: "Track"
   </source>
   <dest>
-    *: "Track"
+    *: "Szám"
   </dest>
   <voice>
-    *: "Track"
+    *: "Szám"
   </voice>
 </phrase>
 <phrase>
@@ -14932,10 +14919,10 @@
     *: "Elapsed"
   </source>
   <dest>
-    *: "Elapsed"
+    *: "Eltelt"
   </dest>
   <voice>
-    *: "Elapsed"
+    *: "Eltelt"
   </voice>
 </phrase>
 <phrase>
@@ -14948,11 +14935,11 @@
   </source>
   <dest>
     *: none
-    hotkey: "Announcement format"
+    hotkey: "Bejelentés formátuma"
   </dest>
   <voice>
     *: none
-    hotkey: "Announcement format"
+    hotkey: "Bejelentés formátuma"
   </voice>
 </phrase>
 <phrase>
@@ -14965,11 +14952,11 @@
   </source>
   <dest>
     *: none
-    hotkey: "Remain"
+    hotkey: "Lévő"
   </dest>
   <voice>
     *: none
-    hotkey: "Remain"
+    hotkey: "Lévő"
   </voice>
 </phrase>
 <phrase>
@@ -14982,11 +14969,11 @@
   </source>
   <dest>
     *: none
-    hotkey: "Grouping"
+    hotkey: "Csoportosítás"
   </dest>
   <voice>
     *: none
-    hotkey: "Grouping"
+    hotkey: "Csoportosítás"
   </voice>
 </phrase>
 <phrase>
@@ -14999,11 +14986,11 @@
   </source>
   <dest>
     *: none
-    hotkey: "Announce on"
+    hotkey: "Bejelentés be"
   </dest>
   <voice>
     *: none
-    hotkey: "Announce on"
+    hotkey: "Bejelentés be"
   </voice>
 </phrase>
 <phrase>
@@ -15016,11 +15003,11 @@
   </source>
   <dest>
     *: none
-    hotkey: "Track change"
+    hotkey: "Szám csere"
   </dest>
   <voice>
     *: none
-    hotkey: "Track change"
+    hotkey: "Szám csere"
   </voice>
 </phrase>
 <phrase>
@@ -15033,11 +15020,11 @@
   </source>
   <dest>
     *: none
-    hotkey: "Hold for settings"
+    hotkey: "Nyomvatartás a beállításokhoz"
   </dest>
   <voice>
     *: none
-    hotkey: "Hold for settings"
+    hotkey: "Nyomvatartás a beállításokhoz"
   </voice>
 </phrase>
 <phrase>
@@ -15048,10 +15035,10 @@
     *: "Open Plugin"
   </source>
   <dest>
-    *: "Open Plugin"
+    *: "Bővítmény megnyitása"
   </dest>
   <voice>
-    *: "Open Plugin"
+    *: "Bővítmény megnyitása"
   </voice>
 </phrase>
 <phrase>
@@ -15062,10 +15049,10 @@
     *: "Not a plugin: %s"
   </source>
   <dest>
-    *: "Not a plugin: %s"
+    *: "Nem bővítmény: %s"
   </dest>
   <voice>
-    *: "Not a plugin"
+    *: "Nem bővítmény"
   </voice>
 </phrase>
 <phrase>
@@ -15076,10 +15063,10 @@
     *: "Set WPS Context Plugin"
   </source>
   <dest>
-    *: "Set WPS Context Plugin"
+    *: "WPS Context Plugin beállítása"
   </dest>
   <voice>
-    *: "Set WPS Context Plugin"
+    *: "WPS Context Plugin beállítása"
   </voice>
 </phrase>
 <phrase>
@@ -15090,10 +15077,10 @@
     *: "Parameter"
   </source>
   <dest>
-    *: "Parameter"
+    *: "Paraméter"
   </dest>
   <voice>
-    *: "Parameter"
+    *: "Paraméter"
   </voice>
 </phrase>
 <phrase>
@@ -15104,10 +15091,10 @@
     *: "Name"
   </source>
   <dest>
-    *: "Name"
+    *: "Név"
   </dest>
   <voice>
-    *: "Name"
+    *: "Név"
   </voice>
 </phrase>
 <phrase>
@@ -15118,10 +15105,10 @@
     *: "Add"
   </source>
   <dest>
-    *: "Add"
+    *: "Hozzáad"
   </dest>
   <voice>
-    *: "Add"
+    *: "Hozzáad"
   </voice>
 </phrase>
 <phrase>
@@ -15132,10 +15119,10 @@
     *: "Back"
   </source>
   <dest>
-    *: "Back"
+    *: "Vissza"
   </dest>
   <voice>
-    *: "Back"
+    *: "Vissza"
   </voice>
 </phrase>
 <phrase>
@@ -15146,10 +15133,10 @@
     *: "Edit"
   </source>
   <dest>
-    *: "Edit"
+    *: "Szerkesztés"
   </dest>
   <voice>
-    *: "Edit"
+    *: "Szerkesztés"
   </voice>
 </phrase>
 <phrase>
@@ -15160,10 +15147,10 @@
     *: "Run"
   </source>
   <dest>
-    *: "Run"
+    *: "Futtatás"
   </dest>
   <voice>
-    *: "Run"
+    *: "Futtatás"
   </voice>
 </phrase>
 <phrase>
@@ -15174,10 +15161,10 @@
     *: "Export"
   </source>
   <dest>
-    *: "Export"
+    *: "Exportálás"
   </dest>
   <voice>
-    *: "Export"
+    *: "Exportálás"
   </voice>
 </phrase>
 <phrase>
@@ -15188,10 +15175,10 @@
     *: "Browse"
   </source>
   <dest>
-    *: "Browse"
+    *: "Böngészés"
   </dest>
   <voice>
-    *: "Browse"
+    *: "Böngészés"
   </voice>
 </phrase>
 <phrase>
@@ -15202,10 +15189,10 @@
     *: "Enter USB mass storage mode?"
   </source>
   <dest>
-    *: "Enter USB mass storage mode?"
+    *: "Belép USB háttértár módba?"
   </dest>
   <voice>
-    *: "Enter USB mass storage mode?"
+    *: "Belép USB háttértár módba?"
   </voice>
 </phrase>
 <phrase>
@@ -15216,10 +15203,10 @@
     *: "Queue..."
   </source>
   <dest>
-    *: "Queue..."
+    *: "Sorol..."
   </dest>
   <voice>
-    *: "Queue"
+    *: "Sorol"
   </voice>
 </phrase>
 <phrase>
@@ -15230,10 +15217,10 @@
     *: "Show Queue Options"
   </source>
   <dest>
-    *: "Show Queue Options"
+    *: "Sorolás opcióinak mutatása"
   </dest>
   <voice>
-    *: "Show Queue Options"
+    *: "Sorolás opcióinak mutatása"
   </voice>
 </phrase>
 <phrase>
@@ -15244,10 +15231,10 @@
     *: "Show Shuffled Adding Options"
   </source>
   <dest>
-    *: "Show Shuffled Adding Options"
+    *: "Véletlenszerűek hozzáadásának opcióinak mutatása"
   </dest>
   <voice>
-    *: "Show Shuffled Adding Options"
+    *: "Véletlenszerűek hozzáadásának opcióinak mutatása"
   </voice>
 </phrase>
 <phrase>
@@ -15258,10 +15245,10 @@
     *: "In Submenu"
   </source>
   <dest>
-    *: "In Submenu"
+    *: "Almenüben"
   </dest>
   <voice>
-    *: "In Submenu"
+    *: "Almenüben"
   </voice>
 </phrase>
 <phrase>
@@ -15272,10 +15259,10 @@
     *: "Disable All Lock Notifications"
   </source>
   <dest>
-    *: "Disable All Lock Notifications"
+    *: "Lezárt módban lévő értesítések kijelzésének kikapcsolása"
   </dest>
   <voice>
-    *: "Disable All Lock Notifications"
+    *: "Lezárt módban lévő értesítések kijelzésének kikapcsolása"
   </voice>
 </phrase>
 <phrase>
@@ -15286,10 +15273,10 @@
     *: "Exempt Volume"
   </source>
   <dest>
-    *: "Exempt Volume"
+    *: "Kivéve hangerő"
   </dest>
   <voice>
-    *: "Exempt Volume"
+    *: "Kivéve hangerő"
   </voice>
 </phrase>
 <phrase>
@@ -15300,10 +15287,10 @@
     *: "Always Autolock"
   </source>
   <dest>
-    *: "Always Autolock"
+    *: "Mindig autozár"
   </dest>
   <voice>
-    *: "Always Autolock"
+    *: "Mindig autozár"
   </voice>
 </phrase>
 <phrase>
@@ -15342,10 +15329,10 @@
     *: "List Wraparound"
   </source>
   <dest>
-    *: "List Wraparound"
+    *: "Lista körbefutás"
   </dest>
   <voice>
-    *: "List Wraparound"
+    *: "Lista körbefutás"
   </voice>
 </phrase>
 <phrase>
@@ -15356,10 +15343,10 @@
     *: "Show Shutdown Message"
   </source>
   <dest>
-    *: "Show Shutdown Message"
+    *: "Kikapcsolási üzenet kijelzése"
   </dest>
   <voice>
-    *: "Show Shutdown Message"
+    *: "Kikapcsolási üzenet kijelzése"
   </voice>
 </phrase>
 <phrase>
@@ -15370,10 +15357,10 @@
     *: "List Order"
   </source>
   <dest>
-    *: "List Order"
+    *: "Rendezési sorrend"
   </dest>
   <voice>
-    *: "List Order"
+    *: "Rendezési sorrend"
   </voice>
 </phrase>
 <phrase>
@@ -15384,10 +15371,10 @@
     *: "Ascending"
   </source>
   <dest>
-    *: "Ascending"
+    *: "Növekvő"
   </dest>
   <voice>
-    *: "Ascending"
+    *: "Növekvő"
   </voice>
 </phrase>
 <phrase>
@@ -15398,10 +15385,10 @@
     *: "Descending"
   </source>
   <dest>
-    *: "Descending"
+    *: "Csökkenő"
   </dest>
   <voice>
-    *: "Descending"
+    *: "Csökkenő"
   </voice>
 </phrase>
 <phrase>
@@ -15412,10 +15399,10 @@
     *: "Album Art"
   </source>
   <dest>
-    *: "Album Art"
+    *: "Album borító"
   </dest>
   <voice>
-    *: "Album Art"
+    *: "Album borító"
   </voice>
 </phrase>
 <phrase>
@@ -15426,10 +15413,10 @@
     *: "Prefer Embedded"
   </source>
   <dest>
-    *: "Prefer Embedded"
+    *: "Fáljban meglévő kép preferálása"
   </dest>
   <voice>
-    *: "Prefer Embedded"
+    *: "Fáljban meglévő kép preferálása"
   </voice>
 </phrase>
 <phrase>
@@ -15440,10 +15427,10 @@
     *: "Prefer Image File"
   </source>
   <dest>
-    *: "Prefer Image File"
+    *: "Képfájl preferálása"
   </dest>
   <voice>
-    *: "Prefer Image File"
+    *: "Képfájl preferálása"
   </voice>
 </phrase>
 <phrase>
@@ -15456,11 +15443,11 @@
   </source>
   <dest>
     *: none
-    rds: "Sync RDS Time"
+    rds: "RDS időszinkronizáció"
   </dest>
   <voice>
     *: none
-    rds: "Sync RDS Time"
+    rds: "RDS időszinkronizáció"
   </voice>
 </phrase>
 <phrase>
@@ -15471,10 +15458,10 @@
     *: "Sort albums by"
   </source>
   <dest>
-    *: "Sort albums by"
+    *: "Albumok rendezése"
   </dest>
   <voice>
-    *: "Sort albums by"
+    *: "Albumok rendezése"
   </voice>
 </phrase>
 <phrase>
@@ -15485,10 +15472,10 @@
     *: "Artist + Name"
   </source>
   <dest>
-    *: "Artist + Name"
+    *: "Előadó + Név"
   </dest>
   <voice>
-    *: "Artist and Name"
+    *: "Előadó és Név"
   </voice>
 </phrase>
 <phrase>
@@ -15499,10 +15486,10 @@
     *: "Artist + Year"
   </source>
   <dest>
-    *: "Artist + Year"
+    *: "Előadó + Év"
   </dest>
   <voice>
-    *: "Artist and Year"
+    *: "Előadó és Év"
   </voice>
 </phrase>
 <phrase>
@@ -15513,10 +15500,10 @@
     *: "Year sort order"
   </source>
   <dest>
-    *: "Year sort order"
+    *: "Év rendezési sorrend"
   </dest>
   <voice>
-    *: "Year sort order"
+    *: "Év rendezési sorrend"
   </voice>
 </phrase>
 <phrase>
@@ -15527,10 +15514,10 @@
     *: "Show year in album title"
   </source>
   <dest>
-    *: "Show year in album title"
+    *: "Év kijelzése az album címében"
   </dest>
   <voice>
-    *: "Show year in album title"
+    *: "Év kijelzése az album címében"
   </voice>
 </phrase>
 <phrase>
@@ -15541,10 +15528,10 @@
     *: "Cache needs to finish updating first!"
   </source>
   <dest>
-    *: "Cache needs to finish updating first!"
+    *: "Előbb frissülnie kell a gyorsítótárnak!"
   </dest>
   <voice>
-    *: "Cache needs to finish updating first!"
+    *: "Előbb frissülnie kell a gyorsítótárnak!"
   </voice>
 </phrase>
 <phrase>
@@ -15555,10 +15542,10 @@
     *: "Track Info"
   </source>
   <dest>
-    *: "Track Info"
+    *: "Szám információ"
   </dest>
   <voice>
-    *: "Track Info"
+    *: "Szám információ"
   </voice>
 </phrase>
 <phrase>
@@ -15569,10 +15556,10 @@
     *: "Play"
   </source>
   <dest>
-    *: "Play"
+    *: "Lejátszás"
   </dest>
   <voice>
-    *: "Play"
+    *: "Lejátszás"
   </voice>
 </phrase>
 <phrase>
@@ -15583,10 +15570,10 @@
     *: "Play Shuffled"
   </source>
   <dest>
-    *: "Play Shuffled"
+    *: "Véletlenszerű lejátszás"
   </dest>
   <voice>
-    *: "Play Shuffled"
+    *: "Véletlenszerű lejátszás"
   </voice>
 </phrase>
 <phrase>
@@ -15597,10 +15584,10 @@
     *: "Keep Current Track When Replacing Playlist"
   </source>
   <dest>
-    *: "Keep Current Track When Replacing Playlist"
+    *: "Jelenlegi szám megtartása a lejátszási lista lecserélésekor"
   </dest>
   <voice>
-    *: "Keep Current Track When Replacing Playlist"
+    *: "Jelenlegi szám megtartása a lejátszási lista lecserélésekor"
   </voice>
 </phrase>
 <phrase>
@@ -15614,13 +15601,13 @@
   </source>
   <dest>
     *: none
-    clear_settings_on_hold,iriverh10: "Clear settings when reset button is held during startup"
-    ipod4g,ipodcolor,ipodmini1g,ipodmini2g,ipodnano1g,ipodvideo: "Clear settings when hold switch is on during startup"
+    clear_settings_on_hold,iriverh10: "A beállítások törlése a reset gomb nyomva tartásával eszköz indításkor"
+    ipod4g,ipodcolor,ipodmini1g,ipodmini2g,ipodnano1g,ipodvideo: "A beállítások törlése eszköz indításkor a hold kapcsoló bekapcsolt állapotában"
   </dest>
   <voice>
     *: none
-    clear_settings_on_hold,iriverh10: "Clear settings when reset button is held during startup"
-    ipod4g,ipodcolor,ipodmini1g,ipodmini2g,ipodnano1g,ipodvideo: "Clear settings when hold switch is on during startup"
+    clear_settings_on_hold,iriverh10: "A beállítások törlése a reset gomb nyomva tartásával eszköz indításkor"
+    ipod4g,ipodcolor,ipodmini1g,ipodmini2g,ipodnano1g,ipodvideo: "A beállítások törlése eszköz indításkor a hold kapcsoló bekapcsolt állapotában"
   </voice>
 </phrase>
 <phrase>
@@ -15631,10 +15618,10 @@
     *: "Rewind Across Tracks"
   </source>
   <dest>
-    *: "Rewind Across Tracks"
+    *: "Áttekerés számok felett"
   </dest>
   <voice>
-    *: "Rewind across tracks"
+    *: "Áttekerés számok felett"
   </voice>
 </phrase>
 <phrase>
@@ -15645,10 +15632,10 @@
     *: "Set As..."
   </source>
   <dest>
-    *: "Set As..."
+    *: "Beállítás mint..."
   </dest>
   <voice>
-    *: "Set As"
+    *: "Beállítás mint"
   </voice>
 </phrase>
 <phrase>
@@ -15659,10 +15646,10 @@
     *: "Playlist Directory"
   </source>
   <dest>
-    *: "Playlist Directory"
+    *: "Lejátszási lista könyvtára"
   </dest>
   <voice>
-    *: "Playlist Directory"
+    *: "Lejátszási lista könyvtára"
   </voice>
 </phrase>
 <phrase>
@@ -15673,10 +15660,10 @@
     *: "Start Directory"
   </source>
   <dest>
-    *: "Start Directory"
+    *: "Kezdési könyvtár"
   </dest>
   <voice>
-    *: "Start Directory"
+    *: "Kezdési könyvtár"
   </voice>
 </phrase>
 <phrase>
@@ -15689,11 +15676,11 @@
   </source>
   <dest>
     *: none
-    recording: "Recording Directory"
+    recording: "Felvételek könyvtára"
   </dest>
   <voice>
     *: none
-    recording: "Recording Directory"
+    recording: "Felvételek könyvtára"
   </voice>
 </phrase>
 <phrase>
@@ -15704,10 +15691,10 @@
     *: "Add to Playlist..."
   </source>
   <dest>
-    *: "Add to Playlist..."
+    *: "Hozzáadás lejátszási listához..."
   </dest>
   <voice>
-    *: "Add to Playlist"
+    *: "Hozzáadás lejátszási listához"
   </voice>
 </phrase>
 <phrase>
@@ -15718,10 +15705,10 @@
     *: "Add to Existing Playlist"
   </source>
   <dest>
-    *: "Add to Existing Playlist"
+    *: "Hozzáadás meglévő lejátszási listához"
   </dest>
   <voice>
-    *: "Add to Existing Playlist"
+    *: "Hozzáadás meglévő lejátszási listához"
   </voice>
 </phrase>
 <phrase>
@@ -15732,10 +15719,10 @@
     *: "Playing Next..."
   </source>
   <dest>
-    *: "Playing Next..."
+    *: "Következő lejátszás..."
   </dest>
   <voice>
-    *: "Playing Next"
+    *: "Következő lejátszás"
   </voice>
 </phrase>
 <phrase>
@@ -15746,10 +15733,10 @@
     *: "Play Next"
   </source>
   <dest>
-    *: "Play Next"
+    *: "Következő lejátszása"
   </dest>
   <voice>
-    *: "Play Next"
+    *: "Következő lejátszása"
   </voice>
 </phrase>
 <phrase>
@@ -15760,10 +15747,10 @@
     *: "Add Shuffled"
   </source>
   <dest>
-    *: "Add Shuffled"
+    *: "Véletlenszerűek hozzáadása"
   </dest>
   <voice>
-    *: "Add Shuffled"
+    *: "Véletlenszerűek hozzáadása"
   </voice>
 </phrase>
 <phrase>
@@ -15774,10 +15761,10 @@
     *: "Play Last"
   </source>
   <dest>
-    *: "Play Last"
+    *: "Utolsóként lejátszás"
   </dest>
   <voice>
-    *: "Play Last"
+    *: "Utolsóként lejátszás"
   </voice>
 </phrase>
 <phrase>
@@ -15788,10 +15775,10 @@
     *: "Play Last Shuffled"
   </source>
   <dest>
-    *: "Play Last Shuffled"
+    *: "Legutóbbi véletlenszerű szám lejátszása"
   </dest>
   <voice>
-    *: "Play Last Shuffled"
+    *: "Legutóbbi véletlenszerű szám lejátszása"
   </voice>
 </phrase>
 <phrase>
@@ -15804,11 +15791,11 @@
   </source>
   <dest>
     *: none
-    perceptual_volume: "Volume Adjustment Mode"
+    perceptual_volume: "Hangerő beállítás mód"
   </dest>
   <voice>
     *: none
-    perceptual_volume: "Volume Adjustment Mode"
+    perceptual_volume: "Hangerő beállítás mód"
   </voice>
 </phrase>
 <phrase>
@@ -15821,11 +15808,11 @@
   </source>
   <dest>
     *: none
-    perceptual_volume: "Number of Volume Steps"
+    perceptual_volume: "Hangerő lépések száma"
   </dest>
   <voice>
     *: none
-    perceptual_volume: "Number of Volume Steps"
+    perceptual_volume: "Hangerő lépések száma"
   </voice>
 </phrase>
 <phrase>
@@ -15838,11 +15825,11 @@
   </source>
   <dest>
     *: none
-    perceptual_volume: "Perceptual"
+    perceptual_volume: "Perceptuális"
   </dest>
   <voice>
     *: none
-    perceptual_volume: "Perceptual"
+    perceptual_volume: "Perceptuális"
   </voice>
 </phrase>
 <phrase>
@@ -15853,10 +15840,10 @@
     *: "Show Tracks While Browsing"
   </source>
   <dest>
-    *: "Show Tracks While Browsing"
+    *: "Számok megjelenítése böngészés közben"
   </dest>
   <voice>
-    *: "Show Tracks While Browsing"
+    *: "Számok megjelenítése böngészés közben"
   </voice>
 </phrase>
 <phrase>
@@ -15867,10 +15854,10 @@
     *: "Go to Last Album"
   </source>
   <dest>
-    *: "Go to Last Album"
+    *: "Ugrás az utolsó albumhoz"
   </dest>
   <voice>
-    *: "Go to Last Album"
+    *: "Ugrás az utolsó albumhoz"
   </voice>
 </phrase>
 <phrase>
@@ -15881,10 +15868,10 @@
     *: "Database Directory"
   </source>
   <dest>
-    *: "Database Directory"
+    *: "Adatbázis könyvtár"
   </dest>
   <voice>
-    *: "Database Directory"
+    *: "Adatbázis könyvtár"
   </voice>
 </phrase>
 <phrase>
@@ -15895,10 +15882,10 @@
     *: "Remove Queued Tracks?"
   </source>
   <dest>
-    *: "Remove Queued Tracks?"
+    *: "Törli a sorolt számokat?"
   </dest>
   <voice>
-    *: "Remove Queued Tracks?"
+    *: "Törli a sorolt számokat?"
   </voice>
 </phrase>
 <phrase>
@@ -15909,10 +15896,10 @@
     *: "Quick (Ignore Directory Cache)"
   </source>
   <dest>
-    *: "Quick (Ignore Directory Cache)"
+    *: "Gyors (a könyvtárgyorsítótár figyelmen kívül hagyásával)"
   </dest>
   <voice>
-    *: "Quick (Ignore Directory Cache)"
+    *: "Gyors (a könyvtárgyorsítótár figyelmen kívül hagyásával)"
   </voice>
 </phrase>
 <phrase>
@@ -15923,10 +15910,10 @@
     *: "What's Playing Screen"
   </source>
   <dest>
-    *: "What's Playing Screen"
+    *: "Jelenleg lejátszás alatt képernyő"
   </dest>
   <voice>
-    *: "What's Playing Screen"
+    *: "Jelenleg lejátszás alatt képernyő"
   </voice>
 </phrase>
 <phrase>
@@ -15937,24 +15924,10 @@
     *: "Default Browser"
   </source>
   <dest>
-    *: "Default Browser"
+    *: "Alapértelmezett böngésző"
   </dest>
   <voice>
-    *: "Default Browser"
-  </voice>
-</phrase>
-<phrase>
-  id: LANG_AMAZE_MENU
-  desc: Amaze game
-  user: core
-  <source>
-    *: "Amaze Main Menu"
-  </source>
-  <dest>
-    *: "Amaze Main Menu"
-  </dest>
-  <voice>
-    *: "Amaze Main Menu"
+    *: "Alapértelmezett böngésző"
   </voice>
 </phrase>
 <phrase>
@@ -15965,10 +15938,10 @@
     *: "Set Maze Size"
   </source>
   <dest>
-    *: "Set Maze Size"
+    *: "Labirintus méret beállítása"
   </dest>
   <voice>
-    *: "Set Maze Size"
+    *: "Labirintus méret beállítása"
   </voice>
 </phrase>
 <phrase>
@@ -15979,10 +15952,10 @@
     *: "View Map"
   </source>
   <dest>
-    *: "View Map"
+    *: "Térkép megtekintése"
   </dest>
   <voice>
-    *: "View Map"
+    *: "Térkép megtekintése"
   </voice>
 </phrase>
 <phrase>
@@ -15993,10 +15966,10 @@
     *: "Show Compass"
   </source>
   <dest>
-    *: "Show Compass"
+    *: "Iránytű mutatása"
   </dest>
   <voice>
-    *: "Show Compass"
+    *: "Iránytű mutatása"
   </voice>
 </phrase>
 <phrase>
@@ -16007,10 +15980,10 @@
     *: "Show Map"
   </source>
   <dest>
-    *: "Show Map"
+    *: "Térkép mutatása"
   </dest>
   <voice>
-    *: "Show Map"
+    *: "Térkép mutatása"
   </voice>
 </phrase>
 <phrase>
@@ -16021,10 +15994,10 @@
     *: "Remember Path"
   </source>
   <dest>
-    *: "Remember Path"
+    *: "Útvonal megjegyzése"
   </dest>
   <voice>
-    *: "Remember Path"
+    *: "Útvonal megjegyzése"
   </voice>
 </phrase>
 <phrase>
@@ -16035,10 +16008,10 @@
     *: "Use Large Tiles"
   </source>
   <dest>
-    *: "Use Large Tiles"
+    *: "Nagy méretű csempe használata"
   </dest>
   <voice>
-    *: "Use Large Tiles"
+    *: "Nagy méretű csempe használata"
   </voice>
 </phrase>
 <phrase>
@@ -16049,10 +16022,10 @@
     *: "Show Solution"
   </source>
   <dest>
-    *: "Show Solution"
+    *: "Megoldás mutatása"
   </dest>
   <voice>
-    *: "Show Solution"
+    *: "Megoldás mutatása"
   </voice>
 </phrase>
 <phrase>
@@ -16063,10 +16036,10 @@
     *: "Quit without saving"
   </source>
   <dest>
-    *: "Quit without saving"
+    *: "Kilépés mentés nélkül"
   </dest>
   <voice>
-    *: "Quit without saving"
+    *: "Kilépés mentés nélkül"
   </voice>
 </phrase>
 <phrase>
@@ -16077,10 +16050,10 @@
     *: "Generating maze..."
   </source>
   <dest>
-    *: "Generating maze..."
+    *: "Labirintus létrehozása..."
   </dest>
   <voice>
-    *: "Generating maze"
+    *: "Labirintus létrehozása"
   </voice>
 </phrase>
 <phrase>
@@ -16091,10 +16064,10 @@
     *: "You win!"
   </source>
   <dest>
-    *: "You win!"
+    *: "Nyertél!"
   </dest>
   <voice>
-    *: "You win!"
+    *: "Nyertél!"
   </voice>
 </phrase>
 <phrase>
@@ -16105,10 +16078,10 @@
     *: "You cheated!"
   </source>
   <dest>
-    *: "You cheated!"
+    *: "Csaltál!"
   </dest>
   <voice>
-    *: "You cheated!"
+    *: "Csaltál!"
   </voice>
 </phrase>
 <phrase>
@@ -16119,10 +16092,10 @@
     *: "Easy"
   </source>
   <dest>
-    *: "Easy"
+    *: "Könnyű"
   </dest>
   <voice>
-    *: "Easy"
+    *: "Könnyű"
   </voice>
 </phrase>
 <phrase>
@@ -16133,10 +16106,10 @@
     *: "Medium"
   </source>
   <dest>
-    *: "Medium"
+    *: "Közepes"
   </dest>
   <voice>
-    *: "Medium"
+    *: "Közepes"
   </voice>
 </phrase>
 <phrase>
@@ -16147,10 +16120,10 @@
     *: "Hard"
   </source>
   <dest>
-    *: "Hard"
+    *: "Nehéz"
   </dest>
   <voice>
-    *: "Hard"
+    *: "Nehéz"
   </voice>
 </phrase>
 <phrase>
@@ -16161,10 +16134,10 @@
     *: "Expert"
   </source>
   <dest>
-    *: "Expert"
+    *: "Szakértő"
   </dest>
   <voice>
-    *: "Expert"
+    *: "Szakértő"
   </voice>
 </phrase>
 <phrase>
@@ -16175,10 +16148,10 @@
     *: "Legal Notices"
   </source>
   <dest>
-    *: "Legal Notices"
+    *: "Jogi közlemények"
   </dest>
   <voice>
-    *: "Legal Notices"
+    *: "Jogi közlemények"
   </voice>
 </phrase>
 <phrase>
@@ -16189,10 +16162,10 @@
     *: "Error: %s"
   </source>
   <dest>
-    *: "Error: %s"
+    *: "Hiba: %s"
   </dest>
   <voice>
-    *: "Error"
+    *: "Hiba"
   </voice>
 </phrase>
 <phrase>
@@ -16203,38 +16176,10 @@
     *: "Mikmod Settings"
   </source>
   <dest>
-    *: "Mikmod Settings"
+    *: "Mikmod beállítások"
   </dest>
   <voice>
-    *: "Mik mod Settings"
-  </voice>
-</phrase>
-<phrase>
-  id: LANG_MIKMOD_MENU
-  desc: mikmod plugin
-  user: core
-  <source>
-    *: "Mikmod Menu"
-  </source>
-  <dest>
-    *: "Mikmod Menu"
-  </dest>
-  <voice>
-    *: "Mik mod Menu"
-  </voice>
-</phrase>
-<phrase>
-  id: LANG_CHESSBOX_MENU
-  desc: chessbox plugin
-  user: core
-  <source>
-    *: "Chessbox Menu"
-  </source>
-  <dest>
-    *: "Chessbox Menu"
-  </dest>
-  <voice>
-    *: "Chess box Menu"
+    *: "Mik mod beállítások"
   </voice>
 </phrase>
 <phrase>
@@ -16248,7 +16193,7 @@
     *: ""
   </dest>
   <voice>
-    *: "Invalid Voice File"
+    *: "Hibás Hang fájl"
   </voice>
 </phrase>
 <phrase>
@@ -16262,7 +16207,7 @@
     *: ""
   </dest>
   <voice>
-    *: ""
+    *: "Magyar"
   </voice>
 </phrase>
 <phrase>
@@ -16273,7 +16218,7 @@
     *: "%ld%%"
   </source>
   <dest>
-    *: "%ld%%"
+    *: "~%ld%%"
   </dest>
   <voice>
     *: none
@@ -16287,10 +16232,10 @@
     *: "Choose File"
   </source>
   <dest>
-    *: "Choose File"
+    *: "Fájl kiválasztása"
   </dest>
   <voice>
-    *: "Choose File"
+    *: "Fájl kiválasztása"
   </voice>
 </phrase>
 <phrase>
@@ -16301,10 +16246,10 @@
     *: "Disable main menu scrolling"
   </source>
   <dest>
-    *: "Disable main menu scrolling"
+    *: "Főmenű tekerés kikapcsolása"
   </dest>
   <voice>
-    *: "Disable main menu scrolling"
+    *: "Főmenű tekerés kikapcsolása"
   </voice>
 </phrase>
 <phrase>
@@ -16315,10 +16260,10 @@
     *: "Remaining"
   </source>
   <dest>
-    *: "Remaining"
+    *: "Hátralévő"
   </dest>
   <voice>
-    *: "Remaining"
+    *: "Hátralévő"
   </voice>
 </phrase>
 <phrase>
@@ -16329,10 +16274,10 @@
     *: "First Letter"
   </source>
   <dest>
-    *: "First Letter"
+    *: "Első Betű"
   </dest>
   <voice>
-    *: "First Letter"
+    *: "Első Betű"
   </voice>
 </phrase>
 <phrase>
@@ -16343,10 +16288,10 @@
     *: "By First Letter..."
   </source>
   <dest>
-    *: "By First Letter..."
+    *: "Első betűként..."
   </dest>
   <voice>
-    *: "By First Letter"
+    *: "Első betűként"
   </voice>
 </phrase>
 <phrase>
@@ -16357,10 +16302,10 @@
     *: "Artists by First Letter"
   </source>
   <dest>
-    *: "Artists by First Letter"
+    *: "Előadók első betűként"
   </dest>
   <voice>
-    *: "Artists by First Letter"
+    *: "Előadók első betűként"
   </voice>
 </phrase>
 <phrase>
@@ -16371,10 +16316,10 @@
     *: "Album Artists by First Letter"
   </source>
   <dest>
-    *: "Album Artists by First Letter"
+    *: "Album előadók első betűként"
   </dest>
   <voice>
-    *: "Album Artists by First Letter"
+    *: "Album előadók első betűként"
   </voice>
 </phrase>
 <phrase>
@@ -16385,10 +16330,10 @@
     *: "Albums by First Letter"
   </source>
   <dest>
-    *: "Albums by First Letter"
+    *: "Albumok első betűként"
   </dest>
   <voice>
-    *: "Albums by First Letter"
+    *: "Albumok első betűként"
   </voice>
 </phrase>
 <phrase>
@@ -16399,10 +16344,10 @@
     *: "Tracks by First Letter"
   </source>
   <dest>
-    *: "Tracks by First Letter"
+    *: "Számok első betűjeként"
   </dest>
   <voice>
-    *: "Tracks by First Letter"
+    *: "Számok első betűjeként"
   </voice>
 </phrase>
 <phrase>
@@ -16413,10 +16358,10 @@
     *: "Artists"
   </source>
   <dest>
-    *: "Artists"
+    *: "Előadók"
   </dest>
   <voice>
-    *: "Artists"
+    *: "Előadók"
   </voice>
 </phrase>
 <phrase>
@@ -16427,10 +16372,10 @@
     *: "Albums"
   </source>
   <dest>
-    *: "Albums"
+    *: "Albumok"
   </dest>
   <voice>
-    *: "Albums"
+    *: "Albumok"
   </voice>
 </phrase>
 <phrase>
@@ -16441,10 +16386,10 @@
     *: "Tracks"
   </source>
   <dest>
-    *: "Tracks"
+    *: "Számok"
   </dest>
   <voice>
-    *: "Tracks"
+    *: "Számok"
   </voice>
 </phrase>
 <phrase>
@@ -16455,10 +16400,10 @@
     *: "Shuffle Songs"
   </source>
   <dest>
-    *: "Shuffle Songs"
+    *: "Zenék véletlenszerűen"
   </dest>
   <voice>
-    *: "Shuffle Songs"
+    *: "Zenék véletlenszerűen"
   </voice>
 </phrase>
 <phrase>
@@ -16469,10 +16414,10 @@
     *: "Filename"
   </source>
   <dest>
-    *: "Filename"
+    *: "Fájlnév"
   </dest>
   <voice>
-    *: "Filename"
+    *: "Fájlnév"
   </voice>
 </phrase>
 <phrase>
@@ -16483,10 +16428,10 @@
     *: "Title (with track duration)"
   </source>
   <dest>
-    *: "Title (with track duration)"
+    *: "Dalcím (Számhosszal)"
   </dest>
   <voice>
-    *: "Title with track duration"
+    *: "Dalcím számhosszal"
   </voice>
 </phrase>
 <phrase>
@@ -16497,10 +16442,10 @@
     *: "User Rating"
   </source>
   <dest>
-    *: "User Rating"
+    *: "Felhasználói értékelés"
   </dest>
   <voice>
-    *: "User Rating"
+    *: "Felhasználói értékelés"
   </voice>
 </phrase>
 <phrase>
@@ -16511,10 +16456,10 @@
     *: "Search"
   </source>
   <dest>
-    *: "Search"
+    *: "Keresés"
   </dest>
   <voice>
-    *: "Search"
+    *: "Keresés"
   </voice>
 </phrase>
 <phrase>
@@ -16525,10 +16470,10 @@
     *: "Search by..."
   </source>
   <dest>
-    *: "Search by..."
+    *: "Keresés a következő szerint..."
   </dest>
   <voice>
-    *: "Search by"
+    *: "Keresés a következő szerint"
   </voice>
 </phrase>
 <phrase>
@@ -16539,10 +16484,10 @@
     *: "Recently Added"
   </source>
   <dest>
-    *: "Recently Added"
+    *: "Nemrég hozzáadott"
   </dest>
   <voice>
-    *: "Recently Added"
+    *: "Nemrég hozzáadott"
   </voice>
 </phrase>
 <phrase>
@@ -16553,10 +16498,10 @@
     *: "Playback History"
   </source>
   <dest>
-    *: "Playback History"
+    *: "Lejátszási előzmények"
   </dest>
   <voice>
-    *: "Playback History"
+    *: "Lejátszási előzmények"
   </voice>
 </phrase>
 <phrase>
@@ -16567,10 +16512,10 @@
     *: "Custom menu"
   </source>
   <dest>
-    *: "Custom menu"
+    *: "Egyedi menü"
   </dest>
   <voice>
-    *: "Custom menu"
+    *: "Egyedi menü"
   </voice>
 </phrase>
 <phrase>
@@ -16581,10 +16526,10 @@
     *: "Same as currently played track"
   </source>
   <dest>
-    *: "Same as currently played track"
+    *: "Megegyezés a jelenleg lejátszottal"
   </dest>
   <voice>
-    *: "Same as currently played track"
+    *: "Megegyezés a jelenleg lejátszottal"
   </voice>
 </phrase>
 <phrase>
@@ -16595,10 +16540,10 @@
     *: "Directory"
   </source>
   <dest>
-    *: "Directory"
+    *: "Könyvtár"
   </dest>
   <voice>
-    *: "Directory"
+    *: "Könyvtár"
   </voice>
 </phrase>
 <phrase>
@@ -16609,10 +16554,10 @@
     *: "Albums by Year"
   </source>
   <dest>
-    *: "Albums by Year"
+    *: "Albumok évek szerint"
   </dest>
   <voice>
-    *: "Albums by Year"
+    *: "Albumok évek szerint"
   </voice>
 </phrase>
 <phrase>
@@ -16623,10 +16568,10 @@
     *: "Albums between Years"
   </source>
   <dest>
-    *: "Albums between Years"
+    *: "Albumok évek között"
   </dest>
   <voice>
-    *: "Albums between Years"
+    *: "Albumok évek között"
   </voice>
 </phrase>
 <phrase>
@@ -16637,10 +16582,10 @@
     *: "Artists between Years"
   </source>
   <dest>
-    *: "Artists between Years"
+    *: "Előadók évek között"
   </dest>
   <voice>
-    *: "Artists between Years"
+    *: "Előadók évek között"
   </voice>
 </phrase>
 <phrase>
@@ -16651,10 +16596,10 @@
     *: "Most played (Plays|Score)"
   </source>
   <dest>
-    *: "Most played (Plays|Score)"
+    *: "Legtöbbet lejátszott (Lejátszás|Értékelés)"
   </dest>
   <voice>
-    *: "Most played by Plays then by Score"
+    *: "Legtöbbet lejátszott lejátszás majd értékelés szerint"
   </voice>
 </phrase>
 <phrase>
@@ -16665,10 +16610,10 @@
     *: "Recently played tracks"
   </source>
   <dest>
-    *: "Recently played tracks"
+    *: "Nemrég lejátszott számok"
   </dest>
   <voice>
-    *: "Recently played tracks"
+    *: "Nemrég lejátszott számok"
   </voice>
 </phrase>
 <phrase>
@@ -16679,10 +16624,10 @@
     *: "Never played tracks"
   </source>
   <dest>
-    *: "Never played tracks"
+    *: "Soha le nem játszott számok"
   </dest>
   <voice>
-    *: "Never played tracks"
+    *: "Soha le nem játszott számok"
   </voice>
 </phrase>
 <phrase>
@@ -16693,10 +16638,10 @@
     *: "Favourite artists"
   </source>
   <dest>
-    *: "Favourite artists"
+    *: "Kedvenc előadók"
   </dest>
   <voice>
-    *: "Favourite artists"
+    *: "Kedvenc előadók"
   </voice>
 </phrase>
 <phrase>
@@ -16707,10 +16652,10 @@
     *: "Favourite albums"
   </source>
   <dest>
-    *: "Favourite albums"
+    *: "Kedvenc albumok"
   </dest>
   <voice>
-    *: "Favourite albums"
+    *: "Kedvenc albumok"
   </voice>
 </phrase>
 <phrase>
@@ -16721,10 +16666,10 @@
     *: "Recent favourites"
   </source>
   <dest>
-    *: "Recent favourites"
+    *: "Legutóbbi kedvencek"
   </dest>
   <voice>
-    *: "Recent favourites"
+    *: "Legutóbbi kedvencek"
   </voice>
 </phrase>
 <phrase>
@@ -16735,10 +16680,10 @@
     *: "New favourites"
   </source>
   <dest>
-    *: "New favourites"
+    *: "Új kedvencek"
   </dest>
   <voice>
-    *: "New favourites"
+    *: "Új kedvencek"
   </voice>
 </phrase>
 <phrase>
@@ -16749,10 +16694,10 @@
     *: "Forgotten favourites"
   </source>
   <dest>
-    *: "Forgotten favourites"
+    *: "Elfelejtett kedvencek"
   </dest>
   <voice>
-    *: "Forgotten favourites"
+    *: "Elfelejtett kedvencek"
   </voice>
 </phrase>
 <phrase>
@@ -16763,10 +16708,10 @@
     *: "Tracks by"
   </source>
   <dest>
-    *: "Tracks by"
+    *: "Számok listázásának módja"
   </dest>
   <voice>
-    *: "Tracks by"
+    *: "Számok listázásának módja"
   </voice>
 </phrase>
 <phrase>
@@ -16777,10 +16722,10 @@
     *: "View Album Art"
   </source>
   <dest>
-    *: "View Album Art"
+    *: "Albumborító megtekintése"
   </dest>
   <voice>
-    *: "View Album Art"
+    *: "Albumborító megtekintése"
   </voice>
 </phrase>
 <phrase>
@@ -16791,10 +16736,10 @@
     *: "[By album]"
   </source>
   <dest>
-    *: "[By album]"
+    *: "[Album szerint]"
   </dest>
   <voice>
-    *: "All tracks sorted by album"
+    *: "Minden szám album szerint rendezve"
   </voice>
 </phrase>
 <phrase>
@@ -16807,11 +16752,11 @@
   </source>
   <dest>
     *: none
-    erosqnative: "Output Select"
+    erosqnative: "Kimenet kiválasztása"
   </dest>
   <voice>
     *: none
-    erosqnative: "Output Select"
+    erosqnative: "Kimenet kiválasztása"
   </voice>
 </phrase>
 <phrase>
@@ -16824,11 +16769,11 @@
   </source>
   <dest>
     *: none
-    erosqnative: "Headphone"
+    erosqnative: "Fejhallgató"
   </dest>
   <voice>
     *: none
-    erosqnative: "Headphone"
+    erosqnative: "Fejhallgató"
   </voice>
 </phrase>
 <phrase>
@@ -16841,11 +16786,11 @@
   </source>
   <dest>
     *: none
-    erosqnative,lineout_poweroff: "Line Out"
+    erosqnative,lineout_poweroff: "Vonalkimenet"
   </dest>
   <voice>
     *: none
-    erosqnative,lineout_poweroff: "Line Out"
+    erosqnative,lineout_poweroff: "Vonalkimenet"
   </voice>
 </phrase>
 <phrase>
@@ -16856,10 +16801,10 @@
     *: "Unable to load font: (%s)"
   </source>
   <dest>
-    *: "Unable to load font: (%s)"
+    *: "A betűtípus betöltése nem sikerült: (%s)"
   </dest>
   <voice>
-    *: "Unable to load font"
+    *: "A betűtípus betöltése nem sikerült"
   </voice>
 </phrase>
 <phrase>
@@ -16870,10 +16815,10 @@
     *: "Logging"
   </source>
   <dest>
-    *: "Logging"
+    *: "Naplózás"
   </dest>
   <voice>
-    *: "logging"
+    *: "naplózás"
   </voice>
 </phrase>
 <phrase>
@@ -16884,10 +16829,10 @@
     *: "View log"
   </source>
   <dest>
-    *: "View log"
+    *: "Napló megtekintése"
   </dest>
   <voice>
-    *: "view log"
+    *: "napló megtekintése"
   </voice>
 </phrase>
 <phrase>
@@ -16898,10 +16843,10 @@
     *: "Playlist finished. Play again?"
   </source>
   <dest>
-    *: "Playlist finished. Play again?"
+    *: "Lejátszási lista vége. Újra?"
   </dest>
   <voice>
-    *: "Playlist finished. Play again?"
+    *: "Lejátszási lista vége. Újra?"
   </voice>
 </phrase>
 <phrase>
@@ -16912,9 +16857,108 @@
     *: "Sort Playlists"
   </source>
   <dest>
-    *: "Sort Playlists"
+    *: "Lejátszási lista rendezése"
   </dest>
   <voice>
-    *: "sort playlists"
+    *: "Lejátszási lista rendezése"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_USB_DAC
+  desc: in settings_menu
+  user: core
+  <source>
+    *: none
+    usbdac: "USB-DAC"
+  </source>
+  <dest>
+    *: none
+    usbdac: "~USB-DAC"
+  </dest>
+  <voice>
+    *: none
+    usbdac: "~USB-DAC"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_WHILE_USB_CHARGE_ONLY
+  desc: in settings_menu
+  user: core
+  <source>
+    *: none
+    usbdac: "While In USB Charge-Only Mode"
+  </source>
+  <dest>
+    *: none
+    usbdac: "Miközben csak USB töltés mód alatt"
+  </dest>
+  <voice>
+    *: none
+    usbdac: "Miközben csak USB töltés mód alatt"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_WHILE_MASS_STORAGE_USB_ONLY
+  desc: in settings_menu
+  user: core
+  <source>
+    *: none
+    usbdac: "While In USB Mass-Storage Mode"
+  </source>
+  <dest>
+    *: none
+    usbdac: "Miközben USB adattároló mód alatt"
+  </dest>
+  <voice>
+    *: none
+    usbdac: "Miközben USB adattároló mód alatt"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_USB_DAC_ACTIVE
+  desc: for splash
+  user: core
+  <source>
+    *: none
+    usbdac: "USB-DAC Active"
+  </source>
+  <dest>
+    *: none
+    usbdac: "USB-DAC aktív"
+  </dest>
+  <voice>
+    *: none
+    usbdac: "USB-DAC aktív"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_USE_LED_INDICATORS
+  desc: LED indicators setting
+  user: core
+  <source>
+    *: none
+    general_purpose_led: "Use LED indicators"
+  </source>
+  <dest>
+    *: none
+    general_purpose_led: "LED jelzőfények használata"
+  </dest>
+  <voice>
+    *: none
+    general_purpose_led: "LED jelzőfények használata"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_ANNOUNCE_STATUS
+  desc: announnnce_status plugin
+  user: core
+  <source>
+    *: "Announce Status"
+  </source>
+  <dest>
+    *: "Állapot bejelentése"
+  </dest>
+  <voice>
+    *: "Állapot bejelentése"
   </voice>
 </phrase>

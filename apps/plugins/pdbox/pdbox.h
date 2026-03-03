@@ -195,6 +195,10 @@ void pd_init(void);
 #define ftoan rb_ftoan
 #undef strtok_r
 #define strtok_r rb->strtok_r
+
+// NOTE: historically strstr() was not exported in the plugin API so this
+//       has been defined as strcasestr(). It's likely this is wrong, but
+//       changing it now could break user scripts...
 #define strstr rb->strcasestr
 
 
@@ -305,6 +309,15 @@ enum pd_key_id
     #define PDPOD_PREVIOUS  BUTTON_LEFT
     #define PDPOD_NEXT      BUTTON_RIGHT
     #define PDPOD_MENU      BUTTON_BACK
+    #define PDPOD_WHEELLEFT BUTTON_UP
+    #define PDPOD_WHEELRIGHT BUTTON_DOWN
+    #define PDPOD_ACTION    BUTTON_SELECT
+#elif (CONFIG_KEYPAD == CTRU_PAD)
+    #define PDPOD_QUIT      BUTTON_BACK
+    #define PDPOD_PLAY      BUTTON_USER
+    #define PDPOD_PREVIOUS  BUTTON_LEFT
+    #define PDPOD_NEXT      BUTTON_RIGHT
+    #define PDPOD_MENU      BUTTON_MENU
     #define PDPOD_WHEELLEFT BUTTON_UP
     #define PDPOD_WHEELRIGHT BUTTON_DOWN
     #define PDPOD_ACTION    BUTTON_SELECT

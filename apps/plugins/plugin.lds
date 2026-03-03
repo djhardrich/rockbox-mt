@@ -13,12 +13,6 @@ OUTPUT_FORMAT(elf32-littlemips)
 #error Unknown CPU architecture
 #endif
 
-#ifdef DEBUG
-#define STUBOFFSET 0x10000
-#else
-#define STUBOFFSET 0
-#endif
-
 #if defined(CPU_PP)
 #ifdef CPU_PP502x
 #define NOCACHE_BASE 	0x10000000
@@ -31,7 +25,7 @@ OUTPUT_FORMAT(elf32-littlemips)
 #if CONFIG_CPU==IMX31L
 /* No fudges! */
 #include "imx31l.h"
-#define DRAMSIZE ((MEMORYSIZE * 0x100000) - STUBOFFSET - PLUGIN_BUFFER_SIZE \
+#define DRAMSIZE ((MEMORYSIZE * 0x100000) - PLUGIN_BUFFER_SIZE \
                   - CODEC_SIZE - QHARRAY_SIZE - FRAME_SIZE - TTB_SIZE)
 
 #elif CONFIG_CPU==DM320
@@ -56,25 +50,25 @@ OUTPUT_FORMAT(elf32-littlemips)
 #define LCD_TTB_AREA    (TTB_SIZE + LCD_BUFFER_SIZE)
 #endif
 
-#define DRAMSIZE (MEMORYSIZE * 0x100000) - STUBOFFSET - PLUGIN_BUFFER_SIZE - CODEC_SIZE - LCD_TTB_AREA
+#define DRAMSIZE (MEMORYSIZE * 0x100000) - PLUGIN_BUFFER_SIZE - CODEC_SIZE - LCD_TTB_AREA
 
 #elif CONFIG_CPU==S3C2440
 #include "cpu.h"
 /* must be 16Kb (0x4000) aligned */
 #define TTB_SIZE         (0x4000)
-#define DRAMSIZE (MEMORYSIZE * 0x100000) - STUBOFFSET - PLUGIN_BUFFER_SIZE - CODEC_SIZE - LCD_BUFFER_SIZE - TTB_SIZE
+#define DRAMSIZE (MEMORYSIZE * 0x100000) - PLUGIN_BUFFER_SIZE - CODEC_SIZE - LCD_BUFFER_SIZE - TTB_SIZE
 
 #elif CONFIG_CPU==TCC7801
 #include "cpu.h"
-#define DRAMSIZE (MEMORYSIZE * 0x100000) - STUBOFFSET - PLUGIN_BUFFER_SIZE - CODEC_SIZE - TTB_SIZE
+#define DRAMSIZE (MEMORYSIZE * 0x100000) - PLUGIN_BUFFER_SIZE - CODEC_SIZE - TTB_SIZE
 
 #elif CONFIG_CPU==AS3525 || CONFIG_CPU==AS3525v2
 #include "cpu.h"
 #define DRAMORIG DRAM_ORIG
 #if defined(AMS_LOWMEM) || (CONFIG_CPU == AS3525v2)
-#define DRAMSIZE (DRAM_SIZE - PLUGIN_BUFFER_SIZE - STUBOFFSET - TTB_SIZE)
+#define DRAMSIZE (DRAM_SIZE - PLUGIN_BUFFER_SIZE - TTB_SIZE)
 #else
-#define DRAMSIZE (DRAM_SIZE - PLUGIN_BUFFER_SIZE - STUBOFFSET - CODEC_SIZE - TTB_SIZE)
+#define DRAMSIZE (DRAM_SIZE - PLUGIN_BUFFER_SIZE - CODEC_SIZE - TTB_SIZE)
 #endif
 #elif CONFIG_CPU==S5L8702 || CONFIG_CPU==S5L8720
 #define ASM
@@ -83,15 +77,17 @@ OUTPUT_FORMAT(elf32-littlemips)
 #elif CONFIG_CPU==IMX233
 #include "cpu.h"
 #define DRAMSIZE (DRAM_SIZE - PLUGIN_BUFFER_SIZE - CODEC_SIZE - FRAME_SIZE - TTB_SIZE)
+#elif CONFIG_CPU == JZ4732 || CONFIG_CPU == JZ4760B
+/* fake 'iram' region occupies first 16k */
+#define DRAMSIZE (MEMORYSIZE * 0x100000) - PLUGIN_BUFFER_SIZE - CODEC_SIZE - 0x4000
 #elif CONFIG_CPU==X1000
 #include "cpu.h"
-#undef STUBOFFSET
 #define DRAMSIZE (X1000_DRAM_SIZE - PLUGIN_BUFFER_SIZE - CODEC_SIZE)
 #endif
 
  /* default to full RAM (minus codecs&plugins) unless specified otherwise */
 #ifndef DRAMSIZE
-#define DRAMSIZE (MEMORYSIZE * 0x100000) - PLUGIN_BUFFER_SIZE - STUBOFFSET - CODEC_SIZE
+#define DRAMSIZE (MEMORYSIZE * 0x100000) - PLUGIN_BUFFER_SIZE - CODEC_SIZE
 #endif
 
 /* MCF5249 have 96KB of IRAM */
@@ -119,17 +115,17 @@ OUTPUT_FORMAT(elf32-littlemips)
 #define IRAMSIZE 0x0c000
 
 #elif CONFIG_CPU == PNX0101
-#define DRAMORIG 0xc00000 + STUBOFFSET
+#define DRAMORIG 0xc00000
 #define IRAMORIG 0x407000
 #define IRAMSIZE 0x9000
 
 #elif CONFIG_CPU == IMX31L || CONFIG_CPU == S3C2440
-#define DRAMORIG 0x0 + STUBOFFSET
+#define DRAMORIG 0x0
 #define IRAM DRAM
 #define IRAMSIZE 0
 
 #elif CONFIG_CPU==DM320
-#define DRAMORIG CONFIG_SDRAM_START + STUBOFFSET
+#define DRAMORIG CONFIG_SDRAM_START
 #define IRAM DRAM
 /* The bit of IRAM that is available is used in the core */
 #define IRAMSIZE 0
@@ -181,13 +177,7 @@ OUTPUT_FORMAT(elf32-littlemips)
 #define IRAMSIZE (136*1024)
 
 #elif CONFIG_CPU == JZ4732 || CONFIG_CPU == JZ4760B
-#undef STUBOFFSET
-#ifdef DEBUG
-#define STUBOFFSET 0x14000
-#else
-#define STUBOFFSET 0x4000
-#endif
-#define DRAMORIG 0x80000000 + STUBOFFSET
+#define DRAMORIG 0x80004000
 #define IRAM DRAM
 #define IRAMSIZE 0
 /* The bit of IRAM that is available is used in the core */
@@ -209,8 +199,14 @@ OUTPUT_FORMAT(elf32-littlemips)
 #define IRAM DRAM
 #define IRAMSIZE 0
 
+#elif CONFIG_CPU == STM32H743
+#include "cpu.h"
+#define DRAMORIG STM32_SDRAM1_BASE
+#define IRAM     DRAM
+#define IRAMSIZE 0
+
 #else
-#define DRAMORIG 0x09000000 + STUBOFFSET
+#define DRAMORIG 0x09000000
 #endif
 
 #ifndef NOCACHE_BASE
@@ -288,25 +284,18 @@ SECTIONS
     } > PLUGIN_RAM
 
 #if NOCACHE_BASE != 0
-    .ncdata . + NOCACHE_BASE :
+    /*
+     * Allocate .ncdata based on the following constraints:
+     *
+     * 1. the LMA must be allocated at the next free LMA in
+     *    PLUGIN_RAM and aligned to a cacheline boundary.
+     * 2. the VMA - LMA offset must equal NOCACHE_BASE.
+     */
+    .ncdata ALIGN(. + NOCACHE_BASE, CACHEALIGN_SIZE) : ALIGN(CACHEALIGN_SIZE)
     {
-        . = ALIGN(CACHEALIGN_SIZE);
         *(.ncdata*)
         . = ALIGN(CACHEALIGN_SIZE);
-/* EABI currently needs these defined here, otherwise .iram and .bss can
-   sometimes have an incorrect load address, breaking codecs and plugins. */
-        bssaddr = . - NOCACHE_BASE;
-#if defined(IRAMSIZE) && IRAMSIZE != 0
-        iramcopy = . - NOCACHE_BASE;
-#endif
     } AT> PLUGIN_RAM
-/* This definition is used when NOCACHE_BASE is 0. The address offset bug only
-   seems to occur when the empty .ncdata is present. */
-#else
-    bssaddr = .;
-#if defined(IRAMSIZE) && IRAMSIZE != 0
-    iramcopy = .;
-#endif
 #endif
 
     /DISCARD/ :
@@ -318,7 +307,7 @@ SECTIONS
 #endif
     }
 
-    .bss bssaddr (NOLOAD) :
+    .bss (NOLOAD) :
     {
     	plugin_bss_start = .;
     	_plugin_bss_start = .;
@@ -331,29 +320,47 @@ SECTIONS
     } > PLUGIN_RAM
 
 #if NOCACHE_BASE != 0
-    .ncbss . + NOCACHE_BASE (NOLOAD) :
+    /*
+     * .ncbss has the same constraints as the .ncdata section
+     * above but there is an extra complication: because it is
+     * a NOLOAD section, unlike .ncdata it cannot consume any
+     * VMAs or LMAs in PLUGIN_RAM itself.
+     *
+     * Because free VMA/LMAs in PLUGIN_RAM are unchanged, any
+     * subsequent sections will get placed at the end of the
+     * .bss section, overlapping .ncbss, which we don't want.
+     *
+     * One solution is to manually place the next sections to
+     * account for the size of .ncbss, but a cleaner solution
+     * is to define a dummy section (.ncbss_vma) allocated at
+     * the same VMA as .ncbss and equal in size, and placed in
+     * the PLUGIN_RAM region. This allocates the correct VMA
+     * range in plugin RAM so that the next section will not
+     * overlap .ncbss.
+     */
+    .ncbss ALIGN(. + NOCACHE_BASE, CACHEALIGN_SIZE) (NOLOAD) : ALIGN(CACHEALIGN_SIZE)
     {
-    	. = ALIGN(CACHEALIGN_SIZE);
     	*(.ncbss*)
         . = ALIGN(CACHEALIGN_SIZE);
-        /* We won't trust this one any more than with .ncdata */
-        pluginendaddr = . - NOCACHE_BASE;
     } AT> PLUGIN_RAM
-#else
-    pluginendaddr = .;
+
+    .ncbss_vma (NOLOAD) : ALIGN(CACHEALIGN_SIZE)
+    {
+        . += SIZEOF(.ncbss);
+    } > PLUGIN_RAM
 #endif
 
     /* Final end of plugin after IRAM setup. The plugin or codec buffer
        is considered unused by the in-RAM image at this point once IRAM
        is copied. */
-    .pluginend pluginendaddr :
+    .pluginend (NOLOAD) :
     {
         _plugin_end_addr = .;
         plugin_end_addr = .;
-    }
+    } > PLUGIN_RAM
 
 #if defined(IRAMSIZE) && IRAMSIZE != 0
-    .iram IRAMORIG : AT (iramcopy)
+    .iram IRAMORIG : AT(LOADADDR(.bss))
     {
         iramstart = .;
         *(.icode)
@@ -361,6 +368,7 @@ SECTIONS
         *(.idata)
         iramend = .;
     } > PLUGIN_IRAM
+    iramcopy = LOADADDR(.iram);
 
     .ibss (NOLOAD) :
     {
@@ -391,3 +399,13 @@ SECTIONS
         KEEP(*(.comment))
     }
 }
+
+#if NOCACHE_BASE != 0
+/* Some asserts to make sure nocache sections appear correctly defined */
+ASSERT(LOADADDR(.ncdata) == ADDR(.ncdata) - NOCACHE_BASE, ".ncdata has incorrect LMA/VMA address");
+ASSERT(LOADADDR(.ncdata) % CACHEALIGN_SIZE == 0,          ".ncdata incorrectly aligned");
+ASSERT(LOADADDR(.ncbss) == ADDR(.ncbss) - NOCACHE_BASE,   ".ncbss has incorrect LMA/VMA address");
+ASSERT(LOADADDR(.ncbss) % CACHEALIGN_SIZE == 0,           ".ncbss incorrectly aligned");
+ASSERT(ADDR(.ncbss_vma) == LOADADDR(.ncbss),              ".ncbss_vma has wrong address");
+ASSERT(SIZEOF(.ncbss_vma) == SIZEOF(.ncbss),              ".ncbss_vma has wrong size");
+#endif

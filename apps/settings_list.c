@@ -148,6 +148,13 @@
 #define SYSTEM_STATUS(flags,var,default,name)                \
             {flags|F_RESUMESETTING|F_T_INT, &global_status.var,-1, \
              INT(default), name, UNUSED}
+
+#define SYSTEM_STATUS_TEXT_SETTING(flags,var,name,default,prefix,suffix) \
+            {flags|F_RESUMESETTING|F_T_UCHARPTR, &global_status.var,-1,  \
+                CHARPTR(default),name,                                   \
+                {.filename_setting=                                      \
+                    (struct filename_setting[]){                         \
+                        {prefix,suffix,sizeof(global_status.var)}}} }
 /* system_status settings items will be saved to resume.cfg
    Use for int which use the set_sound() function to set them
    These items WILL be included in the users exported settings files
@@ -480,6 +487,13 @@ static const char graphic_numeric[] = "graphic,numeric";
 # define MAX_FILES_IN_DIR_STEP      50
 #endif
 
+#ifdef HAVE_TOUCHSCREEN
+/* on touchscreen, it makes more sense to put the scrollbar on the right */
+# define SCROLLBAR_DEFAULT SCROLLBAR_RIGHT
+#else
+# define SCROLLBAR_DEFAULT SCROLLBAR_LEFT
+#endif
+
 #ifndef __PCTOOL__
 
 #if LCD_DEPTH > 1
@@ -734,10 +748,12 @@ static const char* formatter_freq_unit_0_is_auto(char *buffer, size_t buffer_siz
 
 static int32_t getlang_freq_unit_0_is_auto(int value, int unit)
 {
-    if (value == 0)
+    if (value == 0) {
         return LANG_AUTO;
-    else
-        return talk_value_decimal(value, unit, 3, false);
+    } else {
+        talk_value_decimal(value, unit, 3, false);
+        return -1;
+    }
 }
 
 static void playback_frequency_callback(int sample_rate_hz)
@@ -1188,7 +1204,7 @@ const struct settings_list settings[] = {
                   ID2P(LANG_STATUSBAR_BOTTOM)),
 #endif
     CHOICE_SETTING(F_THEMESETTING|F_TEMPVAR, scrollbar,
-                  LANG_SCROLL_BAR, SCROLLBAR_LEFT, "scrollbar","off,left,right",
+                  LANG_SCROLL_BAR, SCROLLBAR_DEFAULT, "scrollbar","off,left,right",
                   NULL, 3, ID2P(LANG_OFF), ID2P(LANG_LEFT), ID2P(LANG_RIGHT)),
     INT_SETTING(F_THEMESETTING, scrollbar_width, LANG_SCROLLBAR_WIDTH, 6,
                 "scrollbar width",UNIT_INT, 3, MAX(LCD_WIDTH/10,25), 1,
@@ -1489,6 +1505,9 @@ const struct settings_list settings[] = {
 #endif /* HAVE_DISK_STORAGE */
     /* browser */
     TEXT_SETTING(0, start_directory, "start directory", "/", NULL, NULL),
+    SYSTEM_STATUS_TEXT_SETTING(0, browse_last_folder, "last folder", "/", NULL, NULL),
+    OFFON_SETTING(0, keep_directory, LANG_KEEP_DIRECTORY, false, "keep directory", NULL),
+
     CHOICE_SETTING(0, dirfilter, LANG_FILTER, SHOW_SUPPORTED, "show files",
                    "all,supported,music,playlists", NULL, 4, ID2P(LANG_ALL),
                    ID2P(LANG_FILTER_SUPPORTED), ID2P(LANG_FILTER_MUSIC),
@@ -2313,6 +2332,11 @@ const struct settings_list settings[] = {
     ), /* CHOICE_SETTING( usb_keypad_mode ) */
 #endif
 
+#ifdef USB_ENABLE_AUDIO
+    CHOICE_SETTING(0, usb_audio, LANG_USB_DAC, 0, "usb-dac", "never,always,while_charge_only,while_mass_storage", usb_set_audio, 4,
+        ID2P(LANG_NEVER), ID2P(LANG_ALWAYS), ID2P(LANG_WHILE_USB_CHARGE_ONLY), ID2P(LANG_WHILE_MASS_STORAGE_USB_ONLY)),
+#endif
+
 #if defined(USB_ENABLE_STORAGE) && defined(HAVE_MULTIDRIVE)
     OFFON_SETTING(0, usb_skip_first_drive, LANG_USB_SKIP_FIRST_DRIVE, false, "usb skip first drive", usb_set_skip_first_drive),
 #endif
@@ -2385,7 +2409,7 @@ const struct settings_list settings[] = {
                    USBMODE_DEFAULT,
                    "usb mode",
                    "mass storage,charge"
-#if defined(DX50) || defined(DX90)
+#if defined(DX50) || defined(DX90) || defined(HIBY_R3PROII) || defined(HIBY_R1)
                    ",adb"
 #endif
                    ,
@@ -2394,14 +2418,18 @@ const struct settings_list settings[] = {
                    3,
 #else
                    usb_set_mode,
+#if defined(HIBY_R3PROII) || defined(HIBY_R1)
+                   3,
+#else
                    2,
+#endif
 #endif
                    ID2P(LANG_USB_MODE_MASS_STORAGE),
                    ID2P(LANG_USB_MODE_CHARGE)
-#if defined(DX50) || defined(DX90)
+#if defined(DX50) || defined(DX90) || defined(HIBY_R3PROII) || defined(HIBY_R1)
                    ,ID2P(LANG_USB_MODE_ADB)
 #endif
-	    ),
+        ),
 #endif
 #if defined(BUTTON_REC) || \
     (CONFIG_KEYPAD == GIGABEAT_PAD) || \
@@ -2416,6 +2444,9 @@ const struct settings_list settings[] = {
     ID2P(LANG_AUTO), ID2P(LANG_HEADPHONE), ID2P(LANG_LINEOUT)),
 #endif
     OFFON_SETTING(0, playback_log, LANG_LOGGING, false, "play log", NULL),
+#if defined(HAVE_GENERAL_PURPOSE_LED)
+    OFFON_SETTING(0, use_led_indicators, LANG_USE_LED_INDICATORS, false, "LED indicators", NULL),
+#endif
 };
 
 const int nb_settings = sizeof(settings)/sizeof(*settings);

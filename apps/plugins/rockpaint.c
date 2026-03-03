@@ -134,17 +134,6 @@
 #define ROCKPAINT_QUIT      BUTTON_POWER
 #define ROCKPAINT_MENU      BUTTON_MENU
 
-#elif CONFIG_KEYPAD == CREATIVEZVM_PAD
-#define ROCKPAINT_QUIT      BUTTON_BACK
-#define ROCKPAINT_DRAW      BUTTON_SELECT
-#define ROCKPAINT_MENU      BUTTON_MENU
-#define ROCKPAINT_TOOLBAR   BUTTON_PLAY
-#define ROCKPAINT_TOOLBAR2  ( BUTTON_PLAY | BUTTON_LEFT )
-#define ROCKPAINT_UP        BUTTON_UP
-#define ROCKPAINT_DOWN      BUTTON_DOWN
-#define ROCKPAINT_LEFT      BUTTON_LEFT
-#define ROCKPAINT_RIGHT     BUTTON_RIGHT
-
 #elif CONFIG_KEYPAD == CREATIVE_ZENXFI3_PAD
 #define ROCKPAINT_QUIT      BUTTON_POWER
 #define ROCKPAINT_DRAW      BUTTON_VOL_UP
@@ -404,7 +393,7 @@
 #define ROCKPAINT_LEFT      BUTTON_LEFT
 #define ROCKPAINT_RIGHT     BUTTON_RIGHT
 
-#elif CONFIG_KEYPAD == SHANLING_Q1_PAD
+#elif CONFIG_KEYPAD == SHANLING_Q1_PAD || CONFIG_KEYPAD == HIBY_R3PROII_PAD
 /* use touchscreen */
 
 #elif CONFIG_KEYPAD == EROSQ_PAD
@@ -435,6 +424,17 @@
 #define ROCKPAINT_MENU      BUTTON_B
 #define ROCKPAINT_TOOLBAR   BUTTON_X
 #define ROCKPAINT_TOOLBAR2  BUTTON_Y
+#define ROCKPAINT_UP        BUTTON_UP
+#define ROCKPAINT_DOWN      BUTTON_DOWN
+#define ROCKPAINT_LEFT      BUTTON_LEFT
+#define ROCKPAINT_RIGHT     BUTTON_RIGHT
+
+#elif CONFIG_KEYPAD == CTRU_PAD
+#define ROCKPAINT_QUIT      BUTTON_BACK
+#define ROCKPAINT_DRAW      BUTTON_SELECT
+#define ROCKPAINT_MENU      BUTTON_MENU
+#define ROCKPAINT_TOOLBAR   BUTTON_USER
+#define ROCKPAINT_TOOLBAR2  ( BUTTON_USER | BUTTON_REPEAT )
 #define ROCKPAINT_UP        BUTTON_UP
 #define ROCKPAINT_DOWN      BUTTON_DOWN
 #define ROCKPAINT_LEFT      BUTTON_LEFT
@@ -1031,7 +1031,7 @@ enum {
         TEXT_MENU_PREVIEW, TEXT_MENU_APPLY, TEXT_MENU_CANCEL,
      };
 
-MENUITEM_STRINGLIST(main_menu, "RockPaint", NULL,
+MENUITEM_STRINGLIST(main_menu, "Rockpaint", NULL,
                     "Resume", "New", "Load", "Save",
                     "Set Width", "Set Height",
                     "Brush Size", "Brush Speed",
@@ -1134,6 +1134,7 @@ static bool browse( char *dst, int dst_size, const char *start )
  *   In other words, cache_first-1 must be cached before cache_first-2 is cached.
  * - there is enough space to store all preview currently displayed.
  */
+#if 0 /* Broken crashy caching implementation that renders the font in the list  FS#13704 */
 static bool browse_fonts( char *dst, int dst_size )
 {
 #define LINE_SPACE 2
@@ -1312,7 +1313,7 @@ static bool browse_fonts( char *dst, int dst_size )
             li = tree->filesindir-1;
             if( reset_font )
             {
-             // fixme   rb->font_load(NULL, bbuf_s );
+             // fixme   rb->font_load(bbuf_s );
                 reset_font = false;
             }
             if( lvi-fvi+1 < tree->filesindir )
@@ -1386,6 +1387,35 @@ static bool browse_fonts( char *dst, int dst_size )
 #undef PREVIEW_SIZE
 #undef PREVIEW_NEXT
 }
+#else /* simple uncached non-rendered fallback */
+static bool browse_fonts( char *dst, int dst_size )
+{
+    /* taken from text_viewer */
+    char font[MAX_PATH], name[MAX_FILENAME+10];
+    rb->snprintf(name, sizeof(name), "%s.fnt", rb->global_settings->font_file);
+
+    struct browse_context browse = {
+        .dirfilter = SHOW_FONT,
+        .flags = BROWSE_SELECTONLY | BROWSE_NO_CONTEXT_MENU,
+        .title = rb->str(LANG_CUSTOM_FONT),
+        .icon = Icon_Menu_setting,
+        .root = FONT_DIR,
+        .selected = name,
+        .buf = font,
+        .bufsize = sizeof(font),
+        //.callback_show_item = &callback_show_font,
+    };
+
+    rb->rockbox_browse(&browse);
+
+    if (browse.flags & BROWSE_SELECTED)
+    {
+        rb->snprintf( dst, dst_size, "%s", font );
+        return true;
+    }
+    return false;
+}
+#endif
 
 /***********************************************************************
  * HSVRGB Color chooser

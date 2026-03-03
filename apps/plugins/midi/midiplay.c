@@ -140,14 +140,6 @@
 #elif CONFIG_KEYPAD == COWON_D2_PAD
 #define MIDI_QUIT       BUTTON_POWER
 
-#elif CONFIG_KEYPAD == CREATIVEZVM_PAD
-#define MIDI_QUIT       BUTTON_BACK
-#define MIDI_FFWD       BUTTON_RIGHT
-#define MIDI_REWIND     BUTTON_LEFT
-#define MIDI_VOL_UP     BUTTON_UP
-#define MIDI_VOL_DOWN   BUTTON_DOWN
-#define MIDI_PLAYPAUSE  BUTTON_PLAY
-
 #elif CONFIG_KEYPAD == CREATIVE_ZENXFI3_PAD
 #define MIDI_QUIT       (BUTTON_PLAY|BUTTON_REPEAT)
 #define MIDI_FFWD       BUTTON_MENU
@@ -325,7 +317,7 @@
 #define MIDI_VOL_DOWN     BUTTON_VOL_DOWN
 #define MIDI_PLAYPAUSE    BUTTON_PLAY
 
-#elif CONFIG_KEYPAD == SHANLING_Q1_PAD
+#elif CONFIG_KEYPAD == SHANLING_Q1_PAD || CONFIG_KEYPAD == HIBY_R3PROII_PAD
 /* use touchscreen */
 
 #elif CONFIG_KEYPAD == MA_PAD
@@ -343,6 +335,14 @@
 #define MIDI_VOL_UP       BUTTON_UP
 #define MIDI_VOL_DOWN     BUTTON_DOWN
 #define MIDI_PLAYPAUSE    BUTTON_A
+
+#elif CONFIG_KEYPAD == CTRU_PAD
+#define MIDI_QUIT       BUTTON_BACK
+#define MIDI_FFWD       BUTTON_RIGHT
+#define MIDI_REWIND     BUTTON_LEFT
+#define MIDI_VOL_UP     BUTTON_UP
+#define MIDI_VOL_DOWN   BUTTON_DOWN
+#define MIDI_PLAYPAUSE  BUTTON_USER
 
 #else
 #error No keymap defined!
@@ -444,7 +444,7 @@ static inline void synthbuf(void)
         dst.remcount = 0;
         dst.bufcount = available;
         dst.p16out = (int16_t *)outptr;
-        rb->dsp_process(dsp, &src, &dst);
+        rb->dsp_process(dsp, &src, &dst, true);
         if (dst.remcount > 0)
         {
             outptr += dst.remcount;
@@ -520,7 +520,7 @@ static int midimain(const void * filename)
     }
 
     rb->talk_force_shutup();
-    rb->pcm_play_stop();
+    rb->audio_stop();
 #if INPUT_SRC_CAPS != 0
     /* Select playback */
     rb->audio_set_input_source(AUDIO_SRC_PLAYBACK, SRCF_PLAYBACK);
@@ -601,7 +601,6 @@ static int midimain(const void * filename)
                 {
                     vol++;
                     rb->sound_set(SOUND_VOLUME, vol);
-                    rb->global_status->volume = vol;
                 }
                 break;
             }
@@ -614,7 +613,6 @@ static int midimain(const void * filename)
                 {
                     vol--;
                     rb->sound_set(SOUND_VOLUME, vol);
-                    rb->global_status->volume = vol;
                 }
                 break;
             }

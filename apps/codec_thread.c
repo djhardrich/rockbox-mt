@@ -249,7 +249,7 @@ static void codec_pcmbuf_insert_callback(
         }
         else
         {
-            dsp_process(ci.dsp, &src, &dst);
+            dsp_process(ci.dsp, &src, &dst, true);
 
             if (dst.remcount > 0)
             {
@@ -474,12 +474,14 @@ static void load_codec(const struct codec_load_info *ev_data)
         dsp_configure(ci.dsp, DSP_RESET, 0);
     }
 
+#if defined(HAVE_CODEC_BUFFERING)
     if (data.hid >= 0)
     {
         /* First try buffer load */
         status = codec_load_buf(data.hid, &ci);
         bufclose(data.hid);
     }
+#endif /* HAVE_CODEC_BUFFERING */
 
     if (status < 0)
     {

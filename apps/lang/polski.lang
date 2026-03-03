@@ -3479,22 +3479,22 @@
   user: core
   <source>
     *: none
-    aigoerosq,erosqnative,gogearsa9200,samsungyh*: "PLAY = Set"
+    rtc: "ON = Set"
+    aigoerosq,erosqnative,gogearsa9200,samsungyh*,xduoox3*: "PLAY = Set"
     gigabeat*,iaudiom5,iaudiox5,ipod*,iriverh10,iriverh10_5gb,mrobe100,sansac200*,sansaclip*,sansaconnect,sansae200*,sansafuze*: "SELECT = Set"
     iriverh100,iriverh120,iriverh300: "NAVI = Set"
     mpiohd300: "ENTER = Set"
     mrobe500: "HEART = Set"
-    rtc: "ON = Set"
     vibe500: "OK = Set"
   </source>
   <dest>
     *: none
-    aigoerosq,erosqnative,gogearsa9200,samsungyh*: "PLAY = Ustaw"
+    rtc: "ON = Ustaw"
+    aigoerosq,erosqnative,gogearsa9200,samsungyh*,xduoox3*: "PLAY = Ustaw"
     gigabeat*,iaudiom5,iaudiox5,ipod*,iriverh10,iriverh10_5gb,mrobe100,sansac200*,sansaclip*,sansaconnect,sansae200*,sansafuze*: "SELECT = Ustaw"
     iriverh100,iriverh120,iriverh300: "NAVI = Ustaw"
     mpiohd300: "ENTER = Ustaw"
     mrobe500: "HEART = Ustaw"
-    rtc: "ON = Ustaw"
     vibe500: "OK = Ustaw"
   </dest>
   <voice>
@@ -3507,7 +3507,8 @@
   user: core
   <source>
     *: none
-    aigoerosq,erosqnative,gigabeats,sansafuzeplus: "BACK = Revert"
+    rtc: "OFF = Revert"
+    aigoerosq,erosqnative,gigabeats,sansafuzeplus,xduoox3*: "BACK = Revert"
     gigabeatfx,mrobe500: "POWER = Revert"
     gogearsa9200: "LEFT = Revert"
     iaudiom5,iaudiox5: "RECORD = Revert"
@@ -3515,13 +3516,13 @@
     iriverh10,iriverh10_5gb,sansae200*,sansafuze*: "PREV = Revert"
     iriverh100,iriverh120,iriverh300: "STOP = Revert"
     mrobe100: "DISPLAY = Revert"
-    rtc: "OFF = Revert"
     samsungyh*: "REW = Revert"
     vibe500: "CANCEL = Revert"
   </source>
   <dest>
     *: none
-    aigoerosq,erosqnative,gigabeats,sansafuzeplus: "BACK = Przywróć"
+    rtc: "OFF = Przywróć"
+    aigoerosq,erosqnative,gigabeats,sansafuzeplus,xduoox3*: "BACK = Przywróć"
     gigabeatfx,mrobe500: "POWER = Przywróć"
     gogearsa9200: "LEFT = Przywróć"
     iaudiom5,iaudiox5: "RECORD = Przywróć"
@@ -3529,7 +3530,6 @@
     iriverh10,iriverh10_5gb,sansae200*,sansafuze*: "PREV = Przywróć"
     iriverh100,iriverh120,iriverh300: "STOP = Przywróć"
     mrobe100: "DISPLAY = Przywróć"
-    rtc: "OFF = Przywróć"
     samsungyh*: "REW = Przywróć"
     vibe500: "CANCEL = Przywróć"
   </dest>
@@ -9095,15 +9095,15 @@
   user: core
   <source>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Bass Cutoff"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Bass Cutoff"
   </source>
   <dest>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Ścięcie basów"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Ścięcie basów"
   </dest>
   <voice>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Ścięcie basów"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Ścięcie basów"
   </voice>
 </phrase>
 <phrase>
@@ -9112,15 +9112,15 @@
   user: core
   <source>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Treble Cutoff"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Treble Cutoff"
   </source>
   <dest>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Ścięcie tonów niskich"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Ścięcie tonów niskich"
   </dest>
   <voice>
     *: none
-    gigabeatfx,ipod6g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Ścięcie tonów niskich"
+    gigabeatfx,ipod6g,ipodnano3g,ipodnano4g,ipodvideo,mpiohd200,mpiohd300,mrobe100: "Ścięcie tonów niskich"
   </voice>
 </phrase>
 <phrase>
@@ -13290,20 +13290,6 @@
   </voice>
 </phrase>
 <phrase>
-  id: LANG_PLAYTIME_ERROR
-  desc: playing time screen
-  user: core
-  <source>
-    *: "Error while gathering info"
-  </source>
-  <dest>
-    *: "Błąd podczas zbierania informacji"
-  </dest>
-  <voice>
-    *: "Błąd podczas zbierania informacji"
-  </voice>
-</phrase>
-<phrase>
   id: LANG_CONDITIONAL_START_MENU
   desc: in mpegplayer menus
   user: core
@@ -14381,7 +14367,7 @@
   user: core
   <source>
     *: "Press LEFT to cancel."
-    android,hifietma*,zenvision: "Press BACK to cancel."
+    android,hifietma*: "Press BACK to cancel."
     cowond2,creativezenxfi2,ibassodx50,ibassodx90,mrobe500,ondavx747: "Press POWER to cancel."
     ihifi760,ihifi960: "Double tap RETURN to cancel."
     ihifi770,ihifi770c,ihifi800: "Press HOME to cancel."
@@ -14396,7 +14382,7 @@
   </source>
   <dest>
     *: "Wciśnij LEFT, aby anulować."
-    android,hifietma*,zenvision: "Wciśnij BACK, aby anulować."
+    android,hifietma*: "Wciśnij BACK, aby anulować."
     cowond2,creativezenxfi2,ibassodx50,ibassodx90,mrobe500,ondavx747: "Wciśnij POWER, aby anulować."
     ihifi760,ihifi960: "Podwójnie stuknij RETURN, aby anulować."
     ihifi770,ihifi770c,ihifi800: "Wciśnij HOME, aby anulować."
@@ -14411,7 +14397,7 @@
   </dest>
   <voice>
     *: "Wciśnij left, aby anulować."
-    android,hifietma*,zenvision: "Wciśnij bak, aby anulować."
+    android,hifietma*: "Wciśnij bak, aby anulować."
     cowond2,creativezenxfi2,ibassodx50,ibassodx90,mrobe500,ondavx747: "Wciśnij pałer, aby anulować."
     ihifi760,ihifi960: "Podwójnie stuknij ritern, aby anulować."
     ihifi770,ihifi770c,ihifi800: "Wciśnij hołm, aby anulować."
@@ -15215,7 +15201,7 @@
 </phrase>
 <phrase>
   id: LANG_VOICED_DATE_FORMAT
-  desc: format string for how dates will be read back. Y == 4-digit year, A == month name, m == numeric month, d == numeric day. For example, "AdY" will read "January 21 2021"
+  desc: format string for how dates will be read back. Y == 4-digit year (grouped), y == 4-digit year (numeric), A == month name, m == numeric month, d == numeric day. For example, for 2021-01-05, "AdY" will be voiced as "January 5 twenty twenty-one" and "dmy" will be voiced as "5 1 two thousand twenty one
   user: core
   <source>
     *: "dAY"
@@ -15837,20 +15823,6 @@
   </voice>
 </phrase>
 <phrase>
-  id: LANG_AMAZE_MENU
-  desc: Amaze game
-  user: core
-  <source>
-    *: "Amaze Main Menu"
-  </source>
-  <dest>
-    *: "Menu główne Amaze"
-  </dest>
-  <voice>
-    *: "Menu główne Amejz"
-  </voice>
-</phrase>
-<phrase>
   id: LANG_SET_MAZE_SIZE
   desc: Maze size in Amaze game
   user: core
@@ -16100,34 +16072,6 @@
   </dest>
   <voice>
     *: "Ustawienia Mykmod"
-  </voice>
-</phrase>
-<phrase>
-  id: LANG_MIKMOD_MENU
-  desc: mikmod plugin
-  user: core
-  <source>
-    *: "Mikmod Menu"
-  </source>
-  <dest>
-    *: "Menu Mikmod"
-  </dest>
-  <voice>
-    *: "Menu Mykmod"
-  </voice>
-</phrase>
-<phrase>
-  id: LANG_CHESSBOX_MENU
-  desc: chessbox plugin
-  user: core
-  <source>
-    *: "Chessbox Menu"
-  </source>
-  <dest>
-    *: "Menu Chessbox"
-  </dest>
-  <voice>
-    *: "Menu Czesboks"
   </voice>
 </phrase>
 <phrase>
@@ -16921,5 +16865,118 @@
   </dest>
   <voice>
     *: "Wszystkie utwory posortowane według albumu"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_USB_DAC
+  desc: in settings_menu
+  user: core
+  <source>
+    *: none
+    usbdac: "USB-DAC"
+  </source>
+  <dest>
+    *: none
+    usbdac: "DAC USB"
+  </dest>
+  <voice>
+    *: none
+    usbdac: "dak uesbe"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_WHILE_USB_CHARGE_ONLY
+  desc: in settings_menu
+  user: core
+  <source>
+    *: none
+    usbdac: "While In USB Charge-Only Mode"
+  </source>
+  <dest>
+    *: none
+    usbdac: "W trybie tylko ładowania przez USB"
+  </dest>
+  <voice>
+    *: none
+    usbdac: "W trybie tylko ładowania przez USB"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_WHILE_MASS_STORAGE_USB_ONLY
+  desc: in settings_menu
+  user: core
+  <source>
+    *: none
+    usbdac: "While In USB Mass-Storage Mode"
+  </source>
+  <dest>
+    *: none
+    usbdac: "W trybie pamięci masowej USB"
+  </dest>
+  <voice>
+    *: none
+    usbdac: "W trybie pamięci masowej USB"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_USB_DAC_ACTIVE
+  desc: for splash
+  user: core
+  <source>
+    *: none
+    usbdac: "USB-DAC Active"
+  </source>
+  <dest>
+    *: none
+    usbdac: "DAC USB aktywny"
+  </dest>
+  <voice>
+    *: none
+    usbdac: "dak uesbe aktywny"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_USE_LED_INDICATORS
+  desc: LED indicators setting
+  user: core
+  <source>
+    *: none
+    general_purpose_led: "Use LED indicators"
+  </source>
+  <dest>
+    *: none
+    general_purpose_led: "Użyj wskaźników LED"
+  </dest>
+  <voice>
+    *: none
+    general_purpose_led: "Użyj wskaźników led"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_ANNOUNCE_STATUS
+  desc: announnnce_status plugin
+  user: core
+  <source>
+    *: "Announce Status"
+  </source>
+  <dest>
+    *: "Informuj o stanie"
+  </dest>
+  <voice>
+    *: "Informuj o stanie"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_KEEP_DIRECTORY
+  desc: file browser setting
+  user: core
+  <source>
+    *: "Always remember last folder"
+  </source>
+  <dest>
+    *: "Zawsze pamiętaj ostatni katalog"
+  </dest>
+  <voice>
+    *: "Zawsze pamiętaj ostatni katalog"
   </voice>
 </phrase>

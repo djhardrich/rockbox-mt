@@ -118,7 +118,9 @@ static int browser(void* param)
     int filter = SHOW_SUPPORTED;
     char folder[MAX_PATH] = "/";
     /* stuff needed to remember position in file browser */
-    static char last_folder[MAX_PATH] = "/";
+    /*static char last_folder[MAX_PATH] = "/"*/
+    char *last_folder = global_status.browse_last_folder;
+
     /* and stuff for the database browser */
 #ifdef HAVE_TAGCACHE
     static int last_db_dirlevel = 0, last_db_selection = 0, last_ft_dirlevel = 0;
@@ -810,7 +812,10 @@ static int load_plugin_screen(char *key)
         }
         else
         {
-            ret_val = GO_TO_PREVIOUS;
+            if (ret == PLUGIN_GOTO_ROOT)
+                ret_val = GO_TO_ROOT;
+            else
+                ret_val = GO_TO_PREVIOUS;
             /* Prevents infinite loop with WPS, Plugins, Previous Screen*/
             if (ret == PLUGIN_OK && old_global == GO_TO_WPS && !audio_status())
                 ret_val = GO_TO_ROOT;

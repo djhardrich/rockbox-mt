@@ -1882,7 +1882,7 @@ static void dc_thread_playlist(void)
             }
 
             case SYS_USB_CONNECTED:
-                usb_acknowledge(SYS_USB_CONNECTED_ACK);
+                usb_acknowledge(SYS_USB_CONNECTED_ACK, ev.data);
                 usb_wait_for_disconnect(&playlist_queue);
                 break;
         }
@@ -2221,7 +2221,7 @@ int playlist_directory_tracksearch(const char* dirname, bool recurse,
         /* user abort */
         if (action_userabort(TIMEOUT_NOBLOCK))
         {
-            result = -1;
+            result = -2;
             break;
         }
 
@@ -2507,22 +2507,29 @@ void playlist_insert_context_release(struct playlist_insert_context *context)
  */
 int playlist_insert_directory(struct playlist_info* playlist,
                               const char *dirname, int position, bool queue,
-                              bool recurse)
+                              bool recurse, struct playlist_insert_context* context)
 {
-    int result = -1;
-    struct playlist_insert_context context;
-    result = playlist_insert_context_create(playlist, &context,
-                                            position, queue, true);
+    bool context_provided = context;
+    int result = 0;
+    struct playlist_insert_context c;
+
+    if (!context_provided)
+    {
+        context = &c;
+        result = playlist_insert_context_create(playlist, &c,
+                                                position, queue, true);
+    }
     if (result >= 0)
     {
         cpu_boost(true);
 
         result = playlist_directory_tracksearch(dirname, recurse,
-            directory_search_callback, &context);
+            directory_search_callback, context);
 
         cpu_boost(false);
     }
-    playlist_insert_context_release(&context);
+    if (!context_provided)
+        playlist_insert_context_release(&c);
     return result;
 }
 
@@ -3159,7 +3166,6 @@ int playlist_resume(void)
 
     struct playlist_info* playlist = &current_playlist;
     dc_thread_stop(playlist);
-    playlist_write_lock(playlist);
 
     if (core_allocatable() < (1 << 10))
         talk_buffer_set_policy(TALK_BUFFER_LOOSE); /* back off voice buffer */
@@ -3172,8 +3178,10 @@ int playlist_resume(void)
     if (handle < 0)
     {
         splashf(HZ * 2, "%s(): OOM", __func__);
-        goto out;
+        goto out_nolock;
     }
+
+    playlist_write_lock(playlist);
 
     /* align buffer for faster load times */
     buffer = core_get_data(handle);
@@ -3534,8 +3542,9 @@ int playlist_resume(void)
 
 out:
     playlist_write_unlock(playlist);
-    dc_thread_start(playlist, true);
 
+out_nolock:
+    dc_thread_start(playlist, true);
     talk_buffer_set_policy(TALK_BUFFER_DEFAULT);
     core_free(handle);
     cpu_boost(false);

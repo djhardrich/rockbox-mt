@@ -56,7 +56,7 @@ static const uint32_t gen_frequency = 1000;
  * phase has range from 0 to 0xffffffff, representing 0 and
  * 2*pi respectively.
  * Return value is a signed value from LONG_MIN to LONG_MAX, representing
- * -1 and 1 respectively. 
+ * -1 and 1 respectively.
  */
 static int16_t ICODE_ATTR fsin(uint32_t phase)
 {
@@ -85,7 +85,7 @@ static int16_t ICODE_ATTR fsin(uint32_t phase)
     unsigned int pos = phase >> 25;
     unsigned short frac = (phase & 0x01ffffff) >> 9;
     short diff = sinetab[pos + 1] - sinetab[pos];
-    
+
     return sinetab[pos] + (frac*diff >> 16);
 }
 
@@ -167,14 +167,13 @@ static void set_frequency(int index)
     output_clear();
     update_gen_step();
 
-    rb->pcm_set_frequency(hw_sampr);
+    rb->mixer_set_frequency(hw_sampr);
     rb->pcm_apply_settings();
 }
 
 #ifndef HAVE_VOLUME_IN_LIST
 static void set_volume(int value)
 {
-    rb->global_status->volume = value;
     rb->sound_set(SOUND_VOLUME, value);
 }
 
@@ -221,7 +220,7 @@ static void play_tone(bool volume_set)
     rb->cpu_boost(true);
 #endif
 
-    rb->pcm_set_frequency(rb->hw_freq_sampr[freq]);
+    rb->mixer_set_frequency(rb->hw_freq_sampr[freq]);
 
 #if INPUT_SRC_CAPS != 0
     /* Recordable targets can play back from other sources */
@@ -238,7 +237,7 @@ static void play_tone(bool volume_set)
                                       IF_PRIO(, PRIORITY_PLAYBACK)
                                       IF_COP(, CPU));
 
-    rb->pcm_play_data(get_more, NULL, NULL, 0);
+    rb->mixer_channel_play_data(PCM_MIXER_CHAN_PLAYBACK, get_more, NULL, 0);
 
 #ifndef HAVE_VOLUME_IN_LIST
     if (volume_set)
@@ -261,7 +260,7 @@ static void play_tone(bool volume_set)
 
     rb->thread_wait(gen_thread_id);
 
-    rb->pcm_play_stop();
+    rb->mixer_channel_stop(PCM_MIXER_CHAN_PLAYBACK);
 
 #ifdef HAVE_ADJUSTABLE_CPU_FREQ
     rb->cpu_boost(false);
@@ -269,7 +268,7 @@ static void play_tone(bool volume_set)
 
     /* restore default - user of apis is responsible for restoring
        default state - normally playback at 44100Hz */
-    rb->pcm_set_frequency(HW_FREQ_DEFAULT);
+    rb->mixer_set_frequency(HW_FREQ_DEFAULT);
 }
 
 /* Tests hardware sample rate switching */
@@ -286,7 +285,7 @@ enum plugin_status plugin_start(const void *parameter)
         MENU_QUIT,
     };
 
-    MENUITEM_STRINGLIST(menu, "Test Sampr Menu", NULL,
+    MENUITEM_STRINGLIST(menu, "Test Sampr", NULL,
 #ifndef HAVE_VOLUME_IN_LIST
                         "Set Volume",
 #endif /* HAVE_VOLUME_IN_LIST */
