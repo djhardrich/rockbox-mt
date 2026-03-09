@@ -27,6 +27,7 @@
 #include "panic.h"
 #include "core_alloc.h"
 #include "sound.h"
+#include "pcm_sink.h"
 #include "codecs.h"
 #include "codec_thread.h"
 #include "voice_thread.h"
@@ -4235,29 +4236,13 @@ void audio_set_crossfade(int enable)
 #ifdef HAVE_PLAY_FREQ
 static unsigned long audio_guess_frequency(struct mp3entry *id3)
 {
-    switch (id3->frequency)
+    const struct pcm_sink_caps* caps = pcm_sink_caps(pcm_current_sink());
+    for (size_t i = 0; i < caps->num_samprs; i += 1)
     {
-#if HAVE_PLAY_FREQ >= 48
-    case 44100:
-        return SAMPR_44;
-    case 48000:
-        return SAMPR_48;
-#endif
-#if HAVE_PLAY_FREQ >= 96
-    case 88200:
-        return SAMPR_88;
-    case 96000:
-        return SAMPR_96;
-#endif
-#if HAVE_PLAY_FREQ >= 192
-    case 176400:
-        return SAMPR_176;
-    case 192000:
-        return SAMPR_192;
-#endif
-    default:
-        return (id3->frequency % 4000) ? SAMPR_44 : SAMPR_48;
+        if (id3->frequency == caps->samprs[i])
+            return id3->frequency;
     }
+    return (id3->frequency % 4000) ? SAMPR_44 : SAMPR_48;
 }
 
 static bool audio_auto_change_frequency(struct mp3entry *id3, bool play)
@@ -4282,27 +4267,16 @@ static bool audio_auto_change_frequency(struct mp3entry *id3, bool play)
 
 void audio_set_playback_frequency(unsigned int sample_rate_hz)
 {
-    /* sample_rate_hz == 0 is "automatic", and also a sentinel */
-#if HAVE_PLAY_FREQ >= 192
-    static const unsigned int play_sampr[] = {SAMPR_44, SAMPR_48, SAMPR_88, SAMPR_96, SAMPR_176, SAMPR_192, 0 };
-#elif HAVE_PLAY_FREQ >= 96
-    static const unsigned int play_sampr[] = {SAMPR_44, SAMPR_48, SAMPR_88, SAMPR_96, 0 };
-#elif HAVE_PLAY_FREQ >= 48
-    static const unsigned int play_sampr[] = {SAMPR_44, SAMPR_48, 0 };
-#else
-    #error "HAVE_PLAY_FREQ < 48 ??"
-#endif
-    const unsigned int *p_sampr = play_sampr;
     unsigned int sampr = 0;
 
-    while (*p_sampr != 0)
+    const struct pcm_sink_caps* caps = pcm_sink_caps(pcm_current_sink());
+    for (size_t i = 0; i < caps->num_samprs; i += 1)
     {
-        if (*p_sampr == sample_rate_hz)
+        if (caps->samprs[i] == sample_rate_hz)
         {
-            sampr = *p_sampr;
+            sampr = caps->samprs[i];
             break;
         }
-        p_sampr++;
     }
 
     if (sampr == 0)
