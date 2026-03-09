@@ -19,7 +19,8 @@ source $controlfolder/control.txt
 get_controls
 
 GAMEDIR=/$directory/ports/rockbox
-
+# Strip duplicated slashes from path just in case
+GAMEDIR=$(echo "$GAMEDIR" | sed 's/\/\/*/\//g')
 cd $GAMEDIR
 
 ### Set env vars ###
@@ -31,7 +32,7 @@ ZOOM_VAL=$(echo "$DISPLAY_MIN 240" | awk '{printf "%.2f \n", $1/$2}')
 ### Set Backlight/Battery sysfs paths ###
 
 # Find battery status
-export BATTERY_STATUS="$(find /sys/class/power_supply/*/ -name status -print -quit 2>/dev/null)"
+export BATTERY_STATUS="$(find /sys/class/power_supply/*/ -name status -print 2>/dev/null | head -n 1)"
 if [ ! -f "${BATTERY_STATUS}" ]; then
   echo "ERROR: There is no BATTERY_STATUS object to manage, setting fallback."
   export BATTERY_STATUS="/tmp/rb_charge"
@@ -40,7 +41,7 @@ if [ ! -f "${BATTERY_STATUS}" ]; then
   fi
 fi
 # Find power status
-export POWER_STATUS="$(find /sys/class/power_supply/*/ -name online -print -quit 2>/dev/null)"
+export POWER_STATUS="$(find /sys/class/power_supply/*/ -name online -print 2>/dev/null | head -n 1)"
 if [ ! -f "${POWER_STATUS}" ]; then
   echo "ERROR: There is no POWER_STATUS object to manage, setting fallback."
   export POWER_STATUS="/tmp/rb_usb"
@@ -49,7 +50,7 @@ if [ ! -f "${POWER_STATUS}" ]; then
   fi
 fi
 # Find capacity status
-export CAPACITY_STATUS="$(find /sys/class/power_supply/*/ -name capacity -print -quit 2>/dev/null)"
+export CAPACITY_STATUS="$(find /sys/class/power_supply/*/ -name capacity -print 2>/dev/null | head -n 1)"
 if [ ! -f "${CAPACITY_STATUS}" ]; then
   echo "ERROR: There is no CAPACITY_STATUS object to manage, setting fallback."
   export CAPACITY_STATUS="/tmp/rb_batt"
@@ -59,20 +60,20 @@ if [ ! -f "${CAPACITY_STATUS}" ]; then
 fi
 
 # Find backlight paths
-export SYSFS_BL_BRIGHTNESS="$(find /sys/class/backlight/*/ -name brightness -print -quit 2>/dev/null)"
-export SYSFS_BL_COMMAND="$(find /sys/kernel/debug/dispdbg/ -name command -print -quit 2>/dev/null)"
+export SYSFS_BL_BRIGHTNESS="$(find /sys/class/backlight/*/ -name brightness -print 2>/dev/null | head -n 1)"
+export SYSFS_BL_COMMAND="$(find /sys/kernel/debug/dispdbg/ -name command -print 2>/dev/null | head -n 1)"
 
 if [ -n "${SYSFS_BL_BRIGHTNESS}" ]; then
   echo "Backlight TYPE2 detected! setting path/type."
   export BL_TYPE="TYPE2"
   export SYSFS_BL_POWER="$(find /sys/class/backlight/*/ -name bl_power )"
-  export SYSFS_BL_MAX="$(find /sys/class/backlight/*/ -name max_brightness -print -quit 2>/dev/null)"
+  export SYSFS_BL_MAX="$(find /sys/class/backlight/*/ -name max_brightness -print 2>/dev/null | head -n 1)"
 elif [ -n "${SYSFS_BL_COMMAND}" ]; then
   echo "Backlight TYPE1 detected! setting path/type."
   export BL_TYPE="TYPE1"
-  export SYSFS_BL_NAME="$(find /sys/kernel/debug/dispdbg/ -name name -print -quit 2>/dev/null)"
-  export SYSFS_BL_PARAM="$(find /sys/kernel/debug/dispdbg/ -name param -print -quit 2>/dev/null)"
-  export SYSFS_BL_START="$(find /sys/kernel/debug/dispdbg/ -name start -print -quit 2>/dev/null)"
+  export SYSFS_BL_NAME="$(find /sys/kernel/debug/dispdbg/ -name name -print 2>/dev/null | head -n 1)"
+  export SYSFS_BL_PARAM="$(find /sys/kernel/debug/dispdbg/ -name param -print 2>/dev/null | head -n 1)"
+  export SYSFS_BL_START="$(find /sys/kernel/debug/dispdbg/ -name start -print 2>/dev/null | head -n 1)"
   export BL_COMMAND="setbl"
   export BL_NAME="lcd0"
 else
@@ -98,6 +99,8 @@ done
 > "$GAMEDIR/log.txt" && exec > >(tee "$GAMEDIR/log.txt") 2>&1
 
 # For log
+echo "GAMEDIR: $GAMEDIR"
+echo "Base DIR: $directory"
 echo "Display: $DISPLAY_WIDTH x $DISPLAY_HEIGHT"
 echo "Aspect Ratio: $ASPECT_X : $ASPECT_Y"
 echo "Zoom: $ZOOM_VAL"

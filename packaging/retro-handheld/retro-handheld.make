@@ -72,6 +72,7 @@ portmaster:
 	## Copy Portmaster specific files
 	cp $(RH_PACK_DIR)/gameinfo.xml $(PM_PKG_DIR)/rockbox
 	cp $(RH_PACK_DIR)/rockbox.gptk $(PM_PKG_DIR)/rockbox
+	cp $(RH_PACK_DIR)/mux_launch.txt $(PM_PKG_DIR)/rockbox
 	cp $(RH_PACK_DIR)/screenshot.png $(PM_PKG_DIR)/rockbox
 	cp $(RH_PACK_DIR)/port.json $(PM_PKG_DIR)/rockbox
 	cp $(RH_PACK_DIR)/README.md $(PM_PKG_DIR)/rockbox
