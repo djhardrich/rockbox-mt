@@ -49,6 +49,7 @@
 #include "core_keymap.h"
 #include "language.h"
 #include "statusbar-skinned.h"
+#include "panic.h"
 
 #if CONFIG_CHARGING
 #include "power.h"
@@ -642,7 +643,6 @@ static const struct plugin_api rockbox_api = {
     sound_get_pitch,
     sound_set_pitch,
 #endif
-    &hw_freq_sampr[0],
     pcm_play_lock,
     pcm_play_unlock,
     pcm_current_sink_caps,
@@ -871,6 +871,7 @@ static const struct plugin_api rockbox_api = {
 
     /* new stuff at the end, sort into place next time
        the API gets incompatible */
+    panicf,
 };
 
 static int plugin_buffer_handle;

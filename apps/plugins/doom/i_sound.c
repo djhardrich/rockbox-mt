@@ -466,7 +466,10 @@ void I_SubmitSound(void)
    if (!enable_sound)
       return;
 
-   rb->mixer_channel_play_data(PCM_MIXER_CHAN_PLAYBACK, &get_more, NULL, 0);
+   static const struct mixer_play_cbs cbs = {
+       .get_more = get_more,
+   };
+   rb->mixer_channel_play_data(PCM_MIXER_CHAN_PLAYBACK, &cbs, NULL, 0);
 }
 
 void I_ShutdownSound(void)
@@ -491,8 +494,9 @@ void I_InitSound()
            break;
    }
    if (i == caps->num_samprs)
-       i = SAMPR_44;
-   samplerate = caps->samprs[i];
+       samplerate = SAMPR_44;
+   else
+       samplerate = caps->samprs[i];
 
    // Initialize external data (all sounds) at start, keep static.
    printf( "I_InitSound: ");

@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include "system.h"
 #include "kernel.h"
+#include "panic.h"
 
 /* Define LOGF_ENABLE to enable logf output in this file */
 //#define LOGF_ENABLE
@@ -76,14 +77,10 @@
  *
  */
 
-/* 'true' when all stages of pcm initialization have completed */
-static bool pcm_is_ready = false;
-
-static struct pcm_sink* sinks[1] = {
+static struct pcm_sink* sinks[PCM_SINK_NUM] = {
     [PCM_SINK_BUILTIN] = &builtin_pcm_sink,
 };
 static enum pcm_sink_ids cur_sink = PCM_SINK_BUILTIN;
-static struct mutex sink_mutex; /* protects sinks and cur_sink */
 
 /* The registered callback function to ask for more mp3 data */
 volatile pcm_play_callback_type
@@ -143,7 +140,7 @@ void pcm_play_stop_int(void)
 
 static void pcm_wait_for_init(void)
 {
-    while (!pcm_is_ready)
+    while (!sinks[cur_sink]->pcm_is_ready)
         sleep(0);
 }
 
@@ -206,7 +203,7 @@ void pcm_do_peak_calculation(struct pcm_peaks *peaks, bool active,
     if (active)
     {
         struct pcm_sink* sink = sinks[cur_sink];
-        if (sink->configured_freq == -1UL)
+        if (sink->configured_freq == -1U)
         {
             logf("not configured yet");
             return;
@@ -238,14 +235,11 @@ bool pcm_is_playing(void)
  */
 
 void pcm_play_lock(void) {
-    mutex_lock(&sink_mutex);
     sinks[cur_sink]->ops.lock();
-    /* hold sink_mutex until pcm_play_unlock() */
 }
 
 void pcm_play_unlock(void) {
     sinks[cur_sink]->ops.unlock();
-    mutex_unlock(&sink_mutex);
 }
 
 /* This should only be called at startup before any audio playback or
@@ -254,11 +248,12 @@ void pcm_init(void)
 {
     logf("pcm_init");
 
-    mutex_init(&sink_mutex);
-    for(size_t i = 0; i < ARRAYLEN(sinks); i += 1) {
-        sinks[i]->pending_freq = sinks[i]->caps.default_freq;
-        sinks[i]->configured_freq = -1UL;
-        sinks[i]->ops.init();
+    for(size_t i = 0; i < PCM_SINK_NUM; i += 1) {
+        struct pcm_sink* sink = sinks[i];
+        sink->pending_freq = sink->caps.default_freq;
+        sink->configured_freq = -1U;
+        sink->pcm_is_ready = false;
+        sink->ops.init();
     }
 }
 
@@ -267,16 +262,19 @@ void pcm_postinit(void)
 {
     logf("pcm_postinit");
 
-    for(size_t i = 0; i < ARRAYLEN(sinks); i += 1) {
-        sinks[i]->ops.postinit();
+    for(size_t i = 0; i < PCM_SINK_NUM; i += 1) {
+        struct pcm_sink* sink = sinks[i];
+        sink->ops.postinit();
+        sink->pcm_is_ready = true;
     }
 
-    pcm_is_ready = true;
+    /* Ensure mixer is in a sane state */
+    mixer_set_frequency(pcm_get_frequency());
 }
 
 bool pcm_is_initialized(void)
 {
-    return pcm_is_ready;
+    return sinks[cur_sink]->pcm_is_ready;
 }
 
 enum pcm_sink_ids pcm_current_sink(void)
@@ -292,6 +290,54 @@ const struct pcm_sink_caps* pcm_sink_caps(enum pcm_sink_ids sink)
 const struct pcm_sink_caps* pcm_current_sink_caps(void)
 {
     return pcm_sink_caps(pcm_current_sink());
+}
+
+bool pcm_switch_sink(enum pcm_sink_ids sink)
+{
+    logf("pcm_switch_sink %d to %d", cur_sink, sink);
+    if(sink >= PCM_SINK_NUM) {
+        return false;
+    }
+
+    if(cur_sink == sink) {
+        return true;
+    }
+
+    /* This should not be possible but it silences
+       a false warning that only occurs with with GCC9.5 on bare metal ARM.
+    */
+#if __GNUC__ == 9 && defined(CPU_ARM)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
+
+    /* save current sink before switching */
+    struct pcm_sink* old_sink = sinks[cur_sink];
+
+#if __GNUC__ == 9
+#pragma GCC diagnostic pop
+#endif
+
+    /* update sink index */
+    cur_sink = sink;
+    /* synchronize frequency */
+    unsigned long cur_sampr = old_sink->caps.samprs[old_sink->pending_freq];
+    pcm_set_frequency(cur_sampr);
+    pcm_apply_settings();
+    /* when playing, continue playing on new sink */
+    if(pcm_playing) {
+        old_sink->ops.stop();
+        /* need more */
+        const void *start;
+        size_t size;
+        if(pcm_get_more_int(&start, &size)) {
+            pcm_play_dma_start_int(start, size);
+        } else {
+            pcm_play_stop_int();
+        }
+    }
+
+    return true;
 }
 
 void pcm_play_data(pcm_play_callback_type get_more,
@@ -359,7 +405,6 @@ void pcm_set_frequency(unsigned int samplerate)
     samplerate = pcm_sampr_to_hw_sampr(samplerate, type);
 #endif /* CONFIG_SAMPR_TYPES */
 
-    mutex_lock(&sink_mutex);
     struct pcm_sink* sink = sinks[cur_sink];
     index = round_value_to_list32(samplerate, sink->caps.samprs, sink->caps.num_samprs, false);
 
@@ -367,7 +412,6 @@ void pcm_set_frequency(unsigned int samplerate)
         index = sink->caps.default_freq; /* Invalid = default */
 
     sink->pending_freq = index;
-    mutex_unlock(&sink_mutex);
 }
 
 /* return last-set frequency */
@@ -384,14 +428,12 @@ void pcm_apply_settings(void)
 
     pcm_wait_for_init();
 
-    mutex_lock(&sink_mutex);
     struct pcm_sink* sink = sinks[cur_sink];
     if(sink->pending_freq != sink->configured_freq) {
         logf(" sink->set_freq");
         sink->ops.set_freq(sink->pending_freq);
         sink->configured_freq = sink->pending_freq;
     }
-    mutex_unlock(&sink_mutex);
 }
 
 #ifdef HAVE_RECORDING
