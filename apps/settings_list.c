@@ -67,6 +67,7 @@
 #endif
 #include "playlist.h"
 #include "tree.h"
+#include "iap-usb.h"
 
 #include "voice_thread.h"
 
@@ -790,15 +791,17 @@ static void shuffle_playlist_callback(bool shuffle)
             }
         }
     }
+    iap_on_shuffle_state(shuffle);
 }
 
 static void repeat_mode_callback(int repeat)
 {
+    (void)repeat;
     if ((audio_status() & AUDIO_STATUS_PLAY) == AUDIO_STATUS_PLAY)
     {
         audio_flush_and_reload_tracks();
     }
-    (void)repeat;
+    iap_on_repeat_state(repeat);
 }
 
 static void treesort_callback(int value)
@@ -2337,30 +2340,38 @@ const struct settings_list settings[] = {
 #endif
 
 #ifdef HAVE_HOTKEY
+/* WPS HOTKEY */
     TABLE_SETTING(F_CB_ON_SELECT_ONLY, hotkey_wps,
         LANG_HOTKEY_WPS, HOTKEY_VIEW_PLAYLIST, "hotkey wps",
         "off,view playlist,show track info,pitchscreen,open with,delete,bookmark,plugin,bookmark list"
-        ,UNIT_INT, hotkey_formatter, hotkey_getlang, hotkey_callback,9, HOTKEY_OFF,
-        HOTKEY_VIEW_PLAYLIST, HOTKEY_SHOW_TRACK_INFO, HOTKEY_PITCHSCREEN,
-        HOTKEY_OPEN_WITH, HOTKEY_DELETE, HOTKEY_BOOKMARK, HOTKEY_PLUGIN, HOTKEY_BOOKMARK_LIST),
+#ifdef HAVE_ALBUMART
+        ",show_album_art,context menu"
+        ,UNIT_INT, hotkey_formatter, hotkey_getlang, hotkey_callback,11,
+#else
+        ",context menu"
+        ,UNIT_INT, hotkey_formatter, hotkey_getlang, hotkey_callback,10,
+#endif
+        HOTKEY_OFF, HOTKEY_VIEW_PLAYLIST, HOTKEY_SHOW_TRACK_INFO, HOTKEY_PITCHSCREEN,
+        HOTKEY_OPEN_WITH, HOTKEY_DELETE, HOTKEY_BOOKMARK, HOTKEY_PLUGIN, HOTKEY_BOOKMARK_LIST,
+#ifdef HAVE_ALBUMART
+        HOTKEY_ALBUMART,
+#endif
+        HOTKEY_CONTEXT_MENU),
+/* TREE HOTKEY */
     TABLE_SETTING(0, hotkey_tree,
         LANG_HOTKEY_FILE_BROWSER, HOTKEY_OFF, "hotkey tree",
 #ifdef HAVE_TAGCACHE
-        "off,properties,pictureflow,open with,delete,insert,insert shuffled",
+        "off,properties,pictureflow,open with,delete,insert,insert shuffled,context menu",
+        UNIT_INT, hotkey_formatter, hotkey_getlang, NULL, 8,
 #else
-        "off,properties,open with,delete,insert,insert shuffled",
-#endif
-        UNIT_INT, hotkey_formatter, hotkey_getlang, NULL,
-#ifdef HAVE_TAGCACHE
-        7,
-#else
-        6,
+        "off,properties,open with,delete,insert,insert shuffled,context menu",
+        UNIT_INT, hotkey_formatter, hotkey_getlang, NULL, 7,
 #endif
         HOTKEY_OFF,HOTKEY_PROPERTIES,
 #ifdef HAVE_TAGCACHE
         HOTKEY_PICTUREFLOW,
 #endif
-        HOTKEY_OPEN_WITH, HOTKEY_DELETE, HOTKEY_INSERT, HOTKEY_INSERT_SHUFFLED),
+        HOTKEY_OPEN_WITH, HOTKEY_DELETE, HOTKEY_INSERT, HOTKEY_INSERT_SHUFFLED, HOTKEY_CONTEXT_MENU),
 #endif /* HAVE_HOTKEY */
 
     INT_SETTING(F_TIME_SETTING, resume_rewind, LANG_RESUME_REWIND, 0,

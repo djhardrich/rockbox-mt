@@ -206,26 +206,26 @@ static int buffer_length;
 static int buffer_transitlength;
 static bool active = false;
 
-struct usb_class_driver_ep_allocation usb_serial_ep_allocs[3] = {
-    {.type = USB_ENDPOINT_XFER_BULK, .dir = DIR_IN, .optional = false},
-    {.type = USB_ENDPOINT_XFER_BULK, .dir = DIR_OUT, .optional = false},
-    {.type = USB_ENDPOINT_XFER_INT, .dir = DIR_IN, .optional = true},
+static struct usb_class_driver_ep_allocation ep_allocs[3] = {
+    {.type = USB_ENDPOINT_XFER_BULK, .dir = DIR_IN, .optional = false, .mps = -1},
+    {.type = USB_ENDPOINT_XFER_BULK, .dir = DIR_OUT, .optional = false, .mps = -1},
+    {.type = USB_ENDPOINT_XFER_INT, .dir = DIR_IN, .optional = true, .mps = -1},
 };
 
-#define EP_IN (usb_serial_ep_allocs[0].ep)
-#define EP_OUT (usb_serial_ep_allocs[1].ep)
-#define EP_INT (usb_serial_ep_allocs[2].ep)
+#define EP_IN (ep_allocs[0].ep)
+#define EP_OUT (ep_allocs[1].ep)
+#define EP_INT (ep_allocs[2].ep)
 
 static int control_interface, data_interface;
 
-int usb_serial_set_first_interface(int interface)
+static int usb_serial_set_first_interface(int interface)
 {
     control_interface = interface;
     data_interface = interface + 1;
     return interface + 2;
 }
 
-int usb_serial_get_config_descriptor(unsigned char *dest, int max_packet_size)
+static int usb_serial_get_config_descriptor(unsigned char *dest, int max_packet_size)
 {
     unsigned char *orig_dest = dest;
 
@@ -270,7 +270,7 @@ int usb_serial_get_config_descriptor(unsigned char *dest, int max_packet_size)
 }
 
 /* called by usb_core_control_request() */
-bool usb_serial_control_request(struct usb_ctrlrequest* req, void* reqdata, unsigned char* dest)
+static bool usb_serial_control_request(struct usb_ctrlrequest* req, void* reqdata, unsigned char* dest)
 {
     bool handled = false;
 
@@ -329,7 +329,7 @@ bool usb_serial_control_request(struct usb_ctrlrequest* req, void* reqdata, unsi
     return handled;
 }
 
-void usb_serial_init_connection(void)
+static int usb_serial_init_connection(void)
 {
     /* prime rx endpoint */
     usb_drv_recv_nonblocking(EP_OUT, receive_buffer, RECV_BUFFER_SIZE);
@@ -341,10 +341,11 @@ void usb_serial_init_connection(void)
         sendout();
     }
     active=true;
+    return 0;
 }
 
 /* called by usb_code_init() */
-void usb_serial_init(void)
+static void usb_serial_init(void)
 {
     logf("serial: init");
     buffer_start = 0;
@@ -352,7 +353,7 @@ void usb_serial_init(void)
     buffer_transitlength = 0;
 }
 
-void usb_serial_disconnect(void)
+static void usb_serial_disconnect(void)
 {
     active = false;
 }
@@ -412,7 +413,7 @@ void usb_serial_send(const unsigned char *data,int length)
 }
 
 /* called by usb_core_transfer_complete() */
-void usb_serial_transfer_complete(int ep,int dir, int status, int length)
+static void usb_serial_transfer_complete(int ep,int dir, int status, int length)
 {
     (void)ep;
     (void)length;
@@ -441,3 +442,18 @@ void usb_serial_transfer_complete(int ep,int dir, int status, int length)
             break;
     }
 }
+
+struct usb_class_driver usb_cdrv_serial = {
+    .needs_exclusive_storage = false,
+    .needs_cpu_boost = false,
+    .config = 1,
+    .ep_allocs_size = ARRAYLEN(ep_allocs),
+    .ep_allocs = ep_allocs,
+    .set_first_interface = usb_serial_set_first_interface,
+    .get_config_descriptor = usb_serial_get_config_descriptor,
+    .init_connection = usb_serial_init_connection,
+    .init = usb_serial_init,
+    .disconnect = usb_serial_disconnect,
+    .transfer_complete = usb_serial_transfer_complete,
+    .control_request = usb_serial_control_request,
+};

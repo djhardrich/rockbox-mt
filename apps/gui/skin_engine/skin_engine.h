@@ -51,6 +51,11 @@ void skin_disarm_touchregions(struct gui_wps *gwps);
 void skin_update(enum skinnable_screens skin, enum screen_type screen,
                  unsigned int update_type);
 
+/* Defer updates in skin_render */
+void skin_defer_rendering(bool deferred);
+/* Render viewport together with deferred updates */
+void skin_render_deferred(struct screen *display, struct viewport *vp);
+
 bool skin_has_sbs(struct gui_wps *gwps);
 
 
@@ -82,6 +87,7 @@ void skin_unload_all(void);
 
 bool skin_do_full_update(enum skinnable_screens skin, enum screen_type screen);
 void skin_request_full_update(enum skinnable_screens skin);
+void skin_request_update_locked(bool locked);
 
 bool dbg_skin_engine(void);
 

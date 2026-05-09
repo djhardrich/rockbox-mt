@@ -86,7 +86,12 @@ static int usb_mmc_countdown = 0;
 #ifndef USB_EXTRA_STACK
 #   define USB_EXTRA_STACK 0x0 /*Define in firmware/export/config/[target].h*/
 #endif
-static long usb_stack[(DEFAULT_STACK_SIZE*4 + DUMP_BMP_LINESIZE + USB_EXTRA_STACK)/sizeof(long)];
+#ifdef USB_ENABLE_IAP
+#define IAP_EXTRA_STACK DEFAULT_STACK_SIZE*2
+#else
+#define IAP_EXTRA_STACK 0
+#endif
+static long usb_stack[(DEFAULT_STACK_SIZE*4 + DUMP_BMP_LINESIZE + IAP_EXTRA_STACK + USB_EXTRA_STACK)/sizeof(long)];
 static const char usb_thread_name[] = "usb";
 static unsigned int usb_thread_entry = 0;
 static bool usb_monitor_enabled = false;
@@ -214,6 +219,9 @@ static inline void usb_configure_drivers(int for_state)
 #ifdef USB_ENABLE_AUDIO
         usb_core_enable_driver(USB_DRIVER_AUDIO, (usb_audio == 1) || (usb_audio == 2)); // while "always" or "only in charge-only mode"
 #endif /* USB_ENABLE_AUDIO */
+#ifdef USB_ENABLE_IAP
+        usb_core_enable_driver(USB_DRIVER_IAP, false);
+#endif
 
 #ifdef USB_ENABLE_CHARGING_ONLY
         usb_core_enable_driver(USB_DRIVER_CHARGING_ONLY, true);
@@ -233,6 +241,9 @@ static inline void usb_configure_drivers(int for_state)
 #ifdef USB_ENABLE_AUDIO
         usb_core_enable_driver(USB_DRIVER_AUDIO, (usb_audio == 1) || (usb_audio == 3)); // while "always" or "only in mass-storage mode"
 #endif /* USB_ENABLE_AUDIO */
+#ifdef USB_ENABLE_IAP
+        usb_core_enable_driver(USB_DRIVER_IAP, true);
+#endif
 #ifdef USB_ENABLE_CHARGING_ONLY
         usb_core_enable_driver(USB_DRIVER_CHARGING_ONLY, false);
 #endif
@@ -255,23 +266,14 @@ static inline void usb_slave_mode(bool on)
 
     if(on)
     {
-        trigger_cpu_boost();
-#ifdef HAVE_PRIORITY_SCHEDULING
-        thread_set_priority(thread_self(), PRIORITY_REALTIME);
-#endif
         disk_unmount_all();
     }
     else
     {
-#ifdef HAVE_PRIORITY_SCHEDULING
-        thread_set_priority(thread_self(), PRIORITY_SYSTEM);
-#endif
         /* Entered exclusive mode */
         rc = disk_mount_all();
         if(rc <= 0) /* no partition */
             panicf("mount: %d",rc);
-
-        cancel_cpu_boost();
     }
 }
 
