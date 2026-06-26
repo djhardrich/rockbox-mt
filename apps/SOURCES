@@ -188,6 +188,7 @@ keymaps/keymap-touchscreen.c
  * (needs GLES + the SDL window's shared GL context + vendored libprojectM). */
 #if (CONFIG_PLATFORM & PLATFORM_SDL) && (CONFIG_KEYPAD == RETRO_HANDHELD_PAD)
 milkdrop_visualizer.c
+menus/visualizer_menu.c
 #endif
 
 #if (CONFIG_KEYPAD == IRIVER_H100_PAD) \

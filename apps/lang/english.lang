@@ -17169,3 +17169,45 @@
     *: "Finished"
   </voice>
 </phrase>
+<phrase>
+  id: LANG_VISUALIZER
+  desc: Settings > Visualizer submenu title
+  user: core
+  <source>
+    *: "Visualizer"
+  </source>
+  <dest>
+    *: "Visualizer"
+  </dest>
+  <voice>
+    *: "Visualizer"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_VIZ_TRANSITION
+  desc: Settings > Visualizer > seconds each preset shows before switching
+  user: core
+  <source>
+    *: "Preset Switch Interval"
+  </source>
+  <dest>
+    *: "Preset Switch Interval"
+  </dest>
+  <voice>
+    *: "Preset Switch Interval"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_VIZ_PRESETS
+  desc: Settings > Visualizer > per-preset on/off list
+  user: core
+  <source>
+    *: "Presets"
+  </source>
+  <dest>
+    *: "Presets"
+  </dest>
+  <voice>
+    *: "Presets"
+  </voice>
+</phrase>

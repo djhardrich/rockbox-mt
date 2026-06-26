@@ -681,6 +681,9 @@ struct user_settings
 
     /* power settings */
     int poweroff;   /* idle power off timer */
+
+    /* Milkdrop visualizer */
+    int viz_transition;   /* seconds between Milkdrop preset switches; 0 = never */
 #if BATTERY_CAPACITY_INC > 0
     int battery_capacity; /* in mAh */
 #endif

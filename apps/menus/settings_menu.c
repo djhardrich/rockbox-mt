@@ -756,6 +756,10 @@ MAKE_MENU(wps_settings, ID2P(LANG_WPS), 0, Icon_Playback_menu
 /***********************************/
 /*    SETTINGS MENU                */
 
+#if (CONFIG_PLATFORM & PLATFORM_SDL) && (CONFIG_KEYPAD == RETRO_HANDHELD_PAD)
+extern struct menu_item_ex visualizer_settings_menu; /* menus/visualizer_menu.c */
+#endif
+
 static struct browse_folder_info langs = { LANG_DIR, SHOW_LNG };
 
 MENUITEM_FUNCTION_W_PARAM(browse_langs, 0, ID2P(LANG_LANGUAGE),
@@ -775,6 +779,9 @@ MAKE_MENU(settings_menu_item, ID2P(LANG_GENERAL_SETTINGS), 0,
           &autoresume_menu,
 #endif
           &browse_langs, &voice_settings_menu,
+#if (CONFIG_PLATFORM & PLATFORM_SDL) && (CONFIG_KEYPAD == RETRO_HANDHELD_PAD)
+          &visualizer_settings_menu,
+#endif
           );
 /*    SETTINGS MENU                */
 /***********************************/

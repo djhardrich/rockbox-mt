@@ -319,6 +319,9 @@ static const char off_number_spell[] = "off,number,spell";
 static const int timeout_sec_common[] = {-1,0,1,2,3,4,5,6,7,8,9,10,15,20,25,30,
                                         45,60,90,120,180,240,300,600,900,1200,
                                         1500,1800,2700,3600,4500,5400,6300,7200};
+/* Milkdrop "Preset Switch Interval": seconds each preset shows before switching;
+ * 0 = "Off" (hold the current preset until the user manually changes it). */
+static const int viz_transition_values[] = { 0, 5, 10, 15, 20, 30, 45, 60, 75, 90 };
 #if defined(HAVE_RECORDING)
 static const int time_recording_trigger[] = {0,1,2,5,10,15,20,25,30,60,120,300,600};
 #endif
@@ -1248,6 +1251,12 @@ const struct settings_list settings[] = {
                 "idle poweroff", UNIT_MIN, 0,60,1,
                 formatter_time_unit_0_is_off, getlang_time_unit_0_is_off,
                 set_poweroff_timeout),
+    /* Milkdrop visualizer: seconds each preset shows before switching to the
+     * next; 0 = "Off" (hold the current preset).  Read directly (no callback). */
+    TABLE_SETTING_LIST(F_TIME_SETTING | F_ALLOW_ARBITRARY_VALS,
+                viz_transition, LANG_VIZ_TRANSITION, 20, "viz transition",
+                off_on, UNIT_SEC, formatter_time_unit_0_is_off,
+                getlang_time_unit_0_is_off, NULL, 10, viz_transition_values),
     INT_SETTING(F_BANFROMQS, max_files_in_playlist,
                 LANG_MAX_FILES_IN_PLAYLIST,
 #if CONFIG_CPU == PP5002 || CONFIG_CPU == PP5020 || CONFIG_CPU == PP5022

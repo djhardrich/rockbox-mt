@@ -499,8 +499,7 @@ static int viz_render_thread(void *param)
         /* Time-based preset cycling on a wall-clock that only runs while the
          * visualizer is on screen: switch after the Visualization Transition
          * interval of real seconds.  0 = "Never" holds the preset. */
-        /* replaced by global_settings.viz_transition in Task 7 */
-        int transition_s = 20;
+        int transition_s = global_settings.viz_transition;
         if (!viz_locked && transition_s > 0 &&
             viz_fade == VIZ_NORMAL &&
             current_tick - viz_preset_tick >= (long)transition_s * HZ)
