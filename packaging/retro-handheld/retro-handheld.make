@@ -23,6 +23,18 @@ rhbuild:
 	chmod +x $(RH_ROCKBOX_DIR)/rockbox
 	## Copy licenses over
 	cp -R $(RH_PACK_DIR)/licenses $(RH_ROCKBOX_DIR)
+	## Bundle Obsede2 theme assets (wps, sbs, bitmaps, theme cfg, iconset)
+	mkdir -p $(RH_ROCKBOX_DIR)/wps/Obsede2 $(RH_ROCKBOX_DIR)/themes $(RH_ROCKBOX_DIR)/icons
+	cp $(ROOTDIR)/wps/Obsede2.wps $(RH_ROCKBOX_DIR)/wps/
+	cp $(ROOTDIR)/wps/Obsede2.sbs $(RH_ROCKBOX_DIR)/wps/
+	cp -r $(ROOTDIR)/wps/Obsede2/. $(RH_ROCKBOX_DIR)/wps/Obsede2/
+	cp $(ROOTDIR)/themes/Obsede2.cfg $(RH_ROCKBOX_DIR)/themes/
+	cp $(ROOTDIR)/icons/icons_5px.bmp $(RH_ROCKBOX_DIR)/icons/
+	## Bundle prebuilt SF-Pro fonts (not .bdf sources, so convbdf cannot build them)
+	mkdir -p $(RH_ROCKBOX_DIR)/fonts
+	cp $(ROOTDIR)/fonts/*.fnt $(RH_ROCKBOX_DIR)/fonts/
+	## Install default config (sets Obsede2 as the active theme on first boot)
+	cp $(RH_PACK_DIR)/config.cfg $(RH_ROCKBOX_DIR)/config.cfg
 	rm -rf $(RH_PKG_DIR)/build
 
 ## We no longer need muos specific build since portmaster build replaces it.
