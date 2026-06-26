@@ -32,5 +32,10 @@ find "$BUILD" -name 'libprojectM_eval.a' -exec cp {} "$OUT_LIB/" \;
 # Headers: prefer the export headers from the source tree.
 cp -r "$SRC/src/api/include/projectM-4" "$OUT_INC/" 2>/dev/null || \
   cp -r "$SRC/include/projectM-4" "$OUT_INC/"
+# CMake generates projectM_export.h and version.h into the build tree (not the
+# source tree), so the copy above misses them.  Pull any generated headers from
+# the build tree to complete the public include set.
+find "$BUILD" -path '*/projectM-4/projectM_export.h' -exec cp {} "$OUT_INC/projectM-4/" \;
+find "$BUILD" -path '*/projectM-4/version.h'         -exec cp {} "$OUT_INC/projectM-4/" \;
 echo "projectM build complete:"
 ls -l "$OUT_LIB"

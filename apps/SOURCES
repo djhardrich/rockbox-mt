@@ -184,6 +184,12 @@ tagcache.c
 #ifdef HAVE_TOUCHSCREEN
 keymaps/keymap-touchscreen.c
 #endif
+/* Milkdrop/projectM visualizer: hosted SDL retro-handheld target only
+ * (needs GLES + the SDL window's shared GL context + vendored libprojectM). */
+#if (CONFIG_PLATFORM & PLATFORM_SDL) && (CONFIG_KEYPAD == RETRO_HANDHELD_PAD)
+milkdrop_visualizer.c
+#endif
+
 #if (CONFIG_KEYPAD == IRIVER_H100_PAD) \
     || (CONFIG_KEYPAD == IRIVER_H300_PAD)
 keymaps/keymap-h1x0_h3x0.c
