@@ -878,11 +878,16 @@ rgnanocc () {
 }
 
 rhhconf () {
-    LDOPTS="-lm -ldl -L/usr/lib -lSDL2 -lpthread"
+    # Link the vendored projectM (Milkdrop) static libs and the device's GLES/EGL
+    # + libstdc++. projectM is C++ and renders via OpenGL ES.
+    # Order matters: projectM core -> its eval lib -> GLES -> stdc++ (left-to-right).
+    # -lstdc++fs: GCC 8.3's std::filesystem lives in a separate static library.
+    pmlibs="$rootdir/lib/projectm/lib/libprojectM-4.a $rootdir/lib/projectm/lib/libprojectM_eval.a -lGLESv2 -lEGL -lstdc++ -lstdc++fs"
+    LDOPTS="-lm -ldl -L/usr/lib -lSDL2 -lpthread $pmlibs"
 
     # For some reason SDL_THREADS does not work well... text scroll is slow?
     # thread_support="HAVE_SDL_THREADS"
-    
+
     rbdir="/tmp/rockbox"
     bindir="/tmp/rockbox"
     libdir="/tmp/rockbox"
@@ -3365,6 +3370,7 @@ fi
     target="RETRO_HANDHELD"
     memory=64
     uname=`uname`
+    extradefines="$extradefines -I$rootdir/lib/projectm/include"
     #retrohandheldcc
     simcc "sdl-app"
     rhhconf
