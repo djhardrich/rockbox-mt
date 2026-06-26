@@ -8,6 +8,11 @@ BUILD="$HERE/build"
 OUT_LIB="$HERE/lib"
 OUT_INC="$HERE/include"
 
+if [ ! -f "$SRC/CMakeLists.txt" ]; then
+  echo "ERROR: $SRC/CMakeLists.txt missing. Run: git submodule update --init --recursive" >&2
+  exit 1
+fi
+
 rm -rf "$BUILD"
 cmake -S "$SRC" -B "$BUILD" \
   -DCMAKE_BUILD_TYPE=Release \
@@ -26,6 +31,6 @@ find "$BUILD" -name 'libprojectM-4.a' -exec cp {} "$OUT_LIB/" \;
 find "$BUILD" -name 'libprojectM_eval.a' -exec cp {} "$OUT_LIB/" \;
 # Headers: prefer the export headers from the source tree.
 cp -r "$SRC/src/api/include/projectM-4" "$OUT_INC/" 2>/dev/null || \
-  cp -r "$SRC/include/projectM-4" "$OUT_INC/" 2>/dev/null || true
+  cp -r "$SRC/include/projectM-4" "$OUT_INC/"
 echo "projectM build complete:"
 ls -l "$OUT_LIB"
