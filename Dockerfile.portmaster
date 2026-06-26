@@ -1,0 +1,34 @@
+# Minimal native-aarch64 build image for the Rockbox PortMaster pak.
+#
+# Building FOR aarch64 by building ON an aarch64 image means the container's own
+# gcc/g++ are aarch64 -- no CROSS_COMPILE / cmake toolchain file is needed.
+# On an x86_64 host this runs under qemu emulation (slow, but correct).
+#
+# Debian Bookworm ships gcc-12, which does NOT have the gcc-16 ICE on
+# libopus/celt/vq.c that the host toolchain hits, so the build is clean.
+FROM --platform=linux/arm64 debian:bookworm
+
+# Build deps, in one layer, apt lists cleaned to keep the image lean:
+#   build-essential gcc g++ make  -> Rockbox + projectM C/C++ compilation
+#   cmake                         -> projectM-4 build system
+#   git                           -> submodule checkout (projectM source)
+#   zip perl                      -> Rockbox language/zip build + buildzip.pl
+#   pkg-config                    -> locating SDL2 / GLES / EGL
+#   libsdl2-dev                   -> SDL2 app target (sdl2-config, headers, libs)
+#   libgles2-mesa-dev libegl1-mesa-dev -> GLES2 + EGL headers/libs (visualizer)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        gcc \
+        g++ \
+        make \
+        cmake \
+        git \
+        zip \
+        perl \
+        pkg-config \
+        libsdl2-dev \
+        libgles2-mesa-dev \
+        libegl1-mesa-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src

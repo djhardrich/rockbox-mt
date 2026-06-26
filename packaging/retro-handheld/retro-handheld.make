@@ -35,6 +35,10 @@ rhbuild:
 	cp $(ROOTDIR)/fonts/*.fnt $(RH_ROCKBOX_DIR)/fonts/
 	## Install default config (sets Obsede2 as the active theme on first boot)
 	cp $(RH_PACK_DIR)/config.cfg $(RH_ROCKBOX_DIR)/config.cfg
+	## Bundle Milkdrop visualizer presets (read at runtime from ROCKBOX_DIR/presets)
+	mkdir -p $(RH_ROCKBOX_DIR)/presets
+	cp $(ROOTDIR)/apps/milkdrop_presets/*.milk $(RH_ROCKBOX_DIR)/presets/
+	cp $(ROOTDIR)/apps/milkdrop_presets/LICENSE.md $(RH_ROCKBOX_DIR)/presets/
 	rm -rf $(RH_PKG_DIR)/build
 
 ## We no longer need muos specific build since portmaster build replaces it.
