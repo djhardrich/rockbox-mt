@@ -292,6 +292,47 @@ static void write_to_soundcard(struct pcm_udata *udata)
     }
 }
 
+/* --- Visualizer PCM tap -------------------------------------------------
+ * The Milkdrop/projectM visualizer needs the audio waveform to react to the
+ * beat.  We mirror the PRE-volume Rockbox S16 stereo source into a lock-free
+ * ring buffer (single producer = audio callback, single consumer = render
+ * thread) so the visuals are independent of the volume setting.
+ * Torn reads are harmless for a visualizer. */
+#define VIZ_PCM_FRAMES 8192            /* must be a power of two */
+static int16_t viz_pcm_ring[VIZ_PCM_FRAMES * 2];
+static volatile unsigned viz_pcm_w;    /* total stereo frames ever written */
+
+static void viz_pcm_push(const int16_t *src, unsigned frames)
+{
+    unsigned w = viz_pcm_w;
+    for (unsigned i = 0; i < frames; i++)
+    {
+        unsigned idx = (w & (VIZ_PCM_FRAMES - 1)) * 2;
+        viz_pcm_ring[idx]     = src[2 * i];
+        viz_pcm_ring[idx + 1] = src[2 * i + 1];
+        w++;
+    }
+    viz_pcm_w = w;
+}
+
+/* Copy the most recent up-to max_frames stereo frames into out (LRLR).
+ * Returns the number of frames written. Called by the visualizer plugin. */
+unsigned pcm_sdl_viz_latest(int16_t *out, unsigned max_frames)
+{
+    unsigned w = viz_pcm_w;
+    unsigned n = max_frames < VIZ_PCM_FRAMES ? max_frames : VIZ_PCM_FRAMES;
+    if (n > w)
+        n = w;
+    unsigned start = w - n;
+    for (unsigned i = 0; i < n; i++)
+    {
+        unsigned idx = ((start + i) & (VIZ_PCM_FRAMES - 1)) * 2;
+        out[2 * i]     = viz_pcm_ring[idx];
+        out[2 * i + 1] = viz_pcm_ring[idx + 1];
+    }
+    return n;
+}
+
 static void sdl_audio_callback(void *handle, Uint8 *stream, int len)
 {
     struct pcm_udata *udata = handle;
@@ -323,6 +364,12 @@ static void sdl_audio_callback(void *handle, Uint8 *stream, int len)
         udata->num_out = len / pcm_sample_bytes;
 
         write_to_soundcard(udata);
+
+        /* Mirror the PRE-volume source to the visualizer ring so the spectrum
+         * and visualizer react to the music independently of the volume setting.
+         * udata->num_in is still in frames here; the guard ensures S16 stereo. */
+        if (pcm_channel_bytes == 2 && obtained.channels == 2)
+            viz_pcm_push((const int16_t *)pcm_data, udata->num_in);
 
         udata->num_in  *= pcm_sample_bytes;
         udata->num_out *= pcm_sample_bytes;
