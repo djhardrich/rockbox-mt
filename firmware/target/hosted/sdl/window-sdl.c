@@ -25,23 +25,150 @@
 #include "misc.h"
 #include "panic.h"
 
-extern SDL_Surface *lcd_surface;
-#ifdef HAVE_REMOTE_LCD
-extern SDL_Surface *remote_surface;
-#endif
+/* The LCD is presented through an OpenGL ES 2/3 context (not an SDL_Renderer)
+ * so the Milkdrop visualizer (projectM) can draw into the same window using a
+ * shared GL context. In normal UI mode we upload the LCD surface to a texture
+ * and draw it as a full-window quad (nearest-filtered upscale). */
+#include <GLES2/gl2.h>
 
-SDL_Texture  *gui_texture;
 SDL_Surface  *sim_lcd_surface;
 
 SDL_mutex *window_mutex;
 
 SDL_Window   *sdlWindow;
-static SDL_Renderer *sdlRenderer;
-static SDL_Surface  *picture_surface;
 
-static bool new_gui_texture_needed = true;
 static bool window_adjustment_needed;
 double display_zoom = 1;
+
+/* When the visualizer is running it owns the GL context and the window;
+ * suppress the normal LCD presentation so other Rockbox threads' lcd_update()
+ * calls don't fight for the context. */
+volatile bool trimpod_viz_active = false;
+static SDL_GLContext gl_ctx = NULL;
+static GLuint gl_lcd_tex = 0, gl_prog = 0, gl_vbo = 0;
+static GLint  gl_u_fade = -1;
+static SDL_Surface *gl_conv = NULL;   /* RGBA8888 conversion of the LCD surface */
+
+static const char *gl_vs_src =
+    "attribute vec2 a_pos;\n"
+    "attribute vec2 a_uv;\n"
+    "varying vec2 v_uv;\n"
+    "void main(){ v_uv = a_uv; gl_Position = vec4(a_pos, 0.0, 1.0); }\n";
+static const char *gl_fs_src =
+    "precision mediump float;\n"
+    "varying vec2 v_uv;\n"
+    "uniform sampler2D u_tex;\n"
+    "uniform float u_fade;\n"   /* 1 = normal, 0 = black (visualizer entry fade) */
+    "void main(){ gl_FragColor = vec4(texture2D(u_tex, v_uv).rgb * u_fade, 1.0); }\n";
+
+static GLuint gl_compile(GLenum type, const char *src)
+{
+    GLuint s = glCreateShader(type);
+    glShaderSource(s, 1, &src, NULL);
+    glCompileShader(s);
+    GLint ok = 0;
+    glGetShaderiv(s, GL_COMPILE_STATUS, &ok);
+    if (!ok)
+    {
+        char log[512];
+        glGetShaderInfoLog(s, sizeof(log), NULL, log);
+        panicf("GL shader compile failed: %s", log);
+    }
+    return s;
+}
+
+static void gl_present_init(void)
+{
+    /* full-window quad: pos.xy, uv.xy; v flipped so texture row 0 is at top */
+    static const GLfloat verts[] = {
+        -1.f, -1.f, 0.f, 1.f,
+         1.f, -1.f, 1.f, 1.f,
+        -1.f,  1.f, 0.f, 0.f,
+         1.f,  1.f, 1.f, 0.f,
+    };
+    GLuint vs = gl_compile(GL_VERTEX_SHADER, gl_vs_src);
+    GLuint fs = gl_compile(GL_FRAGMENT_SHADER, gl_fs_src);
+    gl_prog = glCreateProgram();
+    glAttachShader(gl_prog, vs);
+    glAttachShader(gl_prog, fs);
+    glBindAttribLocation(gl_prog, 0, "a_pos");
+    glBindAttribLocation(gl_prog, 1, "a_uv");
+    glLinkProgram(gl_prog);
+    gl_u_fade = glGetUniformLocation(gl_prog, "u_fade");
+
+    glGenBuffers(1, &gl_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, gl_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+
+    glGenTextures(1, &gl_lcd_tex);
+    glBindTexture(GL_TEXTURE_2D, gl_lcd_tex);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+}
+
+/* Ensure our GL context is current on the calling (Rockbox) thread. Rockbox sim
+ * threads are serialized, but lcd_update() may run on different threads over
+ * time, so re-bind defensively before issuing GL calls. */
+void sdl_gl_make_current(void)
+{
+    if (gl_ctx)
+        SDL_GL_MakeCurrent(sdlWindow, gl_ctx);
+}
+
+void *sdl_gl_get_context(void)
+{
+    return gl_ctx;
+}
+
+/* Upload an LCD surface and draw it to fill the window (fade 1=normal, 0=black),
+ * then swap. */
+static void gl_present_lcd_fade(SDL_Surface *src, float fade)
+{
+    int w, h;
+
+    if (!gl_conv || gl_conv->w != src->w || gl_conv->h != src->h)
+    {
+        if (gl_conv)
+            SDL_FreeSurface(gl_conv);
+        gl_conv = SDL_CreateRGBSurfaceWithFormat(0, src->w, src->h, 32,
+                                                 SDL_PIXELFORMAT_ABGR8888);
+    }
+    SDL_BlitSurface(src, NULL, gl_conv, NULL);
+
+    SDL_GL_GetDrawableSize(sdlWindow, &w, &h);
+    glViewport(0, 0, w, h);
+    glDisable(GL_DEPTH_TEST);   /* projectM may leave these on */
+    glDisable(GL_BLEND);
+    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glUseProgram(gl_prog);
+    glUniform1f(gl_u_fade, fade);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, gl_lcd_tex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gl_conv->w, gl_conv->h, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, gl_conv->pixels);
+
+    glBindBuffer(GL_ARRAY_BUFFER, gl_vbo);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void *)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat),
+                          (void *)(2 * sizeof(GLfloat)));
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+}
+
+/* Present the current LCD framebuffer faded toward black (1=normal, 0=black) and
+ * swap.  Used for the visualizer entry fade-out (same fade technique as the
+ * visualizer's own preset transitions, applied to the Now Playing image). */
+void sdl_gl_present_lcd_fade(float fade)
+{
+    sdl_gl_make_current();
+    gl_present_lcd_fade(sim_lcd_surface, fade);
+    SDL_GL_SwapWindow(sdlWindow);
+}
 
 static void get_window_dimensions(int *w, int *h)
 {
@@ -67,102 +194,13 @@ static void get_window_dimensions(int *w, int *h)
     }
 }
 
-#if defined(__APPLE__) || defined(__WIN32)
-static void restore_aspect_ratio(int w, int h)
-{
-    float aspect_ratio = (float) h / w;
-    int original_height = h;
-    int original_width = w;
-
-    if ((SDL_GetWindowFlags(sdlWindow) & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN))
-        || display_zoom)
-        return;
-
-    SDL_GetWindowSize(sdlWindow, &w, &h);
-    if (w != original_width || h != original_height)
-    {
-        SDL_DisplayMode sdl_dm;
-        h = w * aspect_ratio;
-        if (SDL_GetCurrentDisplayMode(0, &sdl_dm) || h <= sdl_dm.h)
-            SDL_SetWindowSize(sdlWindow, w, h);
-    }
-}
-#endif
-
-static void rebuild_gui_texture(void)
-{
-    SDL_Surface *gui_surface;
-    int prev_w, prev_h, x, y,
-        w, h, depth = LCD_DEPTH < 8 ? 16 : LCD_DEPTH;
-    Uint32 flags = SDL_GetWindowFlags(sdlWindow);
-
-    get_window_dimensions(&w, &h);
-    SDL_RenderGetLogicalSize(sdlRenderer, &prev_w, &prev_h);
-    SDL_RenderSetLogicalSize(sdlRenderer, w, h);
-    if ((gui_texture = SDL_CreateTexture(sdlRenderer, SDL_MasksToPixelFormatEnum(depth,
-                                         0, 0, 0, 0), SDL_TEXTUREACCESS_STREAMING, w, h)) == NULL)
-        panicf("%s", SDL_GetError());
-
-    /* Did background change? */
-    if ((flags & SDL_WINDOW_RESIZABLE) &&
-        !(flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN)) &&
-        prev_w && prev_w != w)
-    {
-        SDL_GetWindowSize(sdlWindow, &x, NULL);
-
-        /* Maintain LCD's size */
-        float ratio = (float) x / prev_w;
-        SDL_SetWindowSize(sdlWindow, w * ratio, h * ratio);
-
-        /* move LCD back into previous position */
-        SDL_GetWindowPosition(sdlWindow, &x, &y);
-        if (background)
-        {
-            x -= (UI_LCD_POSX * ratio);
-            y -= (UI_LCD_POSY * ratio);
-        }
-        else
-        {
-            x += (UI_LCD_POSX * ratio);
-            y += (UI_LCD_POSY * ratio);
-        }
-        SDL_SetWindowPosition(sdlWindow, x > 0 ? x : 0, y > 0 ? y : 0);
-    }
-
-    if (background && picture_surface &&
-        (gui_surface = SDL_ConvertSurface(picture_surface, sim_lcd_surface->format, 0)))
-    {
-        SDL_UpdateTexture(gui_texture, NULL, gui_surface->pixels, gui_surface->pitch);
-        SDL_FreeSurface(gui_surface);
-    }
-
-    sdl_gui_update(lcd_surface, 0, 0, SIM_LCD_WIDTH, SIM_LCD_HEIGHT,
-                   SIM_LCD_WIDTH, SIM_LCD_HEIGHT,
-                   background ? UI_LCD_POSX : 0, background? UI_LCD_POSY : 0);
-
-#ifdef HAVE_REMOTE_LCD
-    sdl_gui_update(remote_surface, 0, 0, LCD_REMOTE_WIDTH, LCD_REMOTE_HEIGHT,
-                   LCD_REMOTE_WIDTH, LCD_REMOTE_HEIGHT,
-                   background ? UI_REMOTE_POSX : 0,
-                   background? UI_REMOTE_POSY : LCD_HEIGHT);
-#endif
-}
-
 void sdl_window_render(void)
 {
-    if (new_gui_texture_needed)
-    {
-        new_gui_texture_needed = false;
-        if (gui_texture)
-            SDL_DestroyTexture(gui_texture);
-        rebuild_gui_texture();
-    }
-    else
-    {
-        SDL_RenderClear(sdlRenderer);
-        SDL_RenderCopy(sdlRenderer, gui_texture, NULL, NULL);
-        SDL_RenderPresent(sdlRenderer);
-    }
+    if (trimpod_viz_active)
+        return;   /* visualizer owns the GL context/window right now */
+    sdl_gl_make_current();
+    gl_present_lcd_fade(sim_lcd_surface, 1.0f);
+    SDL_GL_SwapWindow(sdlWindow);
 }
 
 bool sdl_window_adjust(void)
@@ -180,12 +218,6 @@ bool sdl_window_adjust(void)
     {
         SDL_SetWindowSize(sdlWindow, display_zoom * w, display_zoom * h);
     }
-#if defined(__APPLE__) || defined(__WIN32)
-    int logical_w, logical_h;
-    SDL_RenderGetLogicalSize(sdlRenderer, &logical_w, &logical_h);
-    if (logical_w == w && logical_h == h) /* background unchanged */
-        restore_aspect_ratio(w, h);
-#endif
     display_zoom = 0;
     sdl_window_render();
     return true;
@@ -193,8 +225,8 @@ bool sdl_window_adjust(void)
 
 void sdl_window_adjustment_needed(bool destroy_texture)
 {
+    (void)destroy_texture;
     window_adjustment_needed = true;
-    new_gui_texture_needed = destroy_texture;
 
     /* For MacOS and Windows, we're on a main or
     display thread already, and can immediately
@@ -210,7 +242,7 @@ void sdl_window_setup(void)
 {
     int width, height;
     int depth = LCD_DEPTH < 8 ? 16 : LCD_DEPTH;
-    Uint32 flags = SDL_WINDOW_ALLOW_HIGHDPI;
+    Uint32 flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL;
 
 #if 0
     /* Fullscreen mode might be desired */
@@ -220,17 +252,33 @@ void sdl_window_setup(void)
         flags |= SDL_WINDOW_RESIZABLE;
 #endif
 
-    if (!(picture_surface = SDL_LoadBMP("UI256.bmp")))
+    /* Detect whether a UI background bitmap is present; it is not composited in
+     * the GL present path but still controls the window dimensions. */
+    SDL_Surface *bg = SDL_LoadBMP("UI256.bmp");
+    if (!bg)
         background = false;
+    else
+        SDL_FreeSurface(bg);
 
     get_window_dimensions(&width, &height);
+
+    /* Request a GLES 3.0 context (projectM needs it); the LCD is presented via
+     * GL too, sharing this context with the visualizer. */
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     if ((sdlWindow = SDL_CreateWindow(UI_TITLE, SDL_WINDOWPOS_CENTERED,
                                    SDL_WINDOWPOS_CENTERED, width * display_zoom,
                                    height * display_zoom , flags)) == NULL)
         panicf("%s", SDL_GetError());
-    if ((sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_PRESENTVSYNC)) == NULL)
-        panicf("%s", SDL_GetError());
+
+    if ((gl_ctx = SDL_GL_CreateContext(sdlWindow)) == NULL)
+        panicf("SDL_GL_CreateContext: %s", SDL_GetError());
+    SDL_GL_MakeCurrent(sdlWindow, gl_ctx);
+    SDL_GL_SetSwapInterval(1);
+    gl_present_init();
 
     /* Surface for LCD content only. Needs to fit largest LCD */
     if ((sim_lcd_surface = SDL_CreateRGBSurface(0,

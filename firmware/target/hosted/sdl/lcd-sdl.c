@@ -106,6 +106,7 @@ void sdl_gui_update(SDL_Surface *surface, int x_start, int y_start, int width,
 
 #if SDL_MAJOR_VERSION > 1
     uint8_t alpha;
+    (void)dest; /* dest is only used by the legacy SDL1 blit path below */
 
     SDL_LockMutex(window_mutex);
 
@@ -113,8 +114,7 @@ void sdl_gui_update(SDL_Surface *surface, int x_start, int y_start, int width,
         SDL_FillRect(sim_lcd_surface, NULL, 0); /* alpha needs a black background */
 
     SDL_BlitSurface(surface, &src, sim_lcd_surface, NULL);
-    SDL_UpdateTexture(gui_texture, &dest,
-                      sim_lcd_surface->pixels, sim_lcd_surface->pitch);
+    /* The upload to GL now happens inside sdl_window_render()/gl_present_lcd_fade(). */
 
     if (!sdl_window_adjust()) /* already calls sdl_window_render itself */
         sdl_window_render();
