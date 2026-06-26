@@ -76,6 +76,7 @@ extern unsigned pcm_sdl_viz_latest(int16_t *out, unsigned max_frames);
 static GLuint viz_fbo, viz_tex, viz_prog, viz_vbo;
 static GLint  viz_u_fade;     /* u_fade uniform location (fade-to-black) */
 static int    viz_w, viz_h;   /* low-res render size */
+static bool   viz_gl_ready;   /* one-shot: GL singletons built once, never re-run */
 
 static const char *viz_vs_src =
     "attribute vec2 a_pos;\n"
@@ -89,16 +90,37 @@ static const char *viz_fs_src =
     "uniform float u_fade;\n"   /* 1.0 = full brightness, 0.0 = black */
     "void main(){ gl_FragColor = vec4(texture2D(u_tex, v_uv).rgb * u_fade, 1.0); }\n";
 
+/* Compile one shader; on failure splash the GL info log and return 0 so the
+ * caller aborts cleanly instead of running into a silent black screen.  Mirrors
+ * window-sdl.c's gl_compile (which panicf()s; here we degrade gracefully). */
 static GLuint viz_compile(GLenum type, const char *src)
 {
     GLuint s = glCreateShader(type);
     glShaderSource(s, 1, &src, NULL);
     glCompileShader(s);
+    GLint ok = 0;
+    glGetShaderiv(s, GL_COMPILE_STATUS, &ok);
+    if (!ok)
+    {
+        char log[256];
+        glGetShaderInfoLog(s, sizeof(log), NULL, log);
+        splashf(HZ * 2, "Visualizer shader error: %s", log);
+        glDeleteShader(s);
+        return 0;
+    }
     return s;
 }
 
 /* Build the upscale shader/quad and the low-res render target (viz_w x viz_h).
- * UVs are in GL orientation (v=0 at bottom) so the FBO texture draws upright. */
+ * UVs are in GL orientation (v=0 at bottom) so the FBO texture draws upright.
+ *
+ * The program/VBO/texture/FBO created here (and the projectM handle in
+ * ensure_init) are deliberately process-lifetime singletons: created once on the
+ * first launch and intentionally NEVER destroyed -- the OS reclaims them at exit
+ * and the next session reuses them.  Do not add a destroy in visualizer_session;
+ * that would tear down state the following session still relies on.  The only
+ * teardown here is the FAILURE path below, which leaves no orphaned objects so a
+ * failed launch can be retried cleanly. */
 static bool viz_gl_init(void)
 {
     int win_w, win_h;
@@ -113,12 +135,32 @@ static bool viz_gl_init(void)
     viz_w = win_w / VIZ_DIVISOR;
     viz_h = win_h / VIZ_DIVISOR;
 
+    GLuint vs = viz_compile(GL_VERTEX_SHADER, viz_vs_src);
+    GLuint fs = viz_compile(GL_FRAGMENT_SHADER, viz_fs_src);
+
     viz_prog = glCreateProgram();
-    glAttachShader(viz_prog, viz_compile(GL_VERTEX_SHADER, viz_vs_src));
-    glAttachShader(viz_prog, viz_compile(GL_FRAGMENT_SHADER, viz_fs_src));
+    glAttachShader(viz_prog, vs);   /* attaching 0 is a no-op error, caught below */
+    glAttachShader(viz_prog, fs);
     glBindAttribLocation(viz_prog, 0, "a_pos");
     glBindAttribLocation(viz_prog, 1, "a_uv");
     glLinkProgram(viz_prog);
+    glDeleteShader(vs);             /* linked into the program now (0 ignored) */
+    glDeleteShader(fs);
+
+    GLint linked = 0;
+    glGetProgramiv(viz_prog, GL_LINK_STATUS, &linked);
+    if (!vs || !fs || !linked)
+    {
+        if (linked == 0)
+        {
+            char log[256];
+            glGetProgramInfoLog(viz_prog, sizeof(log), NULL, log);
+            splashf(HZ * 2, "Visualizer link error: %s", log);
+        }
+        glDeleteProgram(viz_prog);
+        viz_prog = 0;
+        return false;              /* nothing else created yet -> no orphans */
+    }
     viz_u_fade = glGetUniformLocation(viz_prog, "u_fade");
 
     glGenBuffers(1, &viz_vbo);
@@ -140,7 +182,17 @@ static bool viz_gl_init(void)
                            GL_TEXTURE_2D, viz_tex, 0);
     bool ok = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    return ok;
+
+    if (!ok)
+    {
+        /* Tear down everything created above so a retry starts from scratch. */
+        glDeleteProgram(viz_prog);        viz_prog = 0;
+        glDeleteBuffers(1, &viz_vbo);     viz_vbo = 0;
+        glDeleteTextures(1, &viz_tex);    viz_tex = 0;
+        glDeleteFramebuffers(1, &viz_fbo); viz_fbo = 0;
+        return false;
+    }
+    return true;
 }
 
 /* Draw the low-res viz texture to fill the window (nearest-neighbour upscale). */
@@ -381,8 +433,15 @@ static bool ensure_init(void)
 
     sdl_gl_make_current();
 
-    if (!viz_gl_init())
-        return false;
+    /* Build the GL singletons once; viz_gl_init commits nothing on failure, so a
+     * failed launch leaves viz_gl_ready false and the next entry retries cleanly
+     * (no orphaned GL objects accumulate across repeated failed launches). */
+    if (!viz_gl_ready)
+    {
+        if (!viz_gl_init())
+            return false;
+        viz_gl_ready = true;
+    }
 
     pm = projectm_create();
     if (!pm)
