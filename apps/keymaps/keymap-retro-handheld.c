@@ -73,6 +73,10 @@ static const struct button_mapping button_context_wps[]  = {
     { ACTION_WPS_HOTKEY,            BUTTON_L|BUTTON_REL,            BUTTON_L },
     { ACTION_WPS_QUICKSCREEN,       BUTTON_R|BUTTON_REL,            BUTTON_R },
     { ACTION_WPS_PITCHSCREEN,       BUTTON_R|BUTTON_REPEAT,         BUTTON_NONE },
+    /* X+Y toggles the Milkdrop visualizer here too: Now Playing does NOT chain to
+     * CONTEXT_STD (where the global binding lives), so bind it directly.  Listed
+     * before the single-X/Y actions so the combo is matched first. */
+    { ACTION_STD_VIZ_TOGGLE,        BUTTON_X|BUTTON_Y,              BUTTON_NONE },
     { ACTION_WPS_ID3SCREEN,         BUTTON_X|BUTTON_REL,            BUTTON_X },
     { ACTION_WPS_BROWSE,            BUTTON_Y|BUTTON_REL,            BUTTON_Y },
     { ACTION_WPS_ABSETA_PREVDIR,    BUTTON_L2|BUTTON_Y,             BUTTON_NONE },
