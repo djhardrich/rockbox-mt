@@ -111,6 +111,9 @@ docker run --rm \
   # retro-handheld.make is auto-included by tools/root.make for this target,
   # so its targets/vars (ROOTDIR, RH_ROCKBOX_DIR, ...) resolve from the build
   # dir. rhbuild lays out pkgbuild/rockbox; portmaster-zip packs it -> ${ZIP_IN_BUILD}.
+  # rhclean first: rhbuild does a bare 'mkdir pkgbuild' that fails if a previous
+  # (incremental) run left the dir behind.
+  make rhclean
   make rhbuild
   make portmaster-zip
   echo '>> PortMaster zip produced:'
