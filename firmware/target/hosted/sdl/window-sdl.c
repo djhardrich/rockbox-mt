@@ -345,7 +345,13 @@ void sdl_window_setup(void)
     if ((gl_ctx = SDL_GL_CreateContext(sdlWindow)) == NULL)
         panicf("SDL_GL_CreateContext: %s", SDL_GetError());
     SDL_GL_MakeCurrent(sdlWindow, gl_ctx);
-    SDL_GL_SetSwapInterval(1);
+    /* The UI presents on demand (one SwapWindow per lcd_update), so do NOT block
+     * on vsync here: under a Wayland compositor (e.g. sway) interval 1 makes every
+     * on-demand swap wait for a frame callback, which beats against Rockbox's
+     * scroll tick and makes list scrolling judder.  The compositor still composites
+     * tear-free, so interval 0 is smooth.  The visualizer's render thread, which
+     * draws continuously, sets interval 1 for itself. */
+    SDL_GL_SetSwapInterval(0);
     gl_present_init();
 
     /* Surface for LCD content only. Needs to fit largest LCD */

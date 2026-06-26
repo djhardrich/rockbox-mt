@@ -616,6 +616,8 @@ static void visualizer_session(const char *locked_path)
         SDL_WaitThread(rt, NULL);
     }
     sdl_gl_make_current();   /* reclaim the context the render thread released */
+    SDL_GL_SetSwapInterval(0);  /* back to the UI's non-blocking on-demand present
+                                 * (the render thread had set vsync interval 1) */
 
     projectm_set_preset_locked(pm, false);
     trimpod_viz_active = false;
@@ -662,6 +664,7 @@ bool milkdrop_visualizer_fade_to_black(void)
         if (act != ACTION_NONE && act != ACTION_REDRAW)   /* real button -> cancel */
         {
             sdl_gl_present_lcd_fade(1.0f);   /* snap Now Playing back to full */
+            SDL_GL_SetSwapInterval(0);       /* restore the UI's on-demand present */
             trimpod_viz_active = false;      /* hand the window back to the LCD */
             return true;                     /* cancelled */
         }
