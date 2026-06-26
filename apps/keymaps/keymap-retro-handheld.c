@@ -48,6 +48,7 @@ static const struct button_mapping button_context_standard[]  = {
     { ACTION_STD_CONTEXT,       BUTTON_START|BUTTON_REL,    BUTTON_START },
     { ACTION_STD_QUICKSCREEN,   BUTTON_R|BUTTON_REL,        BUTTON_R },
     {ACTION_STD_KEYLOCK,        BUTTON_L2|BUTTON_R2,        BUTTON_NONE},
+    { ACTION_STD_VIZ_TOGGLE,    BUTTON_X|BUTTON_Y,          BUTTON_NONE },
 
     LAST_ITEM_IN_LIST
 }; /* button_context_standard */
