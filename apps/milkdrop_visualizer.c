@@ -297,7 +297,6 @@ static void load_enabled_state(void)
 
 /* Kept for Task 6's stock-Rockbox toggle list (its only caller, the trimpod-UI
  * menu, was stubbed out); marked unused so it doesn't trip -Werror meanwhile. */
-static void save_enabled_state(void) __attribute__((unused));
 static void save_enabled_state(void)
 {
     int fd = open(VIZ_STATE_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0666);
@@ -684,4 +683,55 @@ bool milkdrop_visualizer_fade_to_black(void)
  * load/save_enabled_state, the name_buf/name_off/preset_enabled statics) are kept
  * above for that reimplementation -- some are temporarily unreferenced here. */
 
-int milkdrop_visualizer_menu(void) { return 0; }   /* reimplemented in Task 6 */
+static const char *viz_list_get_name(int selected_item, void *data,
+                                     char *buffer, size_t buffer_len)
+{
+    (void)data;
+    snprintf(buffer, buffer_len, "[%c] %s",
+             preset_enabled[selected_item] ? 'x' : ' ',
+             name_buf + name_off[selected_item]);
+    return buffer;
+}
+
+int milkdrop_visualizer_menu(void)
+{
+    /* Ensure presets are scanned (scan_presets is pure dir-scan + state-load,
+     * no GL/projectM dependency).  Call unconditionally so the menu reflects
+     * the current on-disk state even if the visualizer hasn't run this session. */
+    scan_presets();
+
+    if (preset_count == 0)
+    {
+        splash(HZ, "No presets");
+        return 0;
+    }
+
+    struct gui_synclist lists;
+    int action;
+
+    gui_synclist_init(&lists, viz_list_get_name, NULL, false, 1, NULL);
+    gui_synclist_set_title(&lists, "Visualizer Presets", NOICON);
+    gui_synclist_set_nb_items(&lists, preset_count);
+    gui_synclist_select_item(&lists, 0);
+    gui_synclist_draw(&lists);
+
+    while (1)
+    {
+        list_do_action(CONTEXT_LIST, HZ / 2, &lists, &action);
+        switch (action)
+        {
+            case ACTION_STD_OK:
+            {
+                int sel = gui_synclist_get_sel_pos(&lists);
+                preset_enabled[sel] = !preset_enabled[sel];
+                gui_synclist_draw(&lists);
+                break;
+            }
+            case ACTION_STD_CANCEL:
+                save_enabled_state();
+                return 0;
+            default:
+                break;
+        }
+    }
+}
