@@ -91,7 +91,7 @@ portmaster:
 	cp $(RH_PACK_DIR)/README.md $(PM_PKG_DIR)/rockbox
 	cp -R $(RH_PACK_DIR)/firmware $(PM_PKG_DIR)/rockbox
 	cp $(RH_PACK_DIR)/Rockbox.sh $(PM_PKG_DIR)
-	rm $(PM_PKG_DIR)/rockbox/licenses/gptokeyb2.txt
+	rm -f $(PM_PKG_DIR)/rockbox/licenses/gptokeyb2.txt
 	## Permissions
 	chmod +x $(PM_PKG_DIR)/Rockbox.sh
 
