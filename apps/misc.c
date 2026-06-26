@@ -109,6 +109,11 @@
 #include "piezo.h"
 #endif
 
+#if (CONFIG_PLATFORM & PLATFORM_SDL) && (CONFIG_KEYPAD == RETRO_HANDHELD_PAD)
+#include "milkdrop_visualizer.h"   /* X+Y launches the fullscreen Milkdrop viz */
+/* audio.h (audio_status / AUDIO_STATUS_PLAY) is already included above */
+#endif
+
 /* units used with output_dyn_value */
 const unsigned char * const byte_units[] =
 {
@@ -809,6 +814,18 @@ long default_event_handler_ex(long event, void (*callback)(void *), void *parame
         case BUTTON_MULTIMEDIA_FFWD:
             /* not supported yet, needs to be done in the WPS */
             return 0;
+#endif
+#if (CONFIG_PLATFORM & PLATFORM_SDL) && (CONFIG_KEYPAD == RETRO_HANDHELD_PAD)
+        /* X+Y toggles the fullscreen Milkdrop visualizer for the playing track.
+         * fade_to_black() hands off the GL context + active flag on a false
+         * return, so on false we MUST proceed to milkdrop_visualizer_run(). */
+        case ACTION_STD_VIZ_TOGGLE:
+            if (audio_status() & AUDIO_STATUS_PLAY)
+            {
+                if (!milkdrop_visualizer_fade_to_black())   /* false = fade completed */
+                    milkdrop_visualizer_run();
+            }
+            return event;   /* consumed (matches the sibling cases above) */
 #endif
     }
     return 0;
