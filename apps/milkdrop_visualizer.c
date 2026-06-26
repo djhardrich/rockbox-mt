@@ -6,16 +6,16 @@
  *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
  *                     \/            \/     \/    \/            \/
  *
- * Trimpod: Milkdrop-style music visualizer.
+ * Milkdrop visualizer for the retro-handheld PortMaster fork.
  *
  * Wraps libprojectM (vendored in lib/projectm) and renders it fullscreen into
- * Trimpod's OpenGL ES window (see firmware/target/hosted/sdl/window-sdl.c).
+ * the shared OpenGL ES window (see firmware/target/hosted/sdl/window-sdl.c).
  * Audio is tapped from the SDL PCM output (pcm-sdl.c: pcm_sdl_viz_latest) so the
  * visuals react to the beat. Presets are .milk files shipped in
  * ROCKBOX_DIR/presets and auto-transition over time (projectM fires a
  * "switch requested" callback when a preset's duration elapses or on a beat).
  *
- * Entered from the Now Playing menu (A -> "Start Visualizer"); Back (B) returns.
+ * Launched via the X+Y global handler when audio is playing; exit with X+Y or Back.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -295,8 +295,8 @@ static void load_enabled_state(void)
     }
 }
 
-/* Kept for Task 6's stock-Rockbox toggle list (its only caller, the trimpod-UI
- * menu, was stubbed out); marked unused so it doesn't trip -Werror meanwhile. */
+/* Write the disabled-preset list to VIZ_STATE_FILE (one basename per line).
+ * Called by the Visualizer Presets menu on exit (ACTION_STD_CANCEL). */
 static void save_enabled_state(void)
 {
     int fd = open(VIZ_STATE_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0666);
@@ -674,13 +674,12 @@ bool milkdrop_visualizer_fade_to_black(void)
     return false;
 }
 
-/* ---- Settings -> Visualizers: the on/off toggle list -----------------------
- * The interactive list UI lived here in the trimpod fork, built on trimpod's
- * bespoke page framework (trimpod_page / trimpod_ui).  Those deps don't exist in
- * stock Rockbox, so the list is stubbed for now; Task 6 reimplements it with the
- * stock Rockbox UI.  The preset-management helpers it relied on (scan_presets,
- * load/save_enabled_state, the name_buf/name_off/preset_enabled statics) are kept
- * above for that reimplementation -- some are temporarily unreferenced here. */
+/* ---- Settings -> Visualizer Presets: the per-preset on/off toggle list -----
+ * milkdrop_visualizer_menu() presents a gui_synclist of all .milk presets found
+ * in PRESET_DIR, each prefixed "[x]" (enabled) or "[ ]" (disabled).  ACTION_STD_OK
+ * toggles the selected preset; ACTION_STD_CANCEL saves state and returns.
+ * The enabled pool drives both the auto-cycle in the render loop and the random
+ * next-preset picker (next_preset). */
 
 static const char *viz_list_get_name(int selected_item, void *data,
                                      char *buffer, size_t buffer_len)

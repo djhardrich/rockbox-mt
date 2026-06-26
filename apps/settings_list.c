@@ -1252,7 +1252,10 @@ const struct settings_list settings[] = {
                 formatter_time_unit_0_is_off, getlang_time_unit_0_is_off,
                 set_poweroff_timeout),
     /* Milkdrop visualizer: seconds each preset shows before switching to the
-     * next; 0 = "Off" (hold the current preset).  Read directly (no callback). */
+     * next; 0 = "Off" (hold the current preset).  Read directly (no callback).
+     * Surfaced in the UI only on the retro-handheld target (the Visualizer menu
+     * is guarded by #ifdef); kept in the struct unconditionally for config file
+     * uniformity across all builds. */
     TABLE_SETTING_LIST(F_TIME_SETTING | F_ALLOW_ARBITRARY_VALS,
                 viz_transition, LANG_VIZ_TRANSITION, 20, "viz transition",
                 off_on, UNIT_SEC, formatter_time_unit_0_is_off,

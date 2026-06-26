@@ -883,6 +883,11 @@ rhhconf () {
     # Order matters: projectM core -> its eval lib -> GLES -> stdc++ (left-to-right).
     # -lstdc++fs: GCC 8.3's std::filesystem lives in a separate static library.
     pmlibs="$rootdir/lib/projectm/lib/libprojectM-4.a $rootdir/lib/projectm/lib/libprojectM_eval.a -lGLESv2 -lEGL -lstdc++ -lstdc++fs"
+    if [ ! -f "$rootdir/lib/projectm/lib/libprojectM-4.a" ]; then
+        echo "WARNING: lib/projectm/lib/libprojectM-4.a not found." >&2
+        echo "  Run ./lib/projectm/build-projectm.sh before building." >&2
+        echo "  For cross-builds set CMAKE_TOOLCHAIN_FILE (and CC/CXX) first." >&2
+    fi
     LDOPTS="-lm -ldl -L/usr/lib -lSDL2 -lpthread $pmlibs"
 
     # For some reason SDL_THREADS does not work well... text scroll is slow?

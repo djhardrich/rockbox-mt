@@ -25,6 +25,13 @@
 #include "misc.h"
 #include "panic.h"
 
+/* RETRO-HANDHELD / PORTMASTER FORK ONLY
+ * This file's present path was converted from SDL_Renderer to OpenGL ES so the
+ * Milkdrop/projectM visualizer can share the same GL context with the LCD
+ * compositor.  This fork targets the retro-handheld PortMaster target only;
+ * building other Rockbox SDL/simulator targets from this file is NOT supported
+ * (they would need GLES libs linked and a separate SDL_Renderer fallback path). */
+
 /* The LCD is presented through an OpenGL ES 2/3 context (not an SDL_Renderer)
  * so the Milkdrop visualizer (projectM) can draw into the same window using a
  * shared GL context. In normal UI mode we upload the LCD surface to a texture
