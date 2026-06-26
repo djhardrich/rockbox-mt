@@ -21,9 +21,6 @@ rhbuild:
 	mv $(RH_ROCKBOX_DIR)/rocks/games/.picross $(RH_ROCKBOX_DIR)/rocks.data/.picross
 	## Permissions
 	chmod +x $(RH_ROCKBOX_DIR)/rockbox
-	## Compile libsdl2_scaler
-	mkdir $(RH_ROCKBOX_DIR)/lib
-	gcc -shared -fPIC -o $(RH_ROCKBOX_DIR)/lib/libsdl2_scaler.so $(RH_PACK_DIR)/libsdl2_scaler.c -ldl -lSDL2 -pthread	
 	## Copy licenses over
 	cp -R $(RH_PACK_DIR)/licenses $(RH_ROCKBOX_DIR)
 	rm -rf $(RH_PKG_DIR)/build

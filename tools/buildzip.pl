@@ -493,6 +493,13 @@ sub buildzip {
         glob_copy("$ROOT/apps/plugins/picross/*.picross", "$temp_dir/rocks/games/.picross/");
     }
 
+    # milkdrop visualizer presets (retro-handheld target)
+    if(-e "$ROOT/apps/milkdrop_presets") {
+        glob_mkdir("$temp_dir/presets");
+        glob_copy("$ROOT/apps/milkdrop_presets/*.milk", "$temp_dir/presets/");
+        glob_copy("$ROOT/apps/milkdrop_presets/LICENSE.md", "$temp_dir/presets/");
+    }
+
     # exclude entries for the image file types not supported by the imageviewer for the target.
     my $viewers = "$ROOT/apps/plugins/viewers.config";
     my $c="cat $viewers | gcc $cppdef -I. -I$firmdir/export -E -P -include config.h -";

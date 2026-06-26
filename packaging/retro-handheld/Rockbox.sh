@@ -138,7 +138,6 @@ fi
 
 export SDL_DEVICE_WIDTH=$DISPLAY_WIDTH
 export SDL_DEVICE_HEIGHT=$DISPLAY_HEIGHT
-export LD_PRELOAD="$GAMEDIR/lib/libsdl2_scaler.so"
 
 $GPTOKEYB2 "rockbox" -c "./rockbox.gptk" &
 pm_platform_helper "$GAMEDIR/rockbox"
