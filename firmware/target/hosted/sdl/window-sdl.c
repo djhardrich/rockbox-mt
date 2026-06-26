@@ -48,6 +48,7 @@ static SDL_GLContext gl_ctx = NULL;
 static GLuint gl_lcd_tex = 0, gl_prog = 0, gl_vbo = 0;
 static GLint  gl_u_fade = -1;
 static SDL_Surface *gl_conv = NULL;   /* RGBA8888 conversion of the LCD surface */
+static int gl_tex_w = 0, gl_tex_h = 0; /* current allocated size of gl_lcd_tex */
 
 static const char *gl_vs_src =
     "attribute vec2 a_pos;\n"
@@ -94,6 +95,19 @@ static void gl_present_init(void)
     glBindAttribLocation(gl_prog, 0, "a_pos");
     glBindAttribLocation(gl_prog, 1, "a_uv");
     glLinkProgram(gl_prog);
+
+    GLint ok = 0;
+    glGetProgramiv(gl_prog, GL_LINK_STATUS, &ok);
+    if (!ok)
+    {
+        char log[512];
+        glGetProgramInfoLog(gl_prog, sizeof(log), NULL, log);
+        panicf("GL program link failed: %s", log);
+    }
+    /* shaders are linked into the program now; the standalone objects can go */
+    glDeleteShader(vs);
+    glDeleteShader(fs);
+
     gl_u_fade = glGetUniformLocation(gl_prog, "u_fade");
 
     glGenBuffers(1, &gl_vbo);
@@ -148,8 +162,20 @@ static void gl_present_lcd_fade(SDL_Surface *src, float fade)
     glUniform1f(gl_u_fade, fade);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, gl_lcd_tex);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gl_conv->w, gl_conv->h, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, gl_conv->pixels);
+    if (gl_tex_w != gl_conv->w || gl_tex_h != gl_conv->h)
+    {
+        /* (re)allocate the texture store once, on first upload or size change */
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gl_conv->w, gl_conv->h, 0,
+                     GL_RGBA, GL_UNSIGNED_BYTE, gl_conv->pixels);
+        gl_tex_w = gl_conv->w;
+        gl_tex_h = gl_conv->h;
+    }
+    else
+    {
+        /* hot path: update pixels without reallocating the texture store */
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, gl_conv->w, gl_conv->h,
+                        GL_RGBA, GL_UNSIGNED_BYTE, gl_conv->pixels);
+    }
 
     glBindBuffer(GL_ARRAY_BUFFER, gl_vbo);
     glEnableVertexAttribArray(0);
@@ -174,6 +200,9 @@ static void get_window_dimensions(int *w, int *h)
 {
     if (background)
     {
+        /* The GL present path intentionally does not composite a UI background
+         * bitmap (out of scope; retro-handheld ships none) -- background only
+         * affects the window dimensions here. */
         *w = UI_WIDTH;
         *h = UI_HEIGHT;
     }
@@ -203,6 +232,28 @@ void sdl_window_render(void)
     SDL_GL_SwapWindow(sdlWindow);
 }
 
+#if defined(__APPLE__) || defined(__WIN32)
+static void restore_aspect_ratio(int w, int h)
+{
+    float aspect_ratio = (float) h / w;
+    int original_height = h;
+    int original_width = w;
+
+    if ((SDL_GetWindowFlags(sdlWindow) & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN))
+        || display_zoom)
+        return;
+
+    SDL_GetWindowSize(sdlWindow, &w, &h);
+    if (w != original_width || h != original_height)
+    {
+        SDL_DisplayMode sdl_dm;
+        h = w * aspect_ratio;
+        if (SDL_GetCurrentDisplayMode(0, &sdl_dm) || h <= sdl_dm.h)
+            SDL_SetWindowSize(sdlWindow, w, h);
+    }
+}
+#endif
+
 bool sdl_window_adjust(void)
 {
     int w, h;
@@ -218,6 +269,16 @@ bool sdl_window_adjust(void)
     {
         SDL_SetWindowSize(sdlWindow, display_zoom * w, display_zoom * h);
     }
+#if defined(__APPLE__) || defined(__WIN32)
+    /* Previously gated on SDL_RenderGetLogicalSize(); with no SDL_Renderer we
+     * cache the last target dimensions instead: when they are unchanged the
+     * background did not change, so it's safe to restore the aspect ratio. */
+    static int last_w = 0, last_h = 0;
+    if (last_w == w && last_h == h)
+        restore_aspect_ratio(w, h);
+    last_w = w;
+    last_h = h;
+#endif
     display_zoom = 0;
     sdl_window_render();
     return true;
@@ -293,7 +354,6 @@ void sdl_window_setup(void)
                                                 depth, 0, 0, 0, 0)) == NULL)
         panicf("%s", SDL_GetError());
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, display_zoom == 1 ? "best" : "nearest");
     display_zoom = 0; /* reset to 0 unless/until user requests a scale level change */
     window_mutex = SDL_CreateMutex();
 }

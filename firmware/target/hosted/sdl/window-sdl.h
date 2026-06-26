@@ -36,16 +36,18 @@ void  sdl_gl_make_current(void);          /* re-bind the shared GL context to th
 void *sdl_gl_get_context(void);           /* the SDL_GLContext, for the render thread */
 void  sdl_gl_present_lcd_fade(float fade); /* present current LCD * fade (entry fade) */
 
-/* Renders GUI texture. Sets up new texture, if necessary */
+/* Presents the LCD surface as a full-window GL textured quad */
 void sdl_window_render(void);
 
 /* Updates size, aspect ratio, and re-renders window content */
 bool sdl_window_adjust(void);
 
-/* Needs to be called when window size, scale quality, or background should change */
+/* Needs to be called when window size, scale quality, or background should change.
+ * destroy_texture is retained for call-site compatibility but is now ignored
+ * (the GL present path reuses a single texture). */
 void sdl_window_adjustment_needed(bool destroy_texture);
 
-/* Creates window, renderer, and LCD surface when app launches */
+/* Creates the GL-enabled window, GLES context, and LCD surface when app launches */
 void sdl_window_setup(void);
 
 #endif /* #ifndef __WINDOWSDL_H__ */
