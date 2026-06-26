@@ -319,3 +319,7 @@ __pycache__
 
 # /utils/time-sync/
 /utils/time-sync/time-sync
+
+# PortMaster build outputs (build-portmaster.sh)
+/Rockbox.pak.zip
+/build-portmaster/
