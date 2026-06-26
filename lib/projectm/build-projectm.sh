@@ -13,6 +13,27 @@ if [ ! -f "$SRC/CMakeLists.txt" ]; then
   exit 1
 fi
 
+# Apply the rockbox patches to the projectM submodule (idempotent).  These are
+# re-applied on every build because `git submodule update` resets the submodule
+# working tree to the pinned commit, discarding any previously-applied patch.
+#   patches/0001-composite-into-bound-fbo.patch : make projectm_opengl_render_frame
+#     composite into the caller's bound draw FBO (we render at 1/4 res into an
+#     off-screen FBO, then upscale) instead of the hard-coded default framebuffer.
+shopt -s nullglob
+for p in "$HERE"/patches/*.patch; do
+  name="$(basename "$p")"
+  if git -C "$SRC" apply --reverse --check "$p" >/dev/null 2>&1; then
+    echo "projectM patch already applied: $name"
+  elif git -C "$SRC" apply --check "$p" >/dev/null 2>&1; then
+    git -C "$SRC" apply "$p"
+    echo "projectM patch applied: $name"
+  else
+    echo "ERROR: projectM patch does not apply cleanly: $name" >&2
+    exit 1
+  fi
+done
+shopt -u nullglob
+
 rm -rf "$BUILD"
 cmake -S "$SRC" -B "$BUILD" \
   -DCMAKE_BUILD_TYPE=Release \

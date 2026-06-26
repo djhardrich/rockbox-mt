@@ -1,0 +1,30 @@
+diff --git a/src/libprojectM/ProjectM.cpp b/src/libprojectM/ProjectM.cpp
+index ae9390efa..dfe5ca844 100644
+--- a/src/libprojectM/ProjectM.cpp
++++ b/src/libprojectM/ProjectM.cpp
+@@ -98,6 +98,13 @@ void ProjectM::RenderFrame()
+         return;
+     }
+ 
++    // rockbox patch: composite the final frame into whatever draw framebuffer the
++    // caller had bound on entry (e.g. an off-screen FBO for low-res rendering),
++    // instead of the hard-coded default framebuffer 0.  Captured here before the
++    // preset render binds projectM's internal framebuffers.
++    GLint callerDrawFramebuffer = 0;
++    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &callerDrawFramebuffer);
++
+     // Update FPS and other timer values.
+     m_timeKeeper->UpdateTimers();
+ 
+@@ -166,8 +173,9 @@ void ProjectM::RenderFrame()
+     // ToDo: Call the to-be-implemented render method in Renderer
+     m_activePreset->RenderFrame(audioData, renderContext);
+ 
+-    // ToDo: Allow external apps to provide a custom target framebuffer.
+-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
++    // rockbox patch: restore the caller's draw framebuffer (captured on entry)
++    // rather than hard-coding 0, so the final composite lands in the caller's FBO.
++    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, callerDrawFramebuffer);
+ 
+     if (m_transition != nullptr && m_transitioningPreset != nullptr)
+     {
