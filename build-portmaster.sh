@@ -90,14 +90,21 @@ docker run --rm \
   echo '>> projectM archives:'
   ls -l lib/projectm/lib/*.a
 
+  # Rockbox builds its host tools (convbdf, bmp2rb, ...) in-place under tools/.
+  # A prior NATIVE (e.g. x86_64) build leaves those binaries in the source tree;
+  # make would see them up-to-date and execute them under aarch64 -> 'Error 127'.
+  # Remove them so they are rebuilt for this container's architecture.
+  echo '>> Removing any stale host-arch build tools (rebuilt for aarch64) ...'
+  git clean -fdx -- tools/ || true
+
   if [ ${CLEAN} -eq 1 ]; then
-    echo '>> Wiping ${BUILD_DIR} ...'
+    echo '>> --clean: wiping ${BUILD_DIR} ...'
     rm -rf ${BUILD_DIR}
   fi
 
   echo '>> Configuring + building Rockbox (retro-handheld, normal build) ...'
-  rm -rf ${BUILD_DIR} && mkdir ${BUILD_DIR} && cd ${BUILD_DIR}
-  ../tools/configure --target=retro-handheld --type=n
+  mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+  [ -f Makefile ] || ../tools/configure --target=retro-handheld --type=n
   make -j${NPROC_CMD}
 
   echo '>> Assembling PortMaster pak (rhbuild -> portmaster-zip) ...'
