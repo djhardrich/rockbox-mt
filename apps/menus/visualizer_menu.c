@@ -27,9 +27,10 @@
 #include "milkdrop_visualizer.h"
 
 MENUITEM_SETTING(viz_transition_item, &global_settings.viz_transition, NULL);
+MENUITEM_SETTING(viz_resolution_item, &global_settings.viz_resolution, NULL);
 MENUITEM_FUNCTION(viz_presets_item, 0, ID2P(LANG_VIZ_PRESETS),
                   milkdrop_visualizer_menu, NULL, Icon_Playback_menu);
 
 MAKE_MENU(visualizer_settings_menu, ID2P(LANG_VISUALIZER), NULL,
           Icon_Playback_menu,
-          &viz_transition_item, &viz_presets_item);
+          &viz_transition_item, &viz_resolution_item, &viz_presets_item);
