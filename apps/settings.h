@@ -684,6 +684,7 @@ struct user_settings
 
     /* Milkdrop visualizer */
     int viz_transition;   /* seconds between Milkdrop preset switches; 0 = never */
+    int viz_resolution;   /* render divisor: 0=Full, 1=Half, 2=Quarter */
 #if BATTERY_CAPACITY_INC > 0
     int battery_capacity; /* in mAh */
 #endif
