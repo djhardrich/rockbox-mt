@@ -68,12 +68,24 @@ extern SDL_Window *sdlWindow;
 /* Audio tap implemented in firmware/target/hosted/sdl/pcm-sdl.c */
 extern unsigned pcm_sdl_viz_latest(int16_t *out, unsigned max_frames);
 
-/* projectM renders at 1/4 screen resolution into an offscreen FBO, which is then
- * nearest-neighbour upscaled to fill the window.  Our libprojectM is patched to
- * composite into the caller's bound framebuffer, so render_frame() lands in our
- * FBO. */
-#define VIZ_DIVISOR     4
+/* projectM renders into an offscreen FBO at the display resolution divided by a
+ * user-selected divisor (Render Resolution: Full=1 / Half=2 / Quarter=4), which
+ * is then nearest-neighbour upscaled to fill the window.  Our libprojectM is
+ * patched to composite into the caller's bound framebuffer, so render_frame()
+ * lands in our FBO. */
 static GLuint viz_fbo, viz_tex, viz_prog, viz_vbo;
+
+/* Map the Render Resolution choice index (0/1/2) to the FBO downscale divisor.
+ * Unknown/garbage values fall through to Quarter (the default low-res path). */
+static int viz_divisor(void)
+{
+    switch (global_settings.viz_resolution)
+    {
+        case 0:  return 1;   /* Full    */
+        case 1:  return 2;   /* Half    */
+        default: return 4;   /* Quarter */
+    }
+}
 static GLint  viz_u_fade;     /* u_fade uniform location (fade-to-black) */
 static int    viz_w, viz_h;   /* low-res render size */
 static bool   viz_gl_ready;   /* one-shot: GL singletons built once, never re-run */
@@ -132,8 +144,9 @@ static bool viz_gl_init(void)
     };
 
     SDL_GL_GetDrawableSize(sdlWindow, &win_w, &win_h);
-    viz_w = win_w / VIZ_DIVISOR;
-    viz_h = win_h / VIZ_DIVISOR;
+    int divisor = viz_divisor();
+    viz_w = win_w / divisor;
+    viz_h = win_h / divisor;
 
     GLuint vs = viz_compile(GL_VERTEX_SHADER, viz_vs_src);
     GLuint fs = viz_compile(GL_FRAGMENT_SHADER, viz_fs_src);
@@ -425,6 +438,33 @@ static void apply_viz_transition(void)
     projectm_set_hard_cut_enabled(pm, false);
 }
 
+/* Apply the "Render Resolution" setting: resize the offscreen FBO texture to the
+ * current drawable size divided by the chosen divisor and tell projectM the new
+ * render size.  Resizes the texture IN PLACE (the FBO colour attachment stays
+ * valid) so the process-lifetime GL/projectM singletons are never destroyed.
+ * No-op when the size is unchanged.  Called per session, so a setting change
+ * takes effect the next time the visualizer is opened. */
+static void apply_viz_resolution(void)
+{
+    int win_w, win_h;
+    SDL_GL_GetDrawableSize(sdlWindow, &win_w, &win_h);
+    int divisor = viz_divisor();
+    int new_w = win_w / divisor;
+    int new_h = win_h / divisor;
+
+    if (new_w == viz_w && new_h == viz_h)
+        return;
+
+    viz_w = new_w;
+    viz_h = new_h;
+
+    glBindTexture(GL_TEXTURE_2D, viz_tex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, viz_w, viz_h, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+    projectm_set_window_size(pm, viz_w, viz_h);
+}
+
 static bool ensure_init(void)
 {
     if (pm)
@@ -446,7 +486,8 @@ static bool ensure_init(void)
     if (!pm)
         return false;
 
-    /* Render at 1/4 resolution; the FBO texture is upscaled nearest-neighbour. */
+    /* Render at the selected fraction of window resolution (viz_divisor: Full=1 /
+     * Half=2 / Quarter=4); the FBO texture is upscaled nearest-neighbour. */
     projectm_set_window_size(pm, viz_w, viz_h);
     projectm_set_mesh_size(pm, 48, 36);
     projectm_set_fps(pm, 60);
@@ -575,6 +616,7 @@ static void visualizer_session(const char *locked_path)
     backlight_set_timeout(0);
 
     apply_viz_transition();   /* pick up the current "Visualization Transition" setting */
+    apply_viz_resolution();   /* pick up the current "Render Resolution" setting */
 
     projectm_set_preset_locked(pm, viz_locked);
     if (viz_locked)
