@@ -17211,3 +17211,59 @@
     *: "Presets"
   </voice>
 </phrase>
+<phrase>
+  id: LANG_VIZ_RESOLUTION
+  desc: Settings > Visualizer > render resolution of the Milkdrop visualizer
+  user: core
+  <source>
+    *: "Render Resolution"
+  </source>
+  <dest>
+    *: "Render Resolution"
+  </dest>
+  <voice>
+    *: "Render Resolution"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_VIZ_RES_FULL
+  desc: Settings > Visualizer > Render Resolution: full display resolution
+  user: core
+  <source>
+    *: "Full"
+  </source>
+  <dest>
+    *: "Full"
+  </dest>
+  <voice>
+    *: "Full"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_VIZ_RES_HALF
+  desc: Settings > Visualizer > Render Resolution: half display resolution
+  user: core
+  <source>
+    *: "Half"
+  </source>
+  <dest>
+    *: "Half"
+  </dest>
+  <voice>
+    *: "Half"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_VIZ_RES_QUARTER
+  desc: Settings > Visualizer > Render Resolution: quarter display resolution
+  user: core
+  <source>
+    *: "Quarter"
+  </source>
+  <dest>
+    *: "Quarter"
+  </dest>
+  <voice>
+    *: "Quarter"
+  </voice>
+</phrase>
