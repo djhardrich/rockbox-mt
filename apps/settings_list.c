@@ -1260,6 +1260,13 @@ const struct settings_list settings[] = {
                 viz_transition, LANG_VIZ_TRANSITION, 20, "viz transition",
                 off_on, UNIT_SEC, formatter_time_unit_0_is_off,
                 getlang_time_unit_0_is_off, NULL, 10, viz_transition_values),
+    /* Milkdrop visualizer render resolution: the offscreen FBO is sized to the
+     * display resolution divided by 1 (Full) / 2 (Half) / 4 (Quarter).  Stored
+     * as the choice index (0/1/2); read directly in milkdrop_visualizer.c. */
+    CHOICE_SETTING(0, viz_resolution, LANG_VIZ_RESOLUTION, 2, "viz resolution",
+                "full,half,quarter", NULL, 3,
+                ID2P(LANG_VIZ_RES_FULL), ID2P(LANG_VIZ_RES_HALF),
+                ID2P(LANG_VIZ_RES_QUARTER)),
     INT_SETTING(F_BANFROMQS, max_files_in_playlist,
                 LANG_MAX_FILES_IN_PLAYLIST,
 #if CONFIG_CPU == PP5002 || CONFIG_CPU == PP5020 || CONFIG_CPU == PP5022
