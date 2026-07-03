@@ -50,17 +50,33 @@ one invocation per file:
 
     tools/convttf -p <size> -o fonts/<output>.fnt <source>.ttf
 
-  Size/Weight     -> Output file
-  12  Regular      -> 12-Bricolage-Grotesque-Regular.fnt
-  12  Bold         -> 12-Bricolage-Grotesque-Bold.fnt
-  15  Regular      -> 15-Bricolage-Grotesque-Regular.fnt
-  16  Bold         -> 16-Bricolage-Grotesque-Bold.fnt
-  19  Regular      -> 19-Bricolage-Grotesque-Regular.fnt
-  32  Bold         -> 32-Bricolage-Grotesque-Bold.fnt
-  72  Bold         -> 72-Bricolage-Grotesque-Bold.fnt
+  -p <size>  Weight     -> Output file
+  12         Regular    -> 12-Bricolage-Grotesque-Regular.fnt
+  12         Bold       -> 12-Bricolage-Grotesque-Bold.fnt
+  15         Regular    -> 15-Bricolage-Grotesque-Regular.fnt
+  16         Bold       -> 16-Bricolage-Grotesque-Bold.fnt
+  23         Regular    -> 19-Bricolage-Grotesque-Regular.fnt
+  32         Bold       -> 32-Bricolage-Grotesque-Bold.fnt
+  72         Bold       -> 72-Bricolage-Grotesque-Bold.fnt
 
 where <source>.ttf is BricolageGrotesque-Regular.ttf or
-BricolageGrotesque-Bold.ttf as appropriate.
+BricolageGrotesque-Bold.ttf as appropriate. Note the base UI/list font
+(19-Bricolage-Grotesque-Regular.fnt) is generated with `-p 23`, not `-p 19`
+-- the filename reflects the nominal size (matching the "19" of the
+SF-Pro-Display font it replaces, so themes/*.cfg and config.cfg don't need
+to reference a different filename), but `-p 19` actually rasterizes to a
+compiled font `height` of 20px, and Rockbox's list widget (apps/gui/bitmap/
+list.c) draws an extra partially-clipped row whenever the active font's
+height doesn't evenly divide the SBS's fixed list-viewport height (216px
+in this theme's `%Vi(menu,0,24,160,216,-)`) on HAVE_TOUCHSCREEN builds
+(true for this sdlapp/PortMaster target regardless of physical touch
+hardware) -- 20 doesn't divide 216 evenly (216/20 = 10.8) but 24 does
+(216/24 = 9 exactly), and `-p 23` is the input size that happens to
+rasterize Bricolage Grotesque Regular to that exact height. If this font
+is ever regenerated, re-measure the compiled `.fnt` header's `height`
+field (offset 6, little-endian int16 -- see firmware/font.c's RB12
+header layout) and adjust `-p` until `height` evenly divides 216, rather
+than assuming `-p 19` -> 19px like a typical desktop font renderer would.
 
 As with the existing SF-Pro-Display fonts added in commit 4a00a1b187, only
 the converted .fnt output is vendored here -- the source TTFs themselves are
