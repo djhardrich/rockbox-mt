@@ -58,6 +58,8 @@
 #include "icon.h"
 #include "root_menu.h"
 #include "gui/list.h"
+#include "gui/wps.h"           /* wps_do_action: play/pause passthrough */
+#include "audio.h"             /* audio_status/audio_next/audio_prev: playback passthrough */
 #include "window-sdl.h"
 #include <SDL_thread.h>          /* render loop runs on its own OS thread (core) */
 
@@ -645,15 +647,54 @@ static void visualizer_session(const char *locked_path)
     /* Hand the GL context to the render thread (its own core); the main thread
      * keeps the Rockbox scheduler (codec/buffering) running and watches for the
      * exit button.  get_action() yields to the Rockbox threads and blocks briefly
-     * between polls so the main thread doesn't busy-spin; the volume rocker is
-     * handled globally (ACTION_NONE here) so it adjusts volume without exiting. */
+     * between polls so the main thread doesn't busy-spin.  CONTEXT_WPS carries
+     * the real playback bindings (play/pause, skip, volume, X+Y toggle) so those
+     * pass through to Rockbox instead of exiting the visualizer; ALLOW_SOFTLOCK
+     * lets L2+R2 lock/unlock controls exactly as it does in the WPS. */
     SDL_GL_MakeCurrent(sdlWindow, NULL);
     viz_thread_stop = false;
     SDL_Thread *rt = SDL_CreateThread(viz_render_thread, "trimpod_viz", NULL);
     if (rt)
     {
-        while (get_action(CONTEXT_STD, HZ/20) == ACTION_NONE)
-            ;
+        for (;;)
+        {
+            int action = get_action(CONTEXT_WPS|ALLOW_SOFTLOCK, HZ/20);
+
+            if (action == ACTION_STD_VIZ_TOGGLE)
+                break;                              /* X+Y: exit, like on entry */
+
+            if (!(audio_status() & AUDIO_STATUS_PLAY))
+                break;                               /* nothing left to visualize */
+
+            switch (action)
+            {
+                case ACTION_WPS_PLAY:
+                    wps_do_action(WPS_PLAYPAUSE, false);
+                    break;
+                case ACTION_WPS_SKIPPREV:
+                    audio_prev();
+                    break;
+                case ACTION_WPS_SKIPNEXT:
+                    audio_next();
+                    break;
+                case ACTION_WPS_STOP:
+                    list_stop_handler();
+                    break;
+                case ACTION_WPS_VOLUP:
+                    adjust_volume(1);
+                    setvol();
+                    break;
+                case ACTION_WPS_VOLDOWN:
+                    adjust_volume(-1);
+                    setvol();
+                    break;
+                default:
+                    /* Menu/Context/Browse/Quick Screen/Track Info/hold-seek would
+                     * push a screen we can't show (the visualizer owns the
+                     * display) -- ignored rather than exiting or acting blind. */
+                    break;
+            }
+        }
         viz_thread_stop = true;
         SDL_WaitThread(rt, NULL);
     }
