@@ -1,0 +1,86 @@
+# Aurora by this project
+# Neumorphic dark theme -- see docs/superpowers/specs/2026-07-03-aurora-theme-design.md
+# 2026-07-03 v1.0
+
+# Disable Status Bar
+%wd
+
+# Preload Font
+%Fl(2,12-Bricolage-Grotesque-Bold.fnt)
+%Fl(3,32-Bricolage-Grotesque-Bold.fnt)
+%Fl(4,16-Bricolage-Grotesque-Bold.fnt)
+
+# Preload Images
+%xl(usb,Aurora/usb.bmp,0,0)
+%xl(L,Aurora/lock.bmp)
+%xl(star,Aurora/fallback.bmp,0,0)
+
+# Album Art Preload
+%Cl(-40,0,240,240,c,c)
+%?if(%cs, !=, 21)<%?C<%Vd(noStar)|%Vd(withStar)>>
+
+%?if(%cs, =, 10)<%Vd(qsTitle)%VI(clearScreen)|%?if(%cs, !=, 21)<%?C<%Vd(noStar)|%Vd(withStar)>>>
+
+
+#__USB screen
+%?if(%cs, =, 21)<%VI(clearScreen)%Vd(usb)|%VI(menu)%Vd(info)%Vd(batt)>
+
+#__Clear Screen
+%Vi(clearScreen,0,0,1,1,-)
+
+# Backdrop (USB, quickscreen, and the normal menu each use a different panel)
+%?if(%cs, =, 21)<%X(Aurora.usb.bmp)|%?if(%cs, =, 10)<%X(Aurora.quickscreen.bmp)|%X(Aurora.menu.bmp)>>
+
+# Display Viewports
+
+# --- With Album Art ---
+%Vl(noStar,160,0,160,240,-)
+%Cd
+
+# --- No Album Art ---
+%Vl(withStar,160,0,160,240,-)
+%xd(star)
+
+# Menu
+%Vi(menu,0,24,160,216,-)
+%Vf(8a8ca3)
+
+# Menu Title
+%Vl(info,6,4,101,16,4)
+%Vf(e7e6ee)
+%al%s%?cs<Main Menu|%?Lt<%Lt>>
+
+# Hold
+%Vl(info,114,7,8,10,-)
+%Vf(ffca28)
+%?mh<%xd(L)>
+
+# Quick Screen title viewport
+%Vl(qsTitle,6,4,101,16,4)
+%Vf(e7e6ee)
+%alQuick Screen
+
+# Battery viewport selector (flash when low, '+' prefix when charging)
+%?bc<%Vd(battCharging)|%?if(%bl,>=,15)<%Vd(batt)|%Vd(lowBatt)>>
+
+# Battery (percentage text)
+%Vl(batt,114,6,24,13,2)%Vf(e7e6ee)
+%ar%bl
+
+%Vl(lowBatt,114,6,24,13,2)%Vf(ff8a65)
+%t(1)%ar%bl;%t(1) 
+
+%Vl(battCharging,114,6,24,13,2)%Vf(ffca28)
+%ar+%bl
+
+# USB_screen
+
+#__USB
+%Vl(usb,0,0,320,98,-)
+%xd(usb)
+
+%Vl(usb,20,160,280,-,3)%Vf(e7e6ee)
+%acUSB CONNECTED
+
+%Vl(usb,20,195,280,-,2)%Vf(8a8ca3)
+%acEject Before Disconnecting
