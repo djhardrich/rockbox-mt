@@ -64,7 +64,7 @@ Matches Obsede2's existing coverage for this fork — same screens, new look:
 Rockbox's WPS/SBS tag language draws flat viewport fills and pre-rendered
 bitmaps — it has no live shadow/gradient/blur rendering. The neumorphic
 look is therefore **baked into backdrop bitmaps**, the same approach
-Obsede2 already uses (`backdrops/Obsede2.*.bmp`):
+Obsede2 already uses (`wps/Obsede2/*.bmp`, loaded via `%xl()`/`%xd()`):
 
 - One 320×240 backdrop bitmap per screen state needed (e.g. Now Playing
   with/without album art, Lockscreen, Menu, Quickscreen, USB), generated
@@ -85,15 +85,16 @@ Obsede2 already uses (`backdrops/Obsede2.*.bmp`):
 ## File Layout
 
 Follows the existing convention exactly (see `themes/Obsede2.cfg`,
-`wps/Obsede2.wps`, `wps/Obsede2.sbs`, `wps/Obsede2/*.bmp`,
-`backdrops/Obsede2.*.bmp`):
+`wps/Obsede2.wps`, `wps/Obsede2.sbs`, `wps/Obsede2/*.bmp`):
 
 ```
 themes/Aurora.cfg            themes/AuroraLight.cfg
 wps/Aurora.wps                wps/AuroraLight.wps
 wps/Aurora.sbs                wps/AuroraLight.sbs
 wps/Aurora/*.bmp               wps/AuroraLight/*.bmp
-backdrops/Aurora.*.bmp        backdrops/AuroraLight.*.bmp
+  (backdrops and icons both live here, bare filenames -- not a
+  separate top-level backdrops/ directory, which is an unrelated
+  Rockbox feature)
 fonts/*-Bricolage-Grotesque-*.fnt   (shared by both)
 ```
 

@@ -184,6 +184,8 @@ BACKDROPS = {
     "now-playing-noart":   lambda p: backdrop_now_playing(p, with_art=False),
     "menu":                lambda p: backdrop_menu(p),
     "quickscreen":         lambda p: backdrop_quickscreen(p),
+    # "usb-panel" (not "usb") to avoid colliding with icon_usb()'s usb.bmp
+    # banner in the same output directory (wps/Aurora/ / wps/AuroraLight/).
     "usb-panel":           lambda p: backdrop_usb(p),
 }
 
