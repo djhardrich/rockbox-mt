@@ -38,3 +38,34 @@ Fonts put here need to follow a few rules:
 4. Fonts should be carefully selected, judging quality over quantity. A font
    that only covers ASCII isn't worth much. Rockbox supports a lot of
    languages.
+
+Aurora / Aurora Light theme fonts
+----------------------------------
+
+The Aurora and Aurora Light themes use "Bricolage Grotesque" (Regular and
+Bold weights only; SIL OFL 1.1 licensed, see fonts/Bricolage-Grotesque-OFL.txt)
+for every plain-Latin UI slot. The following 7 .fnt files were produced
+directly from the upstream TTFs with tools/convttf (no .bdf intermediate),
+one invocation per file:
+
+    tools/convttf -p <size> -o fonts/<output>.fnt <source>.ttf
+
+  Size/Weight     -> Output file
+  12  Regular      -> 12-Bricolage-Grotesque-Regular.fnt
+  12  Bold         -> 12-Bricolage-Grotesque-Bold.fnt
+  15  Regular      -> 15-Bricolage-Grotesque-Regular.fnt
+  16  Bold         -> 16-Bricolage-Grotesque-Bold.fnt
+  19  Regular      -> 19-Bricolage-Grotesque-Regular.fnt
+  32  Bold         -> 32-Bricolage-Grotesque-Bold.fnt
+  72  Bold         -> 72-Bricolage-Grotesque-Bold.fnt
+
+where <source>.ttf is BricolageGrotesque-Regular.ttf or
+BricolageGrotesque-Bold.ttf as appropriate.
+
+As with the existing SF-Pro-Display fonts added in commit 4a00a1b187, only
+the converted .fnt output is vendored here -- the source TTFs themselves are
+not checked into this repo. If regeneration is ever needed, re-source
+BricolageGrotesque-Regular.ttf and BricolageGrotesque-Bold.ttf from the
+Bricolage Grotesque project (https://github.com/ateliertriay/bricolage) or
+Google Fonts (https://fonts.google.com/specimen/Bricolage+Grotesque) --
+do not assume any particular local machine path.
