@@ -23,6 +23,7 @@ cd "$ROOT"
 IMAGE="rockbox-portmaster-builder"
 DOCKERFILE="Dockerfile.portmaster"
 BUILD_DIR="build-portmaster"
+CCACHE_DIR="$HOME/.cache/rockbox-portmaster-ccache"  # persists across runs/containers
 PLATFORM="linux/arm64"
 OUTPUT="Rockbox.pak.zip"      # final pak name (pak.json release_filename)
 ZIP_IN_BUILD="rockbox.zip"    # name emitted by the portmaster-zip make target
@@ -70,13 +71,21 @@ fi
 # Mounted as the host user so emitted files are owned by you, not root.
 # HOME=/tmp gives git/cmake a writable home. safe.directory avoids git's
 # "dubious ownership" refusal on the bind-mounted, foreign-owned tree.
+# CCACHE_DIR is a host-side directory bound into the container so compiled
+# objects survive across `--rm` containers (each run is otherwise a fresh
+# container with nothing cached) -- the image's compiler-name symlinks
+# (Dockerfile.portmaster) route plain gcc/g++ invocations through it with
+# no per-project config.
 [ "$CLEAN" -eq 1 ] && echo ">> --clean: build dir will be wiped inside the container."
+mkdir -p "$CCACHE_DIR"
 
 NPROC_CMD='$(nproc)'
 docker run --rm \
   --platform "$PLATFORM" \
   --user "$(id -u):$(id -g)" -e HOME=/tmp \
+  -e CCACHE_DIR=/ccache \
   -v "$ROOT":/src -w /src \
+  -v "$CCACHE_DIR":/ccache \
   "$IMAGE" bash -euo pipefail -c "
   echo '>> Marking /src as a safe git directory ...'
   git config --global --add safe.directory /src
@@ -118,6 +127,9 @@ docker run --rm \
   make portmaster-zip
   echo '>> PortMaster zip produced:'
   ls -l ${ZIP_IN_BUILD}
+
+  echo '>> ccache stats:'
+  ccache -s
 "
 
 # --- 4. Collect the output --------------------------------------------------

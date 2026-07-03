@@ -16,6 +16,12 @@ FROM --platform=linux/arm64 debian:bookworm
 #   pkg-config                    -> locating SDL2 / GLES / EGL
 #   libsdl2-dev                   -> SDL2 app target (sdl2-config, headers, libs)
 #   libgles2-mesa-dev libegl1-mesa-dev -> GLES2 + EGL headers/libs (visualizer)
+#   ccache                        -> cache compiled objects across builds/runs
+#                                    (build-portmaster.sh mounts a host dir at
+#                                    CCACHE_DIR and puts ccache's compiler-name
+#                                    symlinks first on PATH, so plain `gcc`/`g++`
+#                                    invocations from cmake/make are intercepted
+#                                    transparently -- no toolchain-file changes)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         gcc \
@@ -29,6 +35,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libsdl2-dev \
         libgles2-mesa-dev \
         libegl1-mesa-dev \
-    && rm -rf /var/lib/apt/lists/*
+        ccache \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /usr/lib/ccache/bin \
+    && for c in gcc cc g++ c++; do ln -sf /usr/bin/ccache "/usr/lib/ccache/bin/$c"; done
+
+# Compiler-name symlinks first on PATH: any build system invoking plain
+# `gcc`/`g++` (cmake, Rockbox's Makefiles) is transparently routed through
+# ccache with no per-project CC/CXX override needed.
+ENV PATH="/usr/lib/ccache/bin:${PATH}"
 
 WORKDIR /src
