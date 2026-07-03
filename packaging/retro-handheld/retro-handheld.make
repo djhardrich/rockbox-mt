@@ -31,6 +31,7 @@ rhbuild:
 	cp $(ROOTDIR)/themes/Obsede2.cfg $(RH_ROCKBOX_DIR)/themes/
 	cp $(ROOTDIR)/icons/icons_5px.bmp $(RH_ROCKBOX_DIR)/icons/
 	## Bundle Aurora / Aurora Light theme assets (wps, sbs, bitmaps incl. backdrops, theme cfg)
+	## Shares icons/icons_5px.bmp bundled by the Obsede2 block above -- no separate copy needed here
 	mkdir -p $(RH_ROCKBOX_DIR)/wps/Aurora $(RH_ROCKBOX_DIR)/wps/AuroraLight
 	cp $(ROOTDIR)/wps/Aurora.wps $(ROOTDIR)/wps/Aurora.sbs $(RH_ROCKBOX_DIR)/wps/
 	cp $(ROOTDIR)/wps/AuroraLight.wps $(ROOTDIR)/wps/AuroraLight.sbs $(RH_ROCKBOX_DIR)/wps/
