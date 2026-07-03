@@ -30,10 +30,17 @@ rhbuild:
 	cp -r $(ROOTDIR)/wps/Obsede2/. $(RH_ROCKBOX_DIR)/wps/Obsede2/
 	cp $(ROOTDIR)/themes/Obsede2.cfg $(RH_ROCKBOX_DIR)/themes/
 	cp $(ROOTDIR)/icons/icons_5px.bmp $(RH_ROCKBOX_DIR)/icons/
+	## Bundle Aurora / Aurora Light theme assets (wps, sbs, bitmaps incl. backdrops, theme cfg)
+	mkdir -p $(RH_ROCKBOX_DIR)/wps/Aurora $(RH_ROCKBOX_DIR)/wps/AuroraLight
+	cp $(ROOTDIR)/wps/Aurora.wps $(ROOTDIR)/wps/Aurora.sbs $(RH_ROCKBOX_DIR)/wps/
+	cp $(ROOTDIR)/wps/AuroraLight.wps $(ROOTDIR)/wps/AuroraLight.sbs $(RH_ROCKBOX_DIR)/wps/
+	cp -r $(ROOTDIR)/wps/Aurora/. $(RH_ROCKBOX_DIR)/wps/Aurora/
+	cp -r $(ROOTDIR)/wps/AuroraLight/. $(RH_ROCKBOX_DIR)/wps/AuroraLight/
+	cp $(ROOTDIR)/themes/Aurora.cfg $(ROOTDIR)/themes/AuroraLight.cfg $(RH_ROCKBOX_DIR)/themes/
 	## Bundle prebuilt SF-Pro fonts (not .bdf sources, so convbdf cannot build them)
 	mkdir -p $(RH_ROCKBOX_DIR)/fonts
 	cp $(ROOTDIR)/fonts/*.fnt $(RH_ROCKBOX_DIR)/fonts/
-	## Install default config (sets Obsede2 as the active theme on first boot)
+	## Install default config (sets Aurora as the active theme on first boot)
 	cp $(RH_PACK_DIR)/config.cfg $(RH_ROCKBOX_DIR)/config.cfg
 	## Bundle Milkdrop visualizer presets (read at runtime from ROCKBOX_DIR/presets)
 	mkdir -p $(RH_ROCKBOX_DIR)/presets
