@@ -184,18 +184,17 @@ BACKDROPS = {
     "now-playing-noart":   lambda p: backdrop_now_playing(p, with_art=False),
     "menu":                lambda p: backdrop_menu(p),
     "quickscreen":         lambda p: backdrop_quickscreen(p),
-    "usb":                 lambda p: backdrop_usb(p),
+    "usb-panel":           lambda p: backdrop_usb(p),
 }
 
 
 def gen_backdrops(theme, outdir):
     palette = PALETTES[theme]
-    name = "Aurora" if theme == "aurora" else "AuroraLight"
     for tag, fn in BACKDROPS.items():
         img = fn(palette)
         assert img.size == (LCD_W, LCD_H), f"{tag}: expected {(LCD_W, LCD_H)}, got {img.size}"
-        save_bmp(img, os.path.join(outdir, f"{name}.{tag}.bmp"))
-        print("wrote", f"{name}.{tag}.bmp", img.size, img.mode)
+        save_bmp(img, os.path.join(outdir, f"{tag}.bmp"))
+        print("wrote", tag, img.size, img.mode)
 
 
 def bar_fill(palette, size=(230, 4)):
