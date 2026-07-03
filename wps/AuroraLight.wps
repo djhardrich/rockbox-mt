@@ -1,0 +1,162 @@
+# Aurora Light by this project
+# Neumorphic light theme -- see docs/superpowers/specs/2026-07-03-aurora-theme-design.md
+# 2026-07-03 v1.0
+
+# Disable Status Bar
+%wd
+
+# Preload Fonts
+%Fl(3,34-SFProDisplay-Bold-CJK.fnt)
+%Fl(5,15-Bricolage-Grotesque-Regular.fnt)
+%Fl(6,12-Bricolage-Grotesque-Regular.fnt)
+%Fl(7,24-SFProDisplay-Regular-CJK.fnt)
+%Fl(8,72-Bricolage-Grotesque-Bold.fnt)
+%Fl(9,16-Bricolage-Grotesque-Bold.fnt)
+
+# Preload Images
+%xl(bg_lock,lockscreen.bmp,0,0)
+%xl(bg_art,now-playing-art.bmp,0,0)
+%xl(bg_noart,now-playing-noart.bmp,0,0)
+%xl(playmodes,playmodes.bmp,0,0,9)
+%xl(noart,noart.bmp,0,0)
+%xl(volbg,volbg.bmp,0,0)
+%xl(vol,vol.bmp,0,0)
+%xl(prog,prog.bmp,0,0)
+%xl(progbg,progbg.bmp,0,0)
+%xl(R,repeat_status.bmp,4)
+%xl(S,shuffle_status.bmp)
+%xl(vol_up,vol_up.bmp)
+%xl(vol_down,vol_down.bmp)
+%xl(L,lock.bmp)
+
+# Display Viewports
+%Vd(main)
+%?mh<%Vd(lockscreen)|%Vd(metadata)%?C<%Vd(withAlbumArt)|%Vd(noAlbumArt)>%?mv(3)<%Vd(volume)|%Vd(prog)>%?ps<%Vd(repeatModeDark)|%?mm<%Vd(noRepeatDark)|%Vd(repeatModeDark)>>>
+%Vl(main,0,0,320,240,-)
+
+# Album Art Preload
+%Cl(0,0,140,140,r,c)
+%?C<%Vd(albumArt)>
+
+#######################
+##### Lockscreen ######
+#######################
+
+%Vl(lockscreen,0,0,320,240,-)
+%xd(bg_lock)
+
+# Playback Mode Icons
+%Vl(lockscreen,2,3,18,18,-)
+%xd(playmodes,%mp)
+
+# Clock
+%Vl(lockscreen,10,40,-10,100,8)%Vf(23222a)
+%ac%?cf<%cH|%cl>:%cM%?cf<| %cp>
+
+# Day
+%Vl(lockscreen,15,35,-15,16,9)%Vf(8d8676)
+%ac%?cu<Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday>, %cb %cd
+
+# Lock Indicator
+%Vl(lockscreen,156,7,8,10,-)
+%?mh<%xd(L)>
+
+# Now Playing
+%Vl(lockscreen,15,193,-15,20,9)
+%Vf(8d8676)
+%?if(%mp, >, 1)<%ac%s%?ia<%ia> - %?it<%it|%fn>|>
+
+#######################
+##### Play Screen #####
+#######################
+
+%Vl(metadata,0,0,320,240,-)
+%?C<%xd(bg_art)|%xd(bg_noart)>
+
+# Album Art
+%Vl(metadata,173,40,140,140,-)
+%Cd
+
+# No-Album-Art Glyph
+%Vl(noAlbumArt,173,40,140,140,-)
+%?C<|%xd(noart)>
+
+# Playback Mode Icons
+%Vl(metadata,2,3,18,18,-)
+%xd(playmodes,%mp)
+
+# Track Number (repeat)
+%Vl(repeatModeDark,41,4,100,13,9)%Vf(23222a)
+%al%pp of %pe
+
+# Track Number (no repeat)
+%Vl(noRepeatDark,22,4,100,13,9)%Vf(23222a)
+%al%pp of %pe
+
+# Repeat
+%Vl(repeatModeDark,20,3,18,18,-)
+%t(5)%?mm<%?ps<%xd(S)>|%xd(R,%mm,-1)>;%t(5)%?ps<%xd(S)|%?mm<|%xd(R,%mm,-1)>>
+
+# Clock
+%Vl(metadata,232,4,50,13,9)%Vf(23222a)
+%ar%?cf<%cH|%cl>:%cM%?cf<| %cp>
+
+# Battery viewport selector (flash when low, '+' prefix when charging)
+%?bc<%Vd(battCharging)|%?if(%bl,>=,15)<%Vd(batt)|%Vd(lowBatt)>>
+
+# Battery (percentage text)
+%Vl(batt,275,4,40,13,9)%Vf(23222a)
+%ar%bl
+
+%Vl(lowBatt,275,4,40,13,9)%Vf(ff8a65)
+%t(1)%ar%bl;%t(1) 
+
+%Vl(battCharging,275,4,40,13,9)%Vf(ffca28)
+%ar+%bl
+
+# Track Artist or Title
+%Vl(noAlbumArt,6,43,-10,30,7)%Vf(8d8676)
+%?C<|%?mh<|%aL%s%?ia<%ia|%?it<%it|%fn>>>>
+
+%Vl(withAlbumArt,6,43,160,30,7)%Vf(8d8676)
+%?C<%?mh<|%aL%s%?ia<%ia|%?it<%it|%fn>>>>
+
+# Track Title
+%Vl(noAlbumArt,6,68,-10,36,3)%Vf(23222a)
+%?C<|%?mh<|%aL%s%?ia<%it>>>
+
+%Vl(withAlbumArt,6,68,160,36,3)%Vf(23222a)
+%?C<%?mh<|%aL%s%?ia<%it>>>
+
+# Album Title
+%Vl(noAlbumArt,6,104,-10,15,5)%Vf(8d8676)
+%?C<|%?mh<|%aL%s%?id<%id|Unknown Album>>>
+%Vl(withAlbumArt,6,104,160,15,5)%Vf(8d8676)
+%?C<%?mh<|%aL%s%?id<%id|Unknown Album>>>
+
+# Album Year
+%Vl(metadata,6,125,150,14,6)%Vf(8d8676)
+%?iy<%ss(0,4, %iy)|>
+
+# Volume Level Icons
+%Vl(volume,289,219,16,16,-)
+%xd(vol_up)
+
+%Vl(volume,14,220,16,16,-)%Vf(ffca28)
+%xd(vol_down)
+
+# Volume Bar
+%Vl(volume,45,225,230,4,-)%Vf(ffca28)
+%pv(0,0,230,4,vol,backdrop,volbg,d)
+
+# Time Elapsed
+%Vl(prog,5,219,32,14,9)%Vf(23222a)
+%al%?if(%pc,<,600)< |>%pc
+
+# Progress Bar
+%Vl(prog,45,225,230,4,-)
+%pb(0,0,230,4,prog,backdrop,progbg)
+
+# Total Track Time
+%Vl(prog,281,219,32,14,9)%Vf(23222a)
+%ar%pt
