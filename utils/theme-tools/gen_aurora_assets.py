@@ -139,9 +139,71 @@ def selftest(outdir):
     print("wrote", path)
 
 
+def backdrop_lockscreen(palette):
+    c = new_canvas((LCD_W, LCD_H), palette["base"])
+    draw_panel(c, (10, 30, 310, 150), radius=20, palette=palette)   # clock card
+    draw_panel(c, (15, 183, 305, 213), radius=14, palette=palette)  # now-playing strip
+    return c
+
+
+def backdrop_now_playing(palette, with_art):
+    c = new_canvas((LCD_W, LCD_H), palette["base"])
+    if with_art:
+        draw_panel(c, (163, 30, 313, 180), radius=16, palette=palette)  # art frame
+        draw_panel(c, (0, 33, 156, 179), radius=18, palette=palette)    # text card
+    else:
+        draw_panel(c, (0, 33, LCD_W, 179), radius=18, palette=palette)  # full-width text card
+    draw_panel(c, (0, 213, LCD_W, LCD_H), radius=0, palette=palette, inset=True)  # bottom bar tray
+    return c
+
+
+def backdrop_menu(palette):
+    c = new_canvas((LCD_W, LCD_H), palette["base"])
+    draw_panel(c, (0, 0, LCD_W, 24), radius=0, palette=palette)          # title bar
+    draw_panel(c, (4, 28, LCD_W - 4, LCD_H - 4), radius=16, palette=palette, inset=True)  # list well
+    return c
+
+
+def backdrop_quickscreen(palette):
+    c = new_canvas((LCD_W, LCD_H), palette["base"])
+    draw_panel(c, (0, 0, LCD_W, 24), radius=0, palette=palette)
+    draw_panel(c, (20, 40, LCD_W - 20, LCD_H - 20), radius=20, palette=palette)
+    return c
+
+
+def backdrop_usb(palette):
+    c = new_canvas((LCD_W, LCD_H), palette["base"])
+    draw_panel(c, (0, 0, LCD_W, 98), radius=0, palette=palette)   # banner strip (matches usb.bmp slot)
+    draw_panel(c, (40, 140, LCD_W - 40, 220), radius=18, palette=palette)
+    return c
+
+
+BACKDROPS = {
+    "lockscreen":          lambda p: backdrop_lockscreen(p),
+    "now-playing-art":     lambda p: backdrop_now_playing(p, with_art=True),
+    "now-playing-noart":   lambda p: backdrop_now_playing(p, with_art=False),
+    "menu":                lambda p: backdrop_menu(p),
+    "quickscreen":         lambda p: backdrop_quickscreen(p),
+    "usb":                 lambda p: backdrop_usb(p),
+}
+
+
+def gen_backdrops(theme, outdir):
+    palette = PALETTES[theme]
+    name = "Aurora" if theme == "aurora" else "AuroraLight"
+    for tag, fn in BACKDROPS.items():
+        img = fn(palette)
+        assert img.size == (LCD_W, LCD_H), f"{tag}: expected {(LCD_W, LCD_H)}, got {img.size}"
+        save_bmp(img, os.path.join(outdir, f"{name}.{tag}.bmp"))
+        print("wrote", f"{name}.{tag}.bmp", img.size, img.mode)
+
+
 if __name__ == "__main__":
     if len(sys.argv) == 3 and sys.argv[1] == "selftest":
         selftest(sys.argv[2])
+    elif len(sys.argv) == 4 and sys.argv[1] == "backdrops":
+        gen_backdrops(sys.argv[2], sys.argv[3])
     else:
-        print("Usage: gen_aurora_assets.py selftest <outdir>", file=sys.stderr)
+        print("Usage: gen_aurora_assets.py selftest <outdir>\n"
+              "       gen_aurora_assets.py backdrops <aurora|auroralight> <outdir>", file=sys.stderr)
         sys.exit(1)
