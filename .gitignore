@@ -323,3 +323,6 @@ __pycache__
 # PortMaster build outputs (build-portmaster.sh)
 /Rockbox.pak.zip
 /build-portmaster/
+
+.superpowers/
+.serena/
