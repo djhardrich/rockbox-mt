@@ -5,15 +5,16 @@
 # Disable Status Bar
 %wd
 
+# Backdrop (single real backdrop, shared by every screen state in this file --
+# see gen_aurora_assets.py's backdrop_sbs() docstring for why)
+%X(sbs-backdrop.bmp)
+
 # Preload Font
 %Fl(2,12-Bricolage-Grotesque-Bold.fnt)
 %Fl(3,32-Bricolage-Grotesque-Bold.fnt)
 %Fl(4,16-Bricolage-Grotesque-Bold.fnt)
 
 # Preload Images
-%xl(bg_usb,usb-panel.bmp,0,0)
-%xl(bg_qs,quickscreen.bmp,0,0)
-%xl(bg_menu,menu.bmp,0,0)
 %xl(usb,usb.bmp,0,0)
 %xl(L,lock.bmp)
 %xl(star,fallback.bmp,0,0)
@@ -30,11 +31,6 @@
 
 #__Clear Screen
 %Vi(clearScreen,0,0,1,1,-)
-
-# Backdrop (USB, quickscreen, and the normal menu each use a different panel)
-%Vd(bgHolder)
-%Vl(bgHolder,0,0,320,240,-)
-%?if(%cs, =, 21)<%xd(bg_usb)|%?if(%cs, =, 10)<%xd(bg_qs)|%xd(bg_menu)>>
 
 # Display Viewports
 

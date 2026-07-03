@@ -5,6 +5,10 @@
 # Disable Status Bar
 %wd
 
+# Backdrop (single real backdrop, shared by every screen state in this file --
+# see gen_aurora_assets.py's backdrop_wps() docstring for why)
+%X(wps-backdrop.bmp)
+
 # Preload Fonts
 %Fl(3,34-SFProDisplay-Bold-CJK.fnt)
 %Fl(5,15-Bricolage-Grotesque-Regular.fnt)
@@ -14,9 +18,6 @@
 %Fl(9,16-Bricolage-Grotesque-Bold.fnt)
 
 # Preload Images
-%xl(bg_lock,lockscreen.bmp,0,0)
-%xl(bg_art,now-playing-art.bmp,0,0)
-%xl(bg_noart,now-playing-noart.bmp,0,0)
 %xl(playmodes,playmodes.bmp,0,0,9)
 %xl(noart,noart.bmp,0,0)
 %xl(volbg,volbg.bmp,0,0)
@@ -43,7 +44,6 @@
 #######################
 
 %Vl(lockscreen,0,0,320,240,-)
-%xd(bg_lock)
 
 # Playback Mode Icons
 %Vl(lockscreen,2,3,18,18,-)
@@ -71,7 +71,6 @@
 #######################
 
 %Vl(metadata,0,0,320,240,-)
-%?C<%xd(bg_art)|%xd(bg_noart)>
 
 # Album Art
 %Vl(metadata,173,40,140,140,-)

@@ -139,54 +139,39 @@ def selftest(outdir):
     print("wrote", path)
 
 
-def backdrop_lockscreen(palette):
+def backdrop_wps(palette):
+    """Shared full-screen backdrop for every WPS screen state (lockscreen and
+    now-playing/metadata). Registered once via the real %X() backdrop tag --
+    NOT drawn per screen state via %xd() -- because Rockbox's skin engine
+    only restores backdrop pixels under erased/scrolling text when a real
+    lcd_backdrop is registered (apps/gui/skin_engine/skin_backdrops.c,
+    firmware/drivers/lcd-*-common.c's OPT_COPY fillrect path); manually
+    drawing per-screen art via %xd() left `lcd_backdrop` NULL, so every
+    periodic text/scroll redraw flat-filled over the art instead of
+    restoring it, which read as flickering/disappearing UI on real
+    hardware. A single full-width card (rather than the narrower
+    art-frame+text-card split) is used because it sits well behind both
+    the lockscreen's centered clock and the metadata screen's track info.
+    """
     c = new_canvas((LCD_W, LCD_H), palette["base"])
-    draw_panel(c, (10, 30, 310, 150), radius=20, palette=palette)   # clock card
-    draw_panel(c, (15, 183, 305, 213), radius=14, palette=palette)  # now-playing strip
-    return c
-
-
-def backdrop_now_playing(palette, with_art):
-    c = new_canvas((LCD_W, LCD_H), palette["base"])
-    if with_art:
-        draw_panel(c, (163, 30, 313, 180), radius=16, palette=palette)  # art frame
-        draw_panel(c, (0, 33, 156, 179), radius=18, palette=palette)    # text card
-    else:
-        draw_panel(c, (0, 33, LCD_W, 179), radius=18, palette=palette)  # full-width text card
+    draw_panel(c, (0, 33, LCD_W, 179), radius=18, palette=palette)              # text/clock card
     draw_panel(c, (0, 213, LCD_W, LCD_H), radius=0, palette=palette, inset=True)  # bottom bar tray
     return c
 
 
-def backdrop_menu(palette):
+def backdrop_sbs(palette):
+    """Shared full-screen backdrop for every SBS screen state (menu,
+    quickscreen, USB) -- see backdrop_wps() for why this must be a single
+    real %X() backdrop rather than a per-screen %xd() draw."""
     c = new_canvas((LCD_W, LCD_H), palette["base"])
-    draw_panel(c, (0, 0, LCD_W, 24), radius=0, palette=palette)          # title bar
-    draw_panel(c, (4, 28, LCD_W - 4, LCD_H - 4), radius=16, palette=palette, inset=True)  # list well
-    return c
-
-
-def backdrop_quickscreen(palette):
-    c = new_canvas((LCD_W, LCD_H), palette["base"])
-    draw_panel(c, (0, 0, LCD_W, 24), radius=0, palette=palette)
-    draw_panel(c, (20, 40, LCD_W - 20, LCD_H - 20), radius=20, palette=palette)
-    return c
-
-
-def backdrop_usb(palette):
-    c = new_canvas((LCD_W, LCD_H), palette["base"])
-    draw_panel(c, (0, 0, LCD_W, 98), radius=0, palette=palette)   # banner strip (matches usb.bmp slot)
-    draw_panel(c, (40, 140, LCD_W - 40, 220), radius=18, palette=palette)
+    draw_panel(c, (0, 0, LCD_W, 24), radius=0, palette=palette)                       # title bar
+    draw_panel(c, (4, 28, LCD_W - 4, LCD_H - 4), radius=16, palette=palette, inset=True)  # content well
     return c
 
 
 BACKDROPS = {
-    "lockscreen":          lambda p: backdrop_lockscreen(p),
-    "now-playing-art":     lambda p: backdrop_now_playing(p, with_art=True),
-    "now-playing-noart":   lambda p: backdrop_now_playing(p, with_art=False),
-    "menu":                lambda p: backdrop_menu(p),
-    "quickscreen":         lambda p: backdrop_quickscreen(p),
-    # "usb-panel" (not "usb") to avoid colliding with icon_usb()'s usb.bmp
-    # banner in the same output directory (wps/Aurora/ / wps/AuroraLight/).
-    "usb-panel":           lambda p: backdrop_usb(p),
+    "wps-backdrop": lambda p: backdrop_wps(p),
+    "sbs-backdrop": lambda p: backdrop_sbs(p),
 }
 
 
