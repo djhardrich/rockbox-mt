@@ -14,17 +14,20 @@
 %Fl(9,16-Bricolage-Grotesque-Bold.fnt)
 
 # Preload Images
-%xl(playmodes,Aurora/playmodes.bmp,0,0,9)
-%xl(noart,Aurora/noart.bmp,0,0)
-%xl(volbg,Aurora/volbg.bmp,0,0)
-%xl(vol,Aurora/vol.bmp,0,0)
-%xl(prog,Aurora/prog.bmp,0,0)
-%xl(progbg,Aurora/progbg.bmp,0,0)
-%xl(R,Aurora/repeat_status.bmp,4)
-%xl(S,Aurora/shuffle_status.bmp)
-%xl(vol_up,Aurora/vol_up.bmp)
-%xl(vol_down,Aurora/vol_down.bmp)
-%xl(L,Aurora/lock.bmp)
+%xl(bg_lock,lockscreen.bmp,0,0)
+%xl(bg_art,now-playing-art.bmp,0,0)
+%xl(bg_noart,now-playing-noart.bmp,0,0)
+%xl(playmodes,playmodes.bmp,0,0,9)
+%xl(noart,noart.bmp,0,0)
+%xl(volbg,volbg.bmp,0,0)
+%xl(vol,vol.bmp,0,0)
+%xl(prog,prog.bmp,0,0)
+%xl(progbg,progbg.bmp,0,0)
+%xl(R,repeat_status.bmp,4)
+%xl(S,shuffle_status.bmp)
+%xl(vol_up,vol_up.bmp)
+%xl(vol_down,vol_down.bmp)
+%xl(L,lock.bmp)
 
 # Display Viewports
 %Vd(main)
@@ -40,7 +43,7 @@
 #######################
 
 %Vl(lockscreen,0,0,320,240,-)
-%X(Aurora.lockscreen.bmp)
+%xd(bg_lock)
 
 # Playback Mode Icons
 %Vl(lockscreen,2,3,18,18,-)
@@ -68,7 +71,7 @@
 #######################
 
 %Vl(metadata,0,0,320,240,-)
-%?C<%X(Aurora.now-playing-art.bmp)|%X(Aurora.now-playing-noart.bmp)>
+%?C<%xd(bg_art)|%xd(bg_noart)>
 
 # Album Art
 %Vl(metadata,173,40,140,140,-)

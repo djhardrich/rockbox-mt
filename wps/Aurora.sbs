@@ -11,9 +11,12 @@
 %Fl(4,16-Bricolage-Grotesque-Bold.fnt)
 
 # Preload Images
-%xl(usb,Aurora/usb.bmp,0,0)
-%xl(L,Aurora/lock.bmp)
-%xl(star,Aurora/fallback.bmp,0,0)
+%xl(bg_usb,usb-panel.bmp,0,0)
+%xl(bg_qs,quickscreen.bmp,0,0)
+%xl(bg_menu,menu.bmp,0,0)
+%xl(usb,usb.bmp,0,0)
+%xl(L,lock.bmp)
+%xl(star,fallback.bmp,0,0)
 
 # Album Art Preload
 %Cl(-40,0,240,240,c,c)
@@ -29,7 +32,8 @@
 %Vi(clearScreen,0,0,1,1,-)
 
 # Backdrop (USB, quickscreen, and the normal menu each use a different panel)
-%?if(%cs, =, 21)<%X(Aurora.usb.bmp)|%?if(%cs, =, 10)<%X(Aurora.quickscreen.bmp)|%X(Aurora.menu.bmp)>>
+%Vl(bgHolder,0,0,320,240,-)
+%?if(%cs, =, 21)<%xd(bg_usb)|%?if(%cs, =, 10)<%xd(bg_qs)|%xd(bg_menu)>>
 
 # Display Viewports
 
