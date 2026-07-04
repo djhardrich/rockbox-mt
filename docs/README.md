@@ -11,9 +11,14 @@
 
 ## What is this?
 
-This is a fork of Rockbox with a few changes to make it compatible with various retro handhelds as an app. Currently supports **muOS** and **NextUI**.
+This is a fork of Rockbox with a few changes to make it compatible with various retro handhelds as an app. Primarily targets **PanicOS** and **ROCKNIX**, with support for **muOS**, **NextUI**, and others as well.
 
 **Portmaster** support is unofficial [due to some issues](https://github.com/IncognitoMan/rockbox/issues/1).
+
+On top of the base compatibility work, this fork (`rockbox-mt` -- **m**ulti-**t**hread) adds:
+
+* **Real-time audio-thread scheduling.** On Linux-hosted targets running under a desktop compositor (e.g. sway on PanicOS), the compositor's own realtime priority can occasionally starve Rockbox's plain `SCHED_OTHER` audio threads for just long enough to produce a brief, sub-xrun audio gap. The audio-critical threads now request `SCHED_RR` (via a direct syscall, falling back to the desktop RealtimeKit D-Bus service PipeWire/PulseAudio also use), matching the priority PipeWire itself relies on to never miss a beat.
+* **MilkDrop-style visualizer**, powered by a bundled [projectM](https://github.com/projectM-visualizer/projectm) build, reacting live to the audio stream.
 
 ## Notes
 
