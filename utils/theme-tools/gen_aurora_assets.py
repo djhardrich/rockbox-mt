@@ -354,6 +354,41 @@ def icon_shuffle_status(palette, size=(16, 18)):
     return img
 
 
+def _battery_frame(palette, level, charging, size=(24, 13)):
+    """One 24x13 battery glyph frame. `level` is 1 (near-empty) .. 12 (full);
+    fill width scales linearly with level. `charging` overlays a small bolt."""
+    img = new_transparent_canvas(size)
+    d = ImageDraw.Draw(img)
+    outline = hex_to_rgb(palette["text_primary"])
+    fill = hex_to_rgb(palette["accent_end"])
+    body = (1, 2, 19, 10)      # x0,y0,x1,y1
+    nub = (20, 4, 22, 8)
+    d.rounded_rectangle(body, radius=2, outline=outline, width=1)
+    d.rectangle(nub, fill=outline)
+    inner = (body[0] + 2, body[1] + 2, body[2] - 2, body[3] - 2)
+    inner_w = inner[2] - inner[0]
+    fill_w = round(inner_w * min(level, 11) / 11)
+    if fill_w > 0:
+        d.rectangle((inner[0], inner[1], inner[0] + fill_w, inner[3]), fill=fill)
+    if charging:
+        bolt_fg = hex_to_rgb(palette["base"])
+        cx = (body[0] + body[2]) // 2
+        d.polygon([(cx + 1, body[1] + 1), (cx - 2, 6), (cx, 6),
+                   (cx - 1, body[3] - 1), (cx + 2, 7), (cx, 7)], fill=bolt_fg)
+    return img
+
+
+def icon_battery(palette):
+    """12-frame strip (frames 1..12, only 1..11 are ever selected by the WPS/
+    SBS %xd(battery,N) cascade -- see wps/Aurora.wps -- matching the frame
+    count/ordering Obsede2's own battery.bmp used)."""
+    return sprite_strip([_battery_frame(palette, i, charging=False) for i in range(1, 13)])
+
+
+def icon_battery_charging(palette):
+    return sprite_strip([_battery_frame(palette, i, charging=True) for i in range(1, 13)])
+
+
 ICONS = {
     "prog":            lambda p: bar_fill(p),
     "vol":             lambda p: bar_fill(p),
@@ -368,6 +403,8 @@ ICONS = {
     "playmodes":       lambda p: icon_playmodes(p),
     "repeat_status":   lambda p: icon_repeat_status(p),
     "shuffle_status":  lambda p: icon_shuffle_status(p),
+    "battery":            lambda p: icon_battery(p),
+    "battery_charging":   lambda p: icon_battery_charging(p),
 }
 
 EXPECTED_SIZES = {
@@ -375,6 +412,7 @@ EXPECTED_SIZES = {
     "lock": (8, 10), "vol_up": (16, 16), "vol_down": (14, 14),
     "usb": (320, 98), "noart": (64, 64), "fallback": (160, 240),
     "playmodes": (18, 162), "repeat_status": (16, 72), "shuffle_status": (16, 18),
+    "battery": (24, 156), "battery_charging": (24, 156),
 }
 
 

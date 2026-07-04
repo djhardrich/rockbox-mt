@@ -41,7 +41,7 @@ firmware changes.
 | Light palette (Aurora Light) | Inverted slate→cream base (e.g. base `#f4efe8`, panels `#ffffff → #ece6db`), same amber accent, shadow tone re-tuned for a light source (light mode neumorphism needs warmer/darker shadow tones than a naive color-invert to still read as "soft," not muddy). |
 | Typography | Bricolage Grotesque (SIL OFL, Google Fonts) — quirky angled bowls, distinctly not system-UI. Replaces the SF Pro Display family Obsede2 uses. CJK fallback keeps the existing bundled CJK faces (Bricolage has no CJK coverage). |
 | Iconography | New rounded glyph set, not a recolor of `icons_5px.bmp`. Procedurally generated (vector-drawn, rasterized to Rockbox's indexed BMP format) rather than hand pixel-art. |
-| Battery | Percentage text only (e.g. `87%`) — no graphical battery bitmap. Drops `battery.bmp`/`battery_charging.bmp` from the asset list entirely (simpler than Obsede2's 11-frame graphical battery). |
+| Battery | Graphical battery icon (12-frame `battery.bmp`/`battery_charging.bmp` strip, procedurally drawn to match the neumorphic style — outline + amber fill bar, bolt overlay when charging), matching Obsede2's graphical-battery convention rather than percentage text. |
 
 ## Screen Inventory
 

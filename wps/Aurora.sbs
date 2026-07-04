@@ -15,6 +15,8 @@
 %Fl(4,16-Bricolage-Grotesque-Bold.fnt)
 
 # Preload Images
+%xl(battery,battery.bmp,0,0,12)
+%xl(battery_charging,battery_charging.bmp,0,0,12)
 %xl(usb,usb.bmp,0,0)
 %xl(L,lock.bmp)
 %xl(star,fallback.bmp,0,0)
@@ -61,18 +63,28 @@
 %Vf(e7e6ee)
 %alQuick Screen
 
-# Battery viewport selector (flash when low, '+' prefix when charging)
+# Battery viewport selector (flash when low, animates when charging)
 %?bc<%Vd(battCharging)|%?if(%bl,>=,15)<%Vd(batt)|%Vd(lowBatt)>>
 
-# Battery (percentage text)
-%Vl(batt,114,6,24,13,2)%Vf(e7e6ee)
-%ar%bl
+# Battery (graphical)
+%Vl(batt,114,6,24,13,-)
+%?if(%bl, =, 100)<%xd(battery,11)|%?if(%bl,>=,90)<%xd(battery,10)|%?if(%bl,>=,80)<%xd(battery,9)|%?if(%bl,>=,70)<%xd(battery,8)|%?if(%bl,>=,60)<%xd(battery,7)|%?if(%bl,>=,50)<%xd(battery,6)|%?if(%bl,>=,40)<%xd(battery,5)|%?if(%bl,>=,30)<%xd(battery,4)|%?if(%bl,>=,20)<%xd(battery,3)|%?if(%bl,>=,10)<%xd(battery,2)|%xd(battery,1)>>>>>>>>>>
 
-%Vl(lowBatt,114,6,24,13,2)%Vf(ff8a65)
-%t(1)%ar%bl;%t(1) 
+%Vl(lowBatt,114,6,24,13,-)
+%t(1)%?if(%bl,>=,10)<%xd(battery,1)|%xd(battery,1)>;%t(1)%xd(battery,2)
 
-%Vl(battCharging,114,6,24,13,2)%Vf(ffca28)
-%ar+%bl
+%Vl(battCharging,114,6,24,13,-)
+%?if(%bl, =, 100)<%xd(battery_charging,11)|
+%?if(%bl,>=,90)<%xd(battery_charging,10)|
+%?if(%bl,>=,80)<%xd(battery_charging,9)|
+%?if(%bl,>=,70)<%xd(battery_charging,8)|
+%?if(%bl,>=,60)<%xd(battery_charging,7)|
+%?if(%bl,>=,50)<%xd(battery_charging,6)|
+%?if(%bl,>=,40)<%xd(battery_charging,5)|
+%?if(%bl,>=,30)<%xd(battery_charging,4)|
+%?if(%bl,>=,20)<%xd(battery_charging,3)|
+%?if(%bl,>=,10)<%xd(battery_charging,2)|
+%xd(battery_charging,1)>>>>>>>>>>
 
 # USB_screen
 

@@ -18,6 +18,8 @@
 %Fl(9,16-Bricolage-Grotesque-Bold.fnt)
 
 # Preload Images
+%xl(battery,battery.bmp,0,0,12)
+%xl(battery_charging,battery_charging.bmp,0,0,12)
 %xl(playmodes,playmodes.bmp,0,0,9)
 %xl(noart,noart.bmp,0,0)
 %xl(volbg,volbg.bmp,0,0)
@@ -100,18 +102,28 @@
 %Vl(metadata,232,4,50,13,9)%Vf(23222a)
 %ar%?cf<%cH|%cl>:%cM%?cf<| %cp>
 
-# Battery viewport selector (flash when low, '+' prefix when charging)
+# Battery viewport selector (flash when low, animates when charging)
 %?bc<%Vd(battCharging)|%?if(%bl,>=,15)<%Vd(batt)|%Vd(lowBatt)>>
 
-# Battery (percentage text)
-%Vl(batt,275,4,40,13,9)%Vf(23222a)
-%ar%bl
+# Battery (graphical)
+%Vl(batt,291,6,24,13,-)
+%?if(%bl, =, 100)<%xd(battery,11)|%?if(%bl,>=,90)<%xd(battery,10)|%?if(%bl,>=,80)<%xd(battery,9)|%?if(%bl,>=,70)<%xd(battery,8)|%?if(%bl,>=,60)<%xd(battery,7)|%?if(%bl,>=,50)<%xd(battery,6)|%?if(%bl,>=,40)<%xd(battery,5)|%?if(%bl,>=,30)<%xd(battery,4)|%?if(%bl,>=,20)<%xd(battery,3)|%?if(%bl,>=,10)<%xd(battery,2)|%xd(battery,1)>>>>>>>>>>
 
-%Vl(lowBatt,275,4,40,13,9)%Vf(ff8a65)
-%t(1)%ar%bl;%t(1) 
+%Vl(lowBatt,291,6,24,13,-)
+%t(1)%?if(%bl,>=,10)<%xd(battery,1)|%xd(battery,1)>;%t(1)%xd(battery,2)
 
-%Vl(battCharging,275,4,40,13,9)%Vf(ffca28)
-%ar+%bl
+%Vl(battCharging,291,6,24,13,-)
+%?if(%bl, =, 100)<%xd(battery_charging,11)|
+%?if(%bl,>=,90)<%xd(battery_charging,10)|
+%?if(%bl,>=,80)<%xd(battery_charging,9)|
+%?if(%bl,>=,70)<%xd(battery_charging,8)|
+%?if(%bl,>=,60)<%xd(battery_charging,7)|
+%?if(%bl,>=,50)<%xd(battery_charging,6)|
+%?if(%bl,>=,40)<%xd(battery_charging,5)|
+%?if(%bl,>=,30)<%xd(battery_charging,4)|
+%?if(%bl,>=,20)<%xd(battery_charging,3)|
+%?if(%bl,>=,10)<%xd(battery_charging,2)|
+%xd(battery_charging,1)>>>>>>>>>>
 
 # Track Artist or Title
 %Vl(noAlbumArt,6,43,-10,30,7)%Vf(8d8676)
