@@ -33,6 +33,9 @@
 #ifdef AUDIO_HAVE_RECORDING
 #include "pcm_record.h"
 #endif
+#if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
+#include "rtkit.h"
+#endif
 #include "codec_thread.h"
 #include "voice_thread.h"
 #include "talk.h"
@@ -68,6 +71,10 @@ static void NORETURN_ATTR audio_thread(void)
 {
     struct queue_event ev;
     ev.id = Q_NULL; /* something not in switch below */
+
+#if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
+    rtkit_make_thread_realtime(RTKIT_AUDIO_PRIORITY);
+#endif
 
     pcm_postinit();
 

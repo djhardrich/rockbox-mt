@@ -39,6 +39,10 @@
 /*#define LOGF_ENABLE*/
 #include "logf.h"
 
+#if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
+#include "rtkit.h"
+#endif
+
 /* macros to enable logf for queues
    logging on SYS_TIMEOUT can be disabled */
 #ifdef SIMULATOR
@@ -592,6 +596,10 @@ static void do_callback(void (* callback)(void))
 static void NORETURN_ATTR codec_thread(void)
 {
     struct queue_event ev;
+
+#if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
+    rtkit_make_thread_realtime(RTKIT_AUDIO_PRIORITY);
+#endif
 
     while (1)
     {

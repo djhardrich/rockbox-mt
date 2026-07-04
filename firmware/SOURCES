@@ -611,6 +611,7 @@ drivers/audio/es9218.c
 #if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
 drivers/audio/sdl.c
 target/hosted/sdl/pcm-sdl.c
+target/hosted/sdl/rtkit.c
 #elif defined(SAMSUNG_YPR0) && defined(HAVE_AS3514)
 drivers/audio/as3514.c
 #elif defined(SAMSUNG_YPR1) && defined(HAVE_WM8978)

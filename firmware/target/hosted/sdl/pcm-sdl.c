@@ -49,6 +49,10 @@
 /*#define LOGF_ENABLE*/
 #include "logf.h"
 
+#if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
+#include "rtkit.h"
+#endif
+
 #ifdef DEBUG
 extern bool debug_audio;
 #endif
@@ -338,6 +342,17 @@ static void sdl_audio_callback(void *handle, Uint8 *stream, int len)
     struct pcm_udata *udata = handle;
 
     logf("sdl_audio_callback: len %d, pcm %zd", len, pcm_data_size);
+
+#if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
+    /* SDL owns this thread; elevate it the first time it runs. Harmless
+     * if it fails -- see rtkit.h. */
+    static bool rt_tried = false;
+    if (!rt_tried)
+    {
+        rt_tried = true;
+        rtkit_make_thread_realtime(RTKIT_AUDIO_PRIORITY);
+    }
+#endif
 
     bool new_buffer = false;
     udata->stream = stream;

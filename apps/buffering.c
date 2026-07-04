@@ -42,6 +42,10 @@
 /* #define LOGF_ENABLE */
 #include "logf.h"
 
+#if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
+#include "rtkit.h"
+#endif
+
 #define BUF_MAX_HANDLES 384
 
 /* macros to enable logf for queues
@@ -1582,6 +1586,10 @@ static void NORETURN_ATTR buffering_thread(void)
 {
     bool filling = false;
     struct queue_event ev;
+
+#if defined(HAVE_SDL_AUDIO) || defined(SIMULATOR)
+    rtkit_make_thread_realtime(RTKIT_AUDIO_PRIORITY);
+#endif
 
     while (true)
     {
