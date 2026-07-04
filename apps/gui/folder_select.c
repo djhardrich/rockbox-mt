@@ -310,6 +310,16 @@ static const char * folder_get_name(int selected_item, void * data,
     struct folder *parent;
     struct child *this = find_index(root, selected_item , &parent);
 
+    /* find_index() returns NULL (and leaves *parent NULL) if selected_item
+     * is out of range for the current item count -- can happen transiently
+     * right after a bulk collapse/select shrinks the tree. Don't crash. */
+    if (this == NULL || parent == NULL)
+    {
+        if (buffer_len > 0)
+            buffer[0] = '\0';
+        return buffer;
+    }
+
     char *buf = buffer;
     if ((int)buffer_len > parent->depth)
     {
@@ -337,6 +347,10 @@ static enum themable_icons folder_get_icon(int selected_item, void * data)
     struct folder *root = (struct folder*)data;
     struct folder *parent;
     struct child *this = find_index(root, selected_item, &parent);
+
+    /* Same out-of-range guard as folder_get_name()/folder_action_callback(). */
+    if (this == NULL)
+        return Icon_NOICON;
 
     switch (this->state)
     {
@@ -375,6 +389,14 @@ static int folder_action_callback(int action, struct gui_synclist *list)
     struct folder *parent;
     struct child *this = find_index(root, list->selected_item, &parent), *child;
     int i;
+
+    /* find_index() returns NULL if list->selected_item is out of range for
+     * the current (possibly just-changed) item count -- e.g. a bulk
+     * collapse/select via ACTION_STD_CONTEXT can shrink the visible item
+     * count out from under an unchanged selected_item before the list
+     * widget re-clamps it. Do nothing rather than crash on a NULL deref. */
+    if (this == NULL)
+        return action;
 
     if (action == ACTION_STD_OK)
     {
