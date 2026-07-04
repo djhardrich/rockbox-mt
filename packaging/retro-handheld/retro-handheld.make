@@ -105,6 +105,13 @@ portmasterclean:
 portmaster-zip: portmasterclean portmaster
 	(cd $(PM_PKG_DIR) && zip -q -r - .) >rockbox.zip
 
+portmaster-x64: portmaster
+	## x86_64 variant: reuse the portmaster layout, swap in the x64 arch metadata
+	cp $(RH_PACK_DIR)/x64/port.json $(PM_PKG_DIR)/rockbox/port.json
+
+portmaster-x64-zip: portmasterclean portmaster-x64
+	(cd $(PM_PKG_DIR) && zip -q -r - .) >rockbox-x64.zip
+
 rhclean:
 	rm -rf $(RH_PKG_DIR)
 
