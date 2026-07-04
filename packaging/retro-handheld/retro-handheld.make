@@ -23,16 +23,11 @@ rhbuild:
 	chmod +x $(RH_ROCKBOX_DIR)/rockbox
 	## Copy licenses over
 	cp -R $(RH_PACK_DIR)/licenses $(RH_ROCKBOX_DIR)
-	## Bundle Obsede2 theme assets (wps, sbs, bitmaps, theme cfg, iconset)
-	mkdir -p $(RH_ROCKBOX_DIR)/wps/Obsede2 $(RH_ROCKBOX_DIR)/themes $(RH_ROCKBOX_DIR)/icons
-	cp $(ROOTDIR)/wps/Obsede2.wps $(RH_ROCKBOX_DIR)/wps/
-	cp $(ROOTDIR)/wps/Obsede2.sbs $(RH_ROCKBOX_DIR)/wps/
-	cp -r $(ROOTDIR)/wps/Obsede2/. $(RH_ROCKBOX_DIR)/wps/Obsede2/
-	cp $(ROOTDIR)/themes/Obsede2.cfg $(RH_ROCKBOX_DIR)/themes/
+	## Bundle Aurora / Aurora Light theme assets (wps, sbs, bitmaps incl. backdrops, theme cfg, iconset)
+	## Obsede2 is intentionally not bundled -- Aurora/Aurora Light are the only
+	## themes this pak ships.
+	mkdir -p $(RH_ROCKBOX_DIR)/wps/Aurora $(RH_ROCKBOX_DIR)/wps/AuroraLight $(RH_ROCKBOX_DIR)/themes $(RH_ROCKBOX_DIR)/icons
 	cp $(ROOTDIR)/icons/icons_5px.bmp $(RH_ROCKBOX_DIR)/icons/
-	## Bundle Aurora / Aurora Light theme assets (wps, sbs, bitmaps incl. backdrops, theme cfg)
-	## Shares icons/icons_5px.bmp bundled by the Obsede2 block above -- no separate copy needed here
-	mkdir -p $(RH_ROCKBOX_DIR)/wps/Aurora $(RH_ROCKBOX_DIR)/wps/AuroraLight
 	cp $(ROOTDIR)/wps/Aurora.wps $(ROOTDIR)/wps/Aurora.sbs $(RH_ROCKBOX_DIR)/wps/
 	cp $(ROOTDIR)/wps/AuroraLight.wps $(ROOTDIR)/wps/AuroraLight.sbs $(RH_ROCKBOX_DIR)/wps/
 	cp -r $(ROOTDIR)/wps/Aurora/. $(RH_ROCKBOX_DIR)/wps/Aurora/
