@@ -122,10 +122,47 @@ void lcd_update(void)
 
 void lcd_update_rect(int x_start, int y_start, int width, int height)
 {
-    sdl_update_rect(lcd_surface, x_start, y_start, width, height,
+    /* Always flush the whole screen here, ignoring the requested rect.
+     *
+     * This backend's presentation step (sdl_gui_update() -> sdl_window_render()
+     * -> gl_present_lcd_fade()/SDL_GL_SwapWindow in window-sdl.c) always
+     * uploads and swaps the ENTIRE composited window -- there is no
+     * partial-update path at the GPU level. sim_lcd_surface is a persistent
+     * accumulator that's only touched by explicit blits, so presenting after
+     * blitting just the caller's small dirty rect can show a torn/stale
+     * composite: any OTHER region whose RAM framebuffer content changed since
+     * ITS OWN last blit (e.g. a viewport skin_render() hasn't reached yet in
+     * the current pass) still shows old pixels. This is most visible when
+     * something calls lcd_update_rect() out of band mid-way through a larger
+     * redraw pass -- e.g. Rockbox's scroll engine (firmware/drivers/
+     * lcd-scroll.c, firmware/scroll_engine.c), which redraws a scrolling
+     * line on its own ~120ms timer independent of the WPS's own end-of-pass
+     * update, and was observed flickering an unrelated part of the screen
+     * on real hardware as a result. Always flushing the full screen
+     * guarantees every present reflects the true current RAM framebuffer
+     * state, so no partial/torn composite can ever be shown.
+     *
+     * Cost: this target is LCD_PIXELFORMAT RGB888, not RGB565, so
+     * sdl_update_rect()'s fast bulk-blit path (lcd-sdl.c) never applies here
+     * regardless of this change -- it was already doing a per-pixel
+     * getpixel()+SDL_FillRect() loop over whatever rect it was given. This
+     * change increases that loop's typical size to the full 320x240 (76800
+     * pixels) instead of just the caller's small dirty rect, which is a
+     * real per-update cost increase, not a free change -- if scrolling or
+     * general UI responsiveness feels worse on real hardware after this,
+     * that's the likely reason, and the proper follow-up would be real
+     * dirty-region tracking (accumulate a union rect across calls, only
+     * widen the flushed area when something outside the requested rect is
+     * ALSO actually stale) rather than unconditionally flushing everything
+     * every time. */
+    (void)x_start;
+    (void)y_start;
+    (void)width;
+    (void)height;
+    sdl_update_rect(lcd_surface, 0, 0, LCD_WIDTH, LCD_HEIGHT,
                     LCD_WIDTH, LCD_HEIGHT, get_lcd_pixel);
-    sdl_gui_update(lcd_surface, x_start, y_start, width,
-                   height + LCD_SPLIT_LINES, SIM_LCD_WIDTH, SIM_LCD_HEIGHT,
+    sdl_gui_update(lcd_surface, 0, 0, LCD_WIDTH,
+                   LCD_HEIGHT + LCD_SPLIT_LINES, SIM_LCD_WIDTH, SIM_LCD_HEIGHT,
                    background ? UI_LCD_POSX : 0, background? UI_LCD_POSY : 0);
 }
 
