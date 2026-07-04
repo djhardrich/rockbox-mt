@@ -1,0 +1,43 @@
+# Minimal native-amd64 build image for the Rockbox PanicOS-x64 PortMaster pak.
+#
+# Building FOR x86_64 by building ON an amd64 image means the container's own
+# gcc/g++ are x86_64 -- no CROSS_COMPILE / cmake toolchain file is needed. On an
+# x86_64 host this runs natively (no qemu emulation), so it is fast.
+#
+# Debian Bookworm ships gcc-12, matching the arm64 PortMaster image, so the
+# projectM + Rockbox build behaves identically apart from the target arch.
+FROM --platform=linux/amd64 debian:bookworm
+
+# Build deps, in one layer, apt lists cleaned to keep the image lean:
+#   build-essential gcc g++ make  -> Rockbox + projectM C/C++ compilation
+#   cmake                         -> projectM-4 build system
+#   git                           -> submodule checkout (projectM source)
+#   zip perl                      -> Rockbox language/zip build + buildzip.pl
+#   pkg-config                    -> locating SDL2 / GLES / EGL
+#   libsdl2-dev                   -> SDL2 app target (sdl2-config, headers, libs)
+#   libgles2-mesa-dev libegl1-mesa-dev -> GLES2 + EGL headers/libs (visualizer)
+#   ccache                        -> cache compiled objects across builds/runs
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        gcc \
+        g++ \
+        make \
+        cmake \
+        git \
+        zip \
+        perl \
+        pkg-config \
+        libsdl2-dev \
+        libgles2-mesa-dev \
+        libegl1-mesa-dev \
+        ccache \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /usr/lib/ccache/bin \
+    && for c in gcc cc g++ c++; do ln -sf /usr/bin/ccache "/usr/lib/ccache/bin/$c"; done
+
+# Compiler-name symlinks first on PATH: any build system invoking plain
+# `gcc`/`g++` (cmake, Rockbox's Makefiles) is transparently routed through
+# ccache with no per-project CC/CXX override needed.
+ENV PATH="/usr/lib/ccache/bin:${PATH}"
+
+WORKDIR /src
