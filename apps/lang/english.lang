@@ -7441,13 +7441,13 @@
   desc: when activating an option that requires a reboot
   user: core
   <source>
-    *: "Please reboot to enable"
+    *: "Please Restart Rockbox to Enable"
   </source>
   <dest>
-    *: "Please reboot to enable"
+    *: "Please Restart Rockbox to Enable"
   </dest>
   <voice>
-    *: "Please reboot to enable"
+    *: "Please Restart Rockbox to Enable"
   </voice>
 </phrase>
 <phrase>
