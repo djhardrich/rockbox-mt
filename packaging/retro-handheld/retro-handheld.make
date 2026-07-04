@@ -23,11 +23,12 @@ rhbuild:
 	chmod +x $(RH_ROCKBOX_DIR)/rockbox
 	## Copy licenses over
 	cp -R $(RH_PACK_DIR)/licenses $(RH_ROCKBOX_DIR)
-	## Bundle Aurora / Aurora Light theme assets (wps, sbs, bitmaps incl. backdrops, theme cfg, iconset)
+	## Bundle Aurora / Aurora Light theme assets (wps, sbs, bitmaps incl. backdrops, theme cfg)
 	## Obsede2 is intentionally not bundled -- Aurora/Aurora Light are the only
-	## themes this pak ships.
-	mkdir -p $(RH_ROCKBOX_DIR)/wps/Aurora $(RH_ROCKBOX_DIR)/wps/AuroraLight $(RH_ROCKBOX_DIR)/themes $(RH_ROCKBOX_DIR)/icons
-	cp $(ROOTDIR)/icons/icons_5px.bmp $(RH_ROCKBOX_DIR)/icons/
+	## themes this pak ships. Both point their iconset: at the stock
+	## tango_icons.16x16.bmp (already bundled by the normal fullinstall step,
+	## same as cabbiev2 uses) -- no manual icon copy needed.
+	mkdir -p $(RH_ROCKBOX_DIR)/wps/Aurora $(RH_ROCKBOX_DIR)/wps/AuroraLight $(RH_ROCKBOX_DIR)/themes
 	cp $(ROOTDIR)/wps/Aurora.wps $(ROOTDIR)/wps/Aurora.sbs $(RH_ROCKBOX_DIR)/wps/
 	cp $(ROOTDIR)/wps/AuroraLight.wps $(ROOTDIR)/wps/AuroraLight.sbs $(RH_ROCKBOX_DIR)/wps/
 	cp -r $(ROOTDIR)/wps/Aurora/. $(RH_ROCKBOX_DIR)/wps/Aurora/

@@ -40,7 +40,7 @@ firmware changes.
 | Dark palette | Base `#1c1e26`, panel gradients `#20222c → #191a22` / `#242631 → #171820`, primary text `#e7e6ee`, secondary text `#8a8ca3`. |
 | Light palette (Aurora Light) | Inverted slate→cream base (e.g. base `#f4efe8`, panels `#ffffff → #ece6db`), same amber accent, shadow tone re-tuned for a light source (light mode neumorphism needs warmer/darker shadow tones than a naive color-invert to still read as "soft," not muddy). |
 | Typography | Bricolage Grotesque (SIL OFL, Google Fonts) — quirky angled bowls, distinctly not system-UI. Replaces the SF Pro Display family Obsede2 uses. CJK fallback keeps the existing bundled CJK faces (Bricolage has no CJK coverage). |
-| Iconography | New rounded glyph set, not a recolor of `icons_5px.bmp`. Procedurally generated (vector-drawn, rasterized to Rockbox's indexed BMP format) rather than hand pixel-art. |
+| Iconography | Uses the stock `tango_icons.16x16.bmp` iconset (the same one `cabbiev2` ships with) for file-browser/menu icons — `icons_5px.bmp`, the icon this fork's own `.cfg` files originally pointed at, turned out to be a blank/corrupted 5px-wide placeholder inherited from the Obsede2 import, invisible regardless of theme. A custom Aurora-styled glyph set remains a possible future enhancement, not attempted here. WPS/SBS-local chrome (playback icons, battery, repeat/shuffle, volume) is still procedurally generated to match the theme, per the Asset Pipeline section below. |
 | Battery | Graphical battery icon (12-frame `battery.bmp`/`battery_charging.bmp` strip, procedurally drawn to match the neumorphic style — outline + amber fill bar, bolt overlay when charging), matching Obsede2's graphical-battery convention rather than percentage text. |
 
 ## Screen Inventory
