@@ -128,7 +128,13 @@ static void sink_set_freq_nolock(uint16_t freq)
 
     /* Open the audio device and start playing sound! */
 #if SDL_MAJOR_VERSION > 1
-    if((pcm_devid = SDL_OpenAudioDevice(audiodev, 0, &wanted_spec, &obtained, SDL_AUDIO_ALLOW_SAMPLES_CHANGE)) == 0) {
+    /* ALLOW_FREQUENCY_CHANGE: obtained.freq reflects the device's actual
+     * supported rate instead of being forced to the requested rate. The cvt
+     * path below (SDL_BuildAudioCVT + write_to_soundcard) resamples our stream
+     * to obtained.freq, so the device is never driven at an unsupported rate.
+     * Renegotiated on every reopen -> hotplug-safe. */
+    if((pcm_devid = SDL_OpenAudioDevice(audiodev, 0, &wanted_spec, &obtained,
+                        SDL_AUDIO_ALLOW_SAMPLES_CHANGE | SDL_AUDIO_ALLOW_FREQUENCY_CHANGE)) == 0) {
 #else
     if(SDL_OpenAudio(&wanted_spec, &obtained) < 0) {
 #endif
