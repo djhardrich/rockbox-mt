@@ -119,11 +119,6 @@ static void sink_set_freq_nolock(uint16_t freq)
 {
     pcm_sampr = hw_freq_sampr[freq];
 
-    /* Base allowed-changes: SDL may resample to the device's real rate (see
-     * SDL_OpenAudioDevice below) and may resize the buffer. */
-    int allowed_changes = SDL_AUDIO_ALLOW_SAMPLES_CHANGE |
-                          SDL_AUDIO_ALLOW_FREQUENCY_CHANGE;
-
     SDL_AudioSpec wanted_spec;
     wanted_spec.freq = pcm_sampr;
     wanted_spec.format = AUDIO_S16SYS;
@@ -131,25 +126,16 @@ static void sink_set_freq_nolock(uint16_t freq)
 
 #ifdef HAVE_OUTPUT_BIT_DEPTH
     sdl_cur_freq_index = freq;
-    /* Output-bit-depth override. The core is 16-bit; this only selects the
-     * SDL<->device wire format. SDL2 has no 24-bit sample type, so 24 and 32
-     * both request S32 (ALSA below picks the real packing). */
-    switch (global_settings.output_bit_depth)
-    {
-    case 1: /* 16 */
-        wanted_spec.format = AUDIO_S16SYS;
-        break;
-    case 2: /* 24 */
-    case 3: /* 32 */
+    /* Output-bit-depth override selects only the SDL<->device wire format;
+     * Rockbox core audio is 16-bit. SDL2 has no 24-bit sample type, so both
+     * 24 and 32 request S32 (the ALSA layer below picks the real packing).
+     * Auto and 16 keep S16 so SDL converts to the device internally, which
+     * preserves the S16 fast path and the visualizer PCM tap below. */
+    if (global_settings.output_bit_depth == 2 ||   /* 24 */
+        global_settings.output_bit_depth == 3)      /* 32 */
         wanted_spec.format = AUDIO_S32SYS;
-        break;
-    case 0: /* auto */
-    default:
-        wanted_spec.format = AUDIO_S16SYS;
-        allowed_changes |= SDL_AUDIO_ALLOW_FORMAT_CHANGE;
-        break;
-    }
 #endif
+
     wanted_spec.samples = MIX_FRAME_SAMPLES * 2;  /* Should be 2048, ie ~5ms @44KHz */
     wanted_spec.callback = sdl_audio_callback;
     wanted_spec.userdata = &udata;
@@ -171,7 +157,7 @@ static void sink_set_freq_nolock(uint16_t freq)
      * to obtained.freq, so the device is never driven at an unsupported rate.
      * Renegotiated on every reopen -> hotplug-safe. */
     if((pcm_devid = SDL_OpenAudioDevice(audiodev, 0, &wanted_spec, &obtained,
-                        allowed_changes)) == 0) {
+                        SDL_AUDIO_ALLOW_SAMPLES_CHANGE | SDL_AUDIO_ALLOW_FREQUENCY_CHANGE)) == 0) {
 #else
     if(SDL_OpenAudio(&wanted_spec, &obtained) < 0) {
 #endif
@@ -228,9 +214,25 @@ static void sink_set_freq(uint16_t freq)
  * exercised during normal rate changes. */
 void pcm_sdl_reopen_device(void)
 {
+    /* Nothing to reopen until the device has been opened at least once; the
+     * new wire format is applied by the first sink_set_freq_nolock() then. */
+    if (!pcm_devid)
+        return;
+
+    /* Quiesce the SDL callback BEFORE taking audio_lock and closing the
+     * device, so we can't block inside SDL_CloseAudioDevice waiting for a
+     * callback that is itself blocked on audio_lock. */
+    bool was_playing = pcm_is_playing();
+    SDL_PauseAudioDevice(pcm_devid, 1);
+
     sink_lock();
     sink_set_freq_nolock(sdl_cur_freq_index);
     sink_unlock();
+
+    /* SDL opens devices paused; the normal path relies on sink_dma_start to
+     * unpause, which we bypass here -- so resume if we were playing. */
+    if (was_playing)
+        SDL_PauseAudioDevice(pcm_devid, 0);
 }
 #endif
 
