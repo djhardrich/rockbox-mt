@@ -33,6 +33,10 @@
 #include "system.h"
 #include "panic.h"
 
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+#include "settings.h"
+#endif
+
 #ifdef HAVE_RECORDING
 #include "audiohw.h"
 #ifdef HAVE_SPDIF_IN
@@ -63,6 +67,12 @@ extern const char      *audiodev;
 static int cvt_status = -1;
 
 static unsigned long pcm_sampr;
+
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+/* Remember the last freq index passed to sink_set_freq_nolock so the setting
+ * callback can reopen the device with the same rate but a new wire format. */
+static uint16_t sdl_cur_freq_index;
+#endif
 
 static const void *pcm_data;
 static size_t pcm_data_size;
@@ -109,10 +119,37 @@ static void sink_set_freq_nolock(uint16_t freq)
 {
     pcm_sampr = hw_freq_sampr[freq];
 
+    /* Base allowed-changes: SDL may resample to the device's real rate (see
+     * SDL_OpenAudioDevice below) and may resize the buffer. */
+    int allowed_changes = SDL_AUDIO_ALLOW_SAMPLES_CHANGE |
+                          SDL_AUDIO_ALLOW_FREQUENCY_CHANGE;
+
     SDL_AudioSpec wanted_spec;
     wanted_spec.freq = pcm_sampr;
     wanted_spec.format = AUDIO_S16SYS;
     wanted_spec.channels = 2;
+
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+    sdl_cur_freq_index = freq;
+    /* Output-bit-depth override. The core is 16-bit; this only selects the
+     * SDL<->device wire format. SDL2 has no 24-bit sample type, so 24 and 32
+     * both request S32 (ALSA below picks the real packing). */
+    switch (global_settings.output_bit_depth)
+    {
+    case 1: /* 16 */
+        wanted_spec.format = AUDIO_S16SYS;
+        break;
+    case 2: /* 24 */
+    case 3: /* 32 */
+        wanted_spec.format = AUDIO_S32SYS;
+        break;
+    case 0: /* auto */
+    default:
+        wanted_spec.format = AUDIO_S16SYS;
+        allowed_changes |= SDL_AUDIO_ALLOW_FORMAT_CHANGE;
+        break;
+    }
+#endif
     wanted_spec.samples = MIX_FRAME_SAMPLES * 2;  /* Should be 2048, ie ~5ms @44KHz */
     wanted_spec.callback = sdl_audio_callback;
     wanted_spec.userdata = &udata;
@@ -134,7 +171,7 @@ static void sink_set_freq_nolock(uint16_t freq)
      * to obtained.freq, so the device is never driven at an unsupported rate.
      * Renegotiated on every reopen -> hotplug-safe. */
     if((pcm_devid = SDL_OpenAudioDevice(audiodev, 0, &wanted_spec, &obtained,
-                        SDL_AUDIO_ALLOW_SAMPLES_CHANGE | SDL_AUDIO_ALLOW_FREQUENCY_CHANGE)) == 0) {
+                        allowed_changes)) == 0) {
 #else
     if(SDL_OpenAudio(&wanted_spec, &obtained) < 0) {
 #endif
@@ -183,6 +220,19 @@ static void sink_set_freq(uint16_t freq)
     sink_set_freq_nolock(freq);
     sink_unlock();
 }
+
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+/* Called from the Output-bit-depth setting callback (apps/settings_list.c).
+ * Reopens the device with the current rate and the newly-selected wire format.
+ * Uses the same lock+reopen pattern as sink_set_freq, which is already
+ * exercised during normal rate changes. */
+void pcm_sdl_reopen_device(void)
+{
+    sink_lock();
+    sink_set_freq_nolock(sdl_cur_freq_index);
+    sink_unlock();
+}
+#endif
 
 static void sink_dma_start(const void *addr, size_t size)
 {
