@@ -17267,3 +17267,59 @@
     *: "Quarter"
   </voice>
 </phrase>
+<phrase>
+  id: LANG_OUTPUT_BIT_DEPTH
+  desc: in playback settings, SDL output wire format
+  user: core
+  <source>
+    *: "Output Bit Depth"
+  </source>
+  <dest>
+    *: "Output Bit Depth"
+  </dest>
+  <voice>
+    *: "Output Bit Depth"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_BIT_DEPTH_16
+  desc: output bit depth option
+  user: core
+  <source>
+    *: "16-bit"
+  </source>
+  <dest>
+    *: "16-bit"
+  </dest>
+  <voice>
+    *: "16 bit"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_BIT_DEPTH_24
+  desc: output bit depth option
+  user: core
+  <source>
+    *: "24-bit"
+  </source>
+  <dest>
+    *: "24-bit"
+  </dest>
+  <voice>
+    *: "24 bit"
+  </voice>
+</phrase>
+<phrase>
+  id: LANG_BIT_DEPTH_32
+  desc: output bit depth option
+  user: core
+  <source>
+    *: "32-bit"
+  </source>
+  <dest>
+    *: "32-bit"
+  </dest>
+  <voice>
+    *: "32 bit"
+  </voice>
+</phrase>

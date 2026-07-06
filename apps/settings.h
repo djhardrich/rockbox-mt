@@ -897,6 +897,9 @@ struct user_settings
 #ifdef HAVE_PLAY_FREQ
     int play_frequency; /* core audio output frequency selection */
 #endif
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+    int output_bit_depth; /* SDL<->device wire format: 0=auto,1=16,2=24,3=32 */
+#endif
     int volume_limit; /* maximum volume limit */
 
 #ifdef HAVE_PERCEPTUAL_VOLUME

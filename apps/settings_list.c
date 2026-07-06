@@ -768,6 +768,17 @@ static void playback_frequency_callback(int sample_rate_hz)
 }
 #endif /* HAVE_PLAY_FREQ */
 
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+/* Implemented by the SDL sink (firmware/target/hosted/sdl/pcm-sdl.c). Reopens
+ * the audio device so the new wire format takes effect immediately. */
+extern void pcm_sdl_reopen_device(void);
+static void output_bit_depth_callback(int value)
+{
+    (void)value;
+    pcm_sdl_reopen_device();
+}
+#endif /* HAVE_OUTPUT_BIT_DEPTH */
+
 #ifdef HAVE_ALBUMART
 static void albumart_callback(int mode)
 {
@@ -1144,6 +1155,14 @@ const struct settings_list settings[] = {
       #error "HAVE_PLAY_FREQ < 48???"
 #endif
 #endif /* HAVE_PLAY_FREQ */
+
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+    CHOICE_SETTING(F_CB_ON_SELECT_ONLY|F_CB_ONLY_IF_CHANGED, output_bit_depth,
+                   LANG_OUTPUT_BIT_DEPTH, 0, "output bit depth",
+                   "auto,16,24,32", output_bit_depth_callback, 4,
+                   ID2P(LANG_AUTO), ID2P(LANG_BIT_DEPTH_16),
+                   ID2P(LANG_BIT_DEPTH_24), ID2P(LANG_BIT_DEPTH_32)),
+#endif /* HAVE_OUTPUT_BIT_DEPTH */
 
 #ifdef HAVE_ALBUMART
     CHOICE_SETTING(F_CB_ON_SELECT_ONLY|F_CB_ONLY_IF_CHANGED, album_art,

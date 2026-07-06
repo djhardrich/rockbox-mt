@@ -176,6 +176,9 @@ MENUITEM_SETTING(pause_rewind, &global_settings.pause_rewind, NULL);
 #ifdef HAVE_PLAY_FREQ
 MENUITEM_SETTING(play_frequency, &global_settings.play_frequency, NULL);
 #endif
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+MENUITEM_SETTING(output_bit_depth, &global_settings.output_bit_depth, NULL);
+#endif
 #ifdef HAVE_ALBUMART
 MENUITEM_SETTING(album_art, &global_settings.album_art, NULL);
 #endif
@@ -211,6 +214,9 @@ MAKE_MENU(playback_settings,ID2P(LANG_PLAYBACK),0,
           ,&pause_rewind
 #ifdef HAVE_PLAY_FREQ
           ,&play_frequency
+#endif
+#ifdef HAVE_OUTPUT_BIT_DEPTH
+          ,&output_bit_depth
 #endif
 #ifdef HAVE_ALBUMART
           ,&album_art
