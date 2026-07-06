@@ -161,3 +161,9 @@
 # define PLAY_SAMPR_DEFAULT SAMPR_48
 # define PLAY_SAMPR_HW_MIN  HW_SAMPR_MIN
 #endif
+
+/* Default value for the play_frequency setting. 0 == Auto (follow track rate).
+ * A target may pre-define this (e.g. SAMPR_48) to prefer a fixed rate. */
+#ifndef PLAY_FREQ_DEFAULT
+#define PLAY_FREQ_DEFAULT   0
+#endif

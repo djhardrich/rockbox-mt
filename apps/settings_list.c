@@ -1130,7 +1130,7 @@ const struct settings_list settings[] = {
                   ), /* CHOICE_SETTING( repeat_mode ) */
 #ifdef HAVE_PLAY_FREQ
      TABLE_SETTING(F_SOUNDSETTING|F_CB_ON_SELECT_ONLY|F_CB_ONLY_IF_CHANGED,
-                  play_frequency, LANG_FREQUENCY, 0, "playback frequency", "auto",
+                  play_frequency, LANG_FREQUENCY, PLAY_FREQ_DEFAULT, "playback frequency", "auto",
                   UNIT_KHZ, formatter_freq_unit_0_is_auto,
                   getlang_freq_unit_0_is_auto,
                   playback_frequency_callback,

@@ -80,6 +80,18 @@
 #define HAVE_SDL
 #define HAVE_SDL_AUDIO
 
+/* Advertise the full up-to-192kHz rate set so the core can output 48kHz and
+ * higher; this also auto-enables HAVE_PLAY_FREQ (the Frequency menu). */
+#define HW_SAMPR_CAPS       SAMPR_CAP_ALL_192
+
+/* Prefer 48000 Hz out of the box (many USB-C DACs reject 44100). Users can
+ * still choose Auto/44.1/96/192 in the Frequency menu. Expanded to SAMPR_48
+ * at setting-definition time (pcm_sampr.h is included by then). */
+#define PLAY_FREQ_DEFAULT   SAMPR_48
+
+/* Expose the Output-bit-depth override (SDL<->device wire format only). */
+#define HAVE_OUTPUT_BIT_DEPTH
+
 #define HAVE_SW_TONE_CONTROLS
 
 /* Define this to the CPU frequency */
