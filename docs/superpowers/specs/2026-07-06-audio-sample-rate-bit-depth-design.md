@@ -100,14 +100,22 @@ until the user switches to Auto.
   menu, guarded by `HAVE_OUTPUT_BIT_DEPTH`. Values: **Auto / 16 / 24 / 32**,
   default **Auto**.
 - The SDL sink reads `global_settings.output_bit_depth` when opening the device in
-  `sink_set_freq_nolock()` and chooses `wanted_spec.format` + allowed-changes:
-  - **Auto**: request `AUDIO_S16SYS`, add `SDL_AUDIO_ALLOW_FORMAT_CHANGE` → SDL
-    opens the device's native format; the cvt path converts S16→device.
-  - **16**: force `AUDIO_S16SYS` (no format-change flag).
-  - **24 / 32**: request `AUDIO_S32SYS` (no format-change flag).
+  `sink_set_freq_nolock()` and chooses `wanted_spec.format`:
+  - **Auto** and **16**: `AUDIO_S16SYS`. No `SDL_AUDIO_ALLOW_FORMAT_CHANGE` — SDL
+    converts internally to the device format, so `obtained.format` stays S16.
+  - **24 / 32**: `AUDIO_S32SYS`.
 
-  The existing `obtained.format` switch, `pcm_channel_bytes`, and cvt code already
-  cope with S8/S16/S32/F32, so no new conversion logic is required.
+  **Why Auto is not "let the device pick its native format":** the visualizer PCM
+  tap in `pcm-sdl.c` only runs when `pcm_channel_bytes == 2` (S16). Allowing a
+  format change would make an S32/F32-native DAC report a 4-byte `obtained.format`,
+  silently disabling the Milkdrop/projectM visualizer in the default config — a
+  regression for a visualizer-focused fork. Keeping Auto at S16 preserves the tap;
+  the explicit 24/32 options are opt-in and accept the visualizer trade-off. The
+  existing `obtained.format` switch, `pcm_channel_bytes`, and cvt code already cope
+  with S8/S16/S32/F32, so no new conversion logic is required.
+- `SDL_AUDIO_ALLOW_FREQUENCY_CHANGE` (and any format flags) are referenced only
+  inside the `#if SDL_MAJOR_VERSION > 1` open path, because those macros are
+  SDL2-only and the `rgnano` (FunKey, SDL 1.2) target also compiles this file.
 
 - **SDL 24-bit caveat (accepted):** SDL2 has no 24-bit sample type; 24-bit audio is
   carried in 32-bit containers. At the SDL layer "24" and "32" both request
@@ -117,12 +125,16 @@ until the user switches to Auto.
   16-bit).
 
 - **Applying live:** changing the setting fires a callback that reopens the audio
-  device so the new format takes effect immediately. Implementation: a small target
-  hook in `pcm-sdl.c` (exposed via a header) that locks, re-runs
-  `sink_set_freq_nolock()` with the current frequency, and unlocks; the
-  `HAVE_OUTPUT_BIT_DEPTH` setting callback calls it. (The existing frequency
-  callback `playback_frequency_callback` → `audio_set_playback_frequency` already
-  rebuilds the buffer for rate changes; bit depth only needs a device reopen.)
+  device so the new format takes effect immediately. Implementation: a target hook
+  `pcm_sdl_reopen_device()` in `pcm-sdl.c` (declared `extern` in `settings_list.c`)
+  that the `HAVE_OUTPUT_BIT_DEPTH` setting callback calls. It: returns early if the
+  device was never opened; **pauses the SDL device before** taking `audio_lock` and
+  closing it (so we can't deadlock inside `SDL_CloseAudioDevice` waiting on a
+  callback that is itself blocked on `audio_lock`); locks, re-runs
+  `sink_set_freq_nolock()` with the current frequency; unlocks; then **re-unpauses
+  if we were playing** (SDL opens devices paused, and the normal `sink_dma_start`
+  unpause is bypassed here). Without the re-unpause, changing the setting
+  mid-playback would silence audio until the next track.
 
 ## Files touched
 
